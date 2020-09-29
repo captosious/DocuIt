@@ -11,7 +11,7 @@
 @using DocuitWeb.Models
 @using DocuitWeb.Components
 @using DocuitWeb.Data
-
+@using System.ComponentModel
 @using ProtectedLocalStore
 
 @using Blazored.Toast
@@ -19,8 +19,9 @@
 @using Blazored.Toast.Configuration
 @using Radzen
 @using Radzen.Blazor
-@using Blazorise
 
+@using Blazorise
+@using Blazorise.DataGrid
 
 @inject IToastService toastService
 @inject IStringLocalizer<SharedLocalizer> SharedLocalizer

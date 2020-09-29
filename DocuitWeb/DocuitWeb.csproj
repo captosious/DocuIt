@@ -12,6 +12,7 @@
     <PackageReference Include="Radzen.Blazor" Version="2.15.5" />
     <PackageReference Include="Blazorise.Bootstrap" Version="0.9.1.2" />
     <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.1.2" />
+    <PackageReference Include="Blazorise.DataGrid" Version="0.9.1.2" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -92,6 +93,9 @@
     </Compile>
     <Compile Update="Resources\Components\WorkingCenter.es-ES.Designer.cs">
       <DependentUpon>WorkingCenter.es-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\WorkingCenter.ca-ES.Designer.cs">
+      <DependentUpon>WorkingCenter.ca-ES.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +178,10 @@
     <EmbeddedResource Update="Resources\Components\WorkingCenter.es-ES.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>WorkingCenter.es-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\WorkingCenter.ca-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>WorkingCenter.ca-ES.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

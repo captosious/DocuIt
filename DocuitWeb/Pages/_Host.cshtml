@@ -24,12 +24,11 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://use.fontawesome.com/1d409d30ca.js"></script>
+    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
+    <link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css" rel="stylesheet" />
 
     <!-- Toasts-->
     <link rel="stylesheet" href="_content/Blazored.Toast/blazored-toast.css" />
@@ -40,13 +39,6 @@
 </head>
 
 <body class="background_general">
-    <div id="BlockerUP" style="visibility: hidden">
-        <div>
-            <p id="BlockerUpParagraph" class="blockerup">Processant,...</p>
-            <img src="img/whirl_waiting.gif" width="100" height="100">
-        </div>
-    </div>
-
     <app>
         <component type="typeof(App)" render-mode="ServerPrerendered" />
     </app>
@@ -62,11 +54,22 @@
         <a class="dismiss">🗙</a>
     </div>
 
+    <div id="BlockerUP" style="visibility: hidden">
+        <div>
+            <p id="BlockerUpParagraph" class="blockerup">Processant,...</p>
+            <img src="img/whirl_waiting.gif" width="100" height="100">
+        </div>
+    </div>
+
     <footer class="border-top footer text-muted" style="margin:0px">
         <div class="container" style="text-align:center">
             DocuIt&copy; 2020 @SharedLocalizer["MSG100"] <a href="http://www.delta.engineering">Delta Engineering Software</a>
         </div>
     </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
     <script src="_content/Blazorise/blazorise.js"></script>
     <script src="_content/Blazorise.Bootstrap/blazorise.bootstrap.js"></script>
