@@ -1,0 +1,23 @@
+﻿@page "/DossierElementDetail"
+@using DocuitWeb.Data
+
+    
+    <div class="row">
+        <div class="col-4">Type:</div>
+        <div class="col-8">@dossierElement.ElementTypeId</div>
+    </div>
+    <div class="row">
+        <div class="col-4">Date</div>
+        <div class="col-8">@dossierElement.CreationTime.ToString("dd")</div>
+    </div>
+    <div class="row">
+        <div class="col-4">Name</div>
+        <div class="col-8">@dossierElement.Name</div>
+    </div>
+    
+
+@code
+{
+    [CascadingParameter]
+    public DossierElement dossierElement { get; set; }
+}

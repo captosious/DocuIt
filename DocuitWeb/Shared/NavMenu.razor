@@ -1,0 +1,69 @@
+﻿
+
+<nav class="navbar navbar-expand-md navbar-dark">
+    <a href="#" class="navbar-brand">Docu<b>it</b></a>
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Collection of nav links, forms, and other content for toggling -->
+    <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+        <div class="navbar-nav">
+            <a href="/" class="nav-item nav-link">@SharedLocalizer["MSG001"]</a>
+            <div class="nav-item dropdown">
+                <a href="" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle">@SharedLocalizer["MSG002"]</a>
+                <div class="dropdown-menu">
+                    <a href="Company" class="dropdown-item">@SharedLocalizer["MSG002"]</a>
+                    <a href="User" class="dropdown-item">@SharedLocalizer["MSG006"]</a>
+                </div>
+            </div>
+
+            <div class="nav-item dropdown">
+                <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle">@SharedLocalizer["MSG003"]</a>
+                <div class="dropdown-menu">
+                    <a href="ProjectsPage" class="dropdown-item">@SharedLocalizer["MSG003"]</a>
+                    <a href="DossiersPage" class="dropdown-item">@SharedLocalizer["MSG004"]</a>
+                </div>
+            </div>
+            <a asp-controller="" asp-action="" class="nav-item nav-link">@SharedLocalizer["MSG005"]</a>
+            <a href="Configuration" class="nav-item nav-link">@SharedLocalizer["MSG007"]</a>
+            <a href="WorkingCenter" class="nav-item nav-link">Tester</a>
+        </div>
+        <div class="navbar-nav ml-auto action-buttons">
+            <div class="nav-item dropdown">
+                <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle mr-4">
+                    <i class="fa fa-user-circle" aria-hidden="true" style="margin-right: 3px;"></i>@SharedLocalizer["MSG103"]
+                </a>
+                <div class="dropdown-menu action-form">
+                    <form action="/examples/actions/confirmation.php" method="post">
+                        <p class="hint-text">@SharedLocalizer["MSG105"]</p>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="@SharedLocalizer["MSG101"]" required="required">
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group" id="show_hide_password">
+                                <input type="password" class="form-control" placeholder="@SharedLocalizer["MSG102"]" required="required">
+                                <div class="input-group-addon">
+                                    <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="submit" class="btn btn-primary btn-block" value="@SharedLocalizer["MSG106"]">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+}

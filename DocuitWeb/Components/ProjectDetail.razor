@@ -1,0 +1,76 @@
+﻿@page "/ProjectDetail"
+@using DocuitWeb.Data
+
+@inject IStringLocalizer<ProjectDetail> Localizer
+@inject ProjectService ProjectService
+@inject StatusService StatusService
+
+    <h3 class="PageHeader">@Localizer["MSG001"]</h3>
+    <br>
+    <input type="hidden" name="CompanyId" @bind="@myProject.CompanyId" />
+    <div class="row">
+        <div class="col-4" style="text-align:right"><b>@Localizer["ReferenceID"]</b></div>
+        <div class="col-8"><input type="text" name="ReferenceId" @bind="@myProject.ReferenceId" /></div>
+    </div>
+    <div class="row">
+        <div class="col-4" style="text-align:right"><b>@Localizer["Name"]</b></div>
+        <div class="col-8"><input type="text" name="Name" @bind="@myProject.Name" /></div>
+    </div>
+    <div class="row">
+        <div class="col-4" style="text-align:right"><b>@Localizer["CreationDate"]</b></div>
+        <div class="col-8"><RadzenDatePicker @bind-Value="@myProject.CreationTime" DateFormat="d" /></div>
+    </div>
+    <div class="row">
+        <div class="col-4" style="text-align:right"><b>@Localizer["Status"]</b></div>
+        <div class="col-8">
+            <select id="status_select" name="status_select" @bind="@myProject.StatusId">
+                @foreach (Status status in statuses)
+                {
+                    <option value="@status.StatusId">@status.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4" style="text-align:right"></div>
+        <div class="col-8"><button class="btn btn_general btn-success" @onclick="OnClickSaveButton">@SharedLocalizer["MSG_SAVE"]</button></div>
+    </div>
+
+@code {
+
+    IEnumerable<DocuitWeb.Models.Status> statuses = new List<DocuitWeb.Models.Status>();
+    [Parameter]
+    public Project myProject { get; set; }
+    [Parameter]
+    public EventCallback<Project> OnUserSaveButton { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        myBlocker.Show();
+        statuses = await StatusService.FetchGetAllAsync();
+        myBlocker.Hide();
+    }
+
+    private async void OnClickSaveButton()
+    {
+        myBlocker.Show();
+        myProject = await ProjectService.PutAsync(myProject);
+        myBlocker.Hide();
+
+        if (myProject == null)
+        {
+            toastService.ShowError(@SharedLocalizer["OP_FAIL"]);
+        }
+        else
+        {
+            toastService.ShowSuccess(@SharedLocalizer["OP_OK"]);
+            await OnUserSaveButton.InvokeAsync(myProject);
+        }
+    }
+
+    string GetStatusName(int id)
+    {
+
+        return statuses.FirstOrDefault(x => x.StatusId == id).Name;
+    }
+}

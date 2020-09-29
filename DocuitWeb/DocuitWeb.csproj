@@ -1,0 +1,179 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <ReleaseVersion>1.0</ReleaseVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Blazored.Toast" Version="3.1.2" />
+    <PackageReference Include="ProtectedBrowserStorage.NETStandard" Version="1.1.2" />
+    <PackageReference Include="Radzen.Blazor" Version="2.15.5" />
+    <PackageReference Include="Blazorise.Bootstrap" Version="0.9.1.2" />
+    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.1.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Resources\" />
+    <Folder Include="Resources\Models\" />
+    <Folder Include="Resources\Pages\" />
+    <Folder Include="wwwroot\img\" />
+    <Folder Include="wwwroot\js\" />
+    <Folder Include="Components\" />
+    <Folder Include="Resources\Components\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Resources\Models\SharedLocalizer.ca-ES.Designer.cs">
+      <DependentUpon>SharedLocalizer.ca-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Models\SharedLocalizer.ca-ES.Designer.cs">
+      <DependentUpon>SharedLocalizer.ca-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\Index.ca-ES.Designer.cs">
+      <DependentUpon>Index.ca-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\Company.ca-ES.Designer.cs">
+      <DependentUpon>Company.ca-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\User.ca-ES.Designer.cs">
+      <DependentUpon>User.ca-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\Projects.ca-ES.Designer.cs">
+      <DependentUpon>Projects.ca-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Models\SharedLocalizer.es-ES.Designer.cs">
+      <DependentUpon>SharedLocalizer.es-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\ProjectsPage.ca-ES.Designer.cs">
+      <DependentUpon>ProjectsPage.ca-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Resources\Components\ProjectDetail.ca-ES.Designer.cs">
+      <DependentUpon>ProjectDetail.ca-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\Index.es-ES.Designer.cs">
+      <DependentUpon>Index.es-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\ProjectsPage.es-ES.Designer.cs">
+      <DependentUpon>ProjectsPage.es-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\User.es-ES.Designer.cs">
+      <DependentUpon>User.es-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\User.ca-ES.Designer.cs">
+      <DependentUpon>User.ca-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\ProjectDetail.es-ES.Designer.cs">
+      <DependentUpon>ProjectDetail.es-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\Projects.es-ES.Designer.cs">
+      <DependentUpon>Projects.es-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\ProjectSearch.es-ES.Designer.cs">
+      <DependentUpon>ProjectSearch.es-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\ProjectSearch.ca-ES.Designer.cs">
+      <DependentUpon>ProjectSearch.ca-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\DossierDetail.ca-ES.Designer.cs">
+      <DependentUpon>DossierDetail.ca-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\Dossier.es-ES.Designer.cs">
+      <DependentUpon>DossierDetail.es-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\DossierDetail.es-ES.Designer.cs">
+      <DependentUpon>DossierDetail.es-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Resources\Components\Company.es-ES.Designer.cs">
+      <DependentUpon>Company.es-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\Company.ca-ES.Designer.cs">
+      <DependentUpon>Company.ca-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\WorkingCenter.es-ES.Designer.cs">
+      <DependentUpon>WorkingCenter.es-ES.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Models\SharedLocalizer.ca-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SharedLocalizer.ca-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Index.ca-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Index.ca-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\User.ca-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>User.ca-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Projects.ca-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Project.ca-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Projects.ca-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Projects.ca-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Models\SharedLocalizer.es-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SharedLocalizer.es-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Resources\Components\ProjectDetail.ca-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProjectDetail.ca-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Index.es-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Index.es-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\ProjectsPage.es-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProjectsPage.es-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\User.es-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>User.es-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\ProjectDetail.es-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProjectDetail.es-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Projects.es-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Projects.es-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\ProjectSearch.es-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProjectSearch.es-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\ProjectSearch.ca-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProjectSearch.ca-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\DossierDetail.ca-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DossierDetail.ca-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\Dossier.es-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DossierDetail.es-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\DossierDetail.es-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DossierDetail.es-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Resources\Components\Company.es-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Company.es-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\Company.ca-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Company.ca-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\WorkingCenter.es-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>WorkingCenter.es-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

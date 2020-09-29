@@ -1,0 +1,67 @@
+﻿@page "/DossierElementList"
+@using DocuitWeb.Data
+
+@inject IStringLocalizer<DossierElement> Localizer
+@inject ProjectService ProjectService
+@inject DossierService DossierService
+@inject DossierElementService DossierElementService
+
+
+    <table class="table table-hover table-condensed table-list-general table-sm">
+        <thead class="" style="">
+            <tr>
+                <th>Type</th>
+                <th>Name</th>
+                <th>Projecte</th>
+                <th>Descripció</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (dossierElements != null)
+                {
+                    foreach (Models.DossierElement dossierElement in dossierElements)
+                    {
+                        <tr class="table-active" role="button" @onclick="@(() => RowClicking(dossierElement))">
+                            <td>@dossierElement.CreationTime.ToString("d")</td>
+                            <td>@dossierElement.Name</td>
+                            <td>CLC.08036.20</td>
+                            <td>FMB Barcelona</td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+
+
+@{
+    if (showDossierElementDetail)
+    {
+        <CascadingValue Value="dossierElement">
+            <DossierElementDetail></DossierElementDetail>
+        </CascadingValue>  
+    }
+}
+
+@code {
+    [CascadingParameter]
+    public Dossier dossier { get; set; }
+
+    private IEnumerable<Models.DossierElement> dossierElements { get; set; }
+    private DossierElement dossierElement { get; set; }
+    private bool showDossierElementDetail = false;
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        dossierElements = await DossierElementService.FetchGetAllAsync(dossier);
+    }
+
+    void RowClicking(DossierElement dossierElement)
+    {
+        this.dossierElement = dossierElement;
+        showDossierElementDetail = true;
+        StateHasChanged();
+    }
+}

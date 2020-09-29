@@ -1,0 +1,42 @@
+﻿@page "/workingcenter"
+
+@inject IStringLocalizer<Company> Localizer
+@inject WorkingCenterService WorkingCenterService
+
+
+<h3>@Localizer["title"]</h3>
+<DataGrid TItem="DocuitWeb.Models.WorkingCenter" Data="@objList" Editable="false" Filterable="true" Sortable="true" ShowPager="true" PageSize="10" Narrow="true" Hoverable="true">
+    <DataGridCommandColumn TItem="DocuitWeb.Models.WorkingCenter" />
+    <DataGridColumn TItem="DocuitWeb.Models.WorkingCenter" Field="@nameof(DocuitWeb.Models.WorkingCenter.Id)" Caption="@Localizer["id"]" TextAlignment="TextAlignment.Left" />
+    <DataGridColumn TItem="DocuitWeb.Models.WorkingCenter" Field="@nameof(DocuitWeb.Models.WorkingCenter.Name)" Caption="@Localizer["description"]" TextAlignment="TextAlignment.Justified" />
+</DataGrid>
+
+@code
+{
+    IEnumerable<DocuitWeb.Models.WorkingCenter> objList = new List<DocuitWeb.Models.WorkingCenter>();
+    DocuitWeb.Models.WorkingCenter obj = new DocuitWeb.Models.WorkingCenter();
+
+    protected override async Task OnInitializedAsync()
+    {
+        myBlocker.Show();
+        objList = await WorkingCenterService.FetchGetAllAsync();
+        if (objList == null) { toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]); }
+        myBlocker.Hide();
+    }
+
+    private async void Save()
+    {
+        myBlocker.Show();
+        obj = await WorkingCenterService.PutAsync(obj);
+        myBlocker.Hide();
+
+        if (obj == null)
+        {
+            toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]);
+        }
+        else
+        {
+            toastService.ShowSuccess(@SharedLocalizer["OP_OK"], @SharedLocalizer["OP_OK_TITLE"]);
+        }
+    }
+}

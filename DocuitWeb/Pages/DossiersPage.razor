@@ -1,0 +1,62 @@
+﻿@page "/dossierspage"
+@using DocuitWeb.Models
+@using DocuitWeb.Data
+@using DocuitWeb.Components
+
+@inject IStringLocalizer<DossiersPage> Localizer
+@inject StatusService StatusService
+@inject ProjectService ProjectService
+@inject DossierService DossierService
+
+<br />
+<div class="container text-left">
+    <ProjectSearch OnUserClickTable="UserProjectSelection"></ProjectSearch>
+    @{
+        if (showDossierDetail)
+        {
+            <CascadingValue Value="myProject">
+                <CascadingValue Value="dossiers">
+                    <DossierDetail></DossierDetail>
+                </CascadingValue>
+            </CascadingValue>
+        }
+    }
+</div>
+
+    @code
+{
+        Project myProject = new Project();
+        public IEnumerable<Dossier> dossiers = new List<Dossier>();
+        bool showDossierDetail = false;
+
+        public async void UserProjectSelection(Project project)
+        {
+            if (project != null)
+            {
+                myProject = project;
+                dossiers = await DossierService.FetchGetAllAsync(myProject);
+                if (dossiers.Count() > 0)
+                {
+                    showDossierDetail = true;
+                }
+                else
+                {
+                    showDossierDetail = false;
+                }
+            }
+            else
+            {
+                showDossierDetail = false;
+            }
+            StateHasChanged();
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                //_username = await _protectedLocalStore.GetLocalAsync<string>("username");
+
+            }
+        }
+    }

@@ -1,0 +1,125 @@
+﻿@page "/projectsearch"
+@using DocuitWeb.Data
+
+@inject IStringLocalizer<ProjectSearch> Localizer
+@inject StatusService StatusService
+@inject ProjectService ProjectService
+
+        <h3>@Localizer["MSG001"]</h3>
+        <table class="table table-hover table-condensed table-list-general table-sm">
+            <thead class="" style="">
+                <tr>
+                    <th @onclick="HeaderClickingCreationOn" role="button" style="text-align: left;width:100px; ">@Localizer["MSG002"]</th>
+                    <th @onclick="HeaderClickingStatus" role="button" style="text-align: center;width:100px; ">@Localizer["MSG003"]</th>
+                    <th @onclick="HeaderClickingReferenceId" role="button" style="text-align: left;width:100px; ">@Localizer["MSG004"]</th>
+                    <th @onclick="HeaderClickingProjectName" role="button">@Localizer["MSG005"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Project project in projects)
+                {
+                    <tr class="clickable-row" role="button" @onclick="@(() => RowClicking(project))">
+                        <td>@project.CreationTime.ToString("d")</td>
+                        <td style="text-align: center;">@GetStatusName(project.StatusId)</td>
+                        <td>@project.ReferenceId</td>
+                        <td>@project.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    @code
+    {
+        IEnumerable<DocuitWeb.Models.Project> projects = new List<DocuitWeb.Models.Project>();
+        IEnumerable<DocuitWeb.Models.Status> statuses = new List<DocuitWeb.Models.Status>();
+
+        [Parameter]
+        public Project project { get; set; }
+        [Parameter]
+        public EventCallback<Project> OnUserClickTable { get; set; }
+
+        Status status = new Status();
+
+        bool CreationOnAsc = true;
+        bool ReferenceIdAsc = true;
+        bool NameAsc = true;
+        bool StatusAsc = true;
+
+        protected override async Task OnInitializedAsync()
+        {
+            myBlocker.Show();
+            projects = await ProjectService.FetchGetAllAsync();
+            if (projects == null) { toastService.ShowError(@SharedLocalizer["OP_FAIL"]); }
+            statuses = await StatusService.FetchGetAllAsync();
+        }
+
+        protected void OnAfterRender()
+        {
+            myBlocker.Hide();
+        }
+
+        string GetStatusName(int id)
+        {
+            return statuses.FirstOrDefault(x => x.StatusId == id).Name;
+        }
+
+        void RowClicking(Project project)
+        {
+            this.project = project;
+            OnUserClickTable.InvokeAsync(project);
+        }
+
+        void HeaderClickingCreationOn()
+        {
+            CreationOnAsc = !CreationOnAsc;
+            if (CreationOnAsc)
+            {
+                projects = projects.OrderBy(x => x.CreationTime);
+            }
+            else
+            {
+                projects = projects.OrderByDescending(x => x.CreationTime);
+            }
+
+        }
+
+        void HeaderClickingStatus()
+        {
+            StatusAsc = !StatusAsc;
+            if (StatusAsc)
+            {
+                projects = projects.OrderBy(x => x.StatusId);
+            }
+            else
+            {
+                projects = projects.OrderByDescending(x => x.StatusId);
+            }
+
+        }
+
+        void HeaderClickingReferenceId()
+        {
+            ReferenceIdAsc = !ReferenceIdAsc;
+            if (ReferenceIdAsc)
+            {
+                projects = projects.OrderBy(x => x.ReferenceId);
+            }
+            else
+            {
+                projects = projects.OrderByDescending(x => x.ReferenceId);
+            }
+        }
+
+        void HeaderClickingProjectName()
+        {
+            NameAsc = !NameAsc;
+            if (NameAsc)
+            {
+                projects = projects.OrderBy(x => x.Name);
+            }
+            else
+            {
+                projects = projects.OrderByDescending(x => x.Name);
+            }
+        }
+    }

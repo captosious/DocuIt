@@ -1,0 +1,37 @@
+﻿@page "/projectspage"
+@using DocuitWeb.Models
+@using DocuitWeb.Data
+@using DocuitWeb.Components
+
+@inject IStringLocalizer<ProjectsPage> Localizer
+@inject StatusService StatusService
+@inject ProjectService ProjectService
+
+<br />
+<div class="container text-left">
+    <ProjectSearch2 OnUserClickTable="UserProjectSelection"></ProjectSearch2>
+    @{
+        if (showDetail)
+        {<ProjectDetail myProject=project OnUserSaveButton="UserSavedProjectDetail"></ProjectDetail>}
+    }
+</div>
+    @code
+{
+        Project project = new Project();
+
+        bool showDetail = false;
+
+        private void UserProjectSelection(Project project)
+        {
+            if (project != null)
+            {
+                this.project = project;
+                showDetail = true;
+            }
+        }
+
+        public void UserSavedProjectDetail()
+        {
+            StateHasChanged();
+        }
+    }

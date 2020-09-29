@@ -1,0 +1,86 @@
+﻿@page "/company"
+
+@inject IStringLocalizer<Company> Localizer
+@inject CompanyService CompanyService
+
+    <h3 class="PageHeader">@Localizer["MSG001"]</h3>
+    <Addons >
+        <Addon AddonType="AddonType.Start">
+            <AddonLabel class="labelstyle_form">@Localizer["FiscalID"]</AddonLabel>
+        </Addon>
+        <Addon AddonType="AddonType.Body">
+            <TextEdit @bind-Text="@company.FiscalId"/>
+        </Addon>
+    </Addons>
+    <Addons>
+        <Addon AddonType="AddonType.Start">
+            <AddonLabel class="labelstyle_form">@Localizer["Name"]</AddonLabel>
+        </Addon>
+        <Addon AddonType="AddonType.Body">
+            <TextEdit @bind-Text="@company.Name" />
+        </Addon>
+    </Addons>
+    <Addons>
+        <Addon AddonType="AddonType.Start">
+            <AddonLabel class="labelstyle_form">@Localizer["Email"]</AddonLabel>
+        </Addon>
+        <Addon AddonType="AddonType.Body">
+            <TextEdit @bind-Text="@company.Email" />
+        </Addon>
+    </Addons>
+    <Addons>
+        <Addon AddonType="AddonType.Start">
+            <AddonLabel class="labelstyle_form">@Localizer["Address"]</AddonLabel>
+        </Addon>
+        <Addon AddonType="AddonType.Body">
+            <TextEdit @bind-Text="@company.Address" />
+        </Addon>
+    </Addons>
+    <Addons>
+        <Addon AddonType="AddonType.Start">
+            <AddonLabel class="labelstyle_form">@Localizer["Town"]</AddonLabel>
+        </Addon>
+        <Addon AddonType="AddonType.Body">
+            <TextEdit @bind-Text="@company.Town" />
+        </Addon>
+    </Addons>
+    <Addons>
+        <Addon AddonType="AddonType.Start">
+            <AddonLabel class="labelstyle_form">@Localizer["zip"]</AddonLabel>
+        </Addon>
+        <Addon AddonType="AddonType.Body">
+            <TextEdit @bind-Text="@company.ZipCode" />
+        </Addon>
+    </Addons>
+
+    <div class="col" style="text-align:center">
+        <button class="btn btn_general btn-success" @onclick="Save">@SharedLocalizer["MSG_SAVE"]</button>
+    </div>
+@code
+{
+            DocuitWeb.Models.Company company = new DocuitWeb.Models.Company();
+
+            protected override async Task OnInitializedAsync()
+            {
+                myBlocker.Show();
+                company = await CompanyService.FetchAsync();
+                if (company == null) { toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]); }
+                myBlocker.Hide();
+            }
+
+            private async void Save()
+            {
+                myBlocker.Show();
+                company = await CompanyService.PutAsync(company);
+                myBlocker.Hide();
+
+                if (company == null)
+                {
+                    toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]);
+                }
+                else
+                {
+                    toastService.ShowSuccess(@SharedLocalizer["OP_OK"], @SharedLocalizer["OP_OK_TITLE"]);
+                }
+            }
+        }

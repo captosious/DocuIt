@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    
+    <!-- MENU INDEX -->
+    
+    <data name="MSG001" xml:space="preserve">
+        <value>Inicio</value>
+    </data>
+    
+    <data name="MSG002" xml:space="preserve">
+        <value>Empresa</value>
+    </data>
+    
+    <data name="MSG003" xml:space="preserve">
+        <value>Proyectos</value>
+    </data>
+    
+    <data name="MSG004" xml:space="preserve">
+        <value>Dossiers</value>
+    </data>
+    
+    <data name="MSG005" xml:space="preserve">
+        <value>Informes</value>
+    </data>
+    
+    <data name="MSG006" xml:space="preserve">
+        <value>Usuarios</value>
+    </data>
+    
+    <data name="MSG007" xml:space="preserve">
+        <value>Configuración</value>
+    </data>
+    <!-- MESSAGES -->
+    
+    <data name="MSG100" xml:space="preserve">
+        <value>por</value>
+    </data>
+    
+    <data name="MSG101" xml:space="preserve">
+        <value>usuario</value>
+    </data>
+        
+    <data name="MSG102" xml:space="preserve">
+        <value>contraseña</value>
+    </data>
+    
+    <data name="MSG103" xml:space="preserve">
+        <value>acceso</value>
+    </data>
+    
+    <data name="MSG104" xml:space="preserve">
+        <value>salir</value>
+    </data>
+    
+    <data name="MSG105" xml:space="preserve">
+        <value>En caso de no disponer de credenciales, contacte con Delta Engineering.</value>
+    </data>
+    
+    <data name="MSG106" xml:space="preserve">
+        <value>acceder</value>
+    </data>
+    
+    <data name="MSG107" xml:space="preserve">
+        <value>Buscar aquí...</value>
+    </data>
+    
+    <!-- Buttons -->
+    
+    <data name="MSG_OK" xml:space="preserve">
+        <value>Aceptar</value>
+    </data>
+    
+    <data name="MSG_CANCEL" xml:space="preserve">
+        <value>Cancelar</value>
+    </data>
+    
+    <data name="MSG_DELETE" xml:space="preserve">
+        <value>Borrar</value>
+    </data>
+    
+    <data name="MSG_EDIT" xml:space="preserve">
+        <value>Editar</value>
+    </data>
+    
+    <data name="MSG_ADD" xml:space="preserve">
+        <value>Añadir</value>
+    </data>
+    
+    <data name="MSG_SAVE" xml:space="preserve">
+        <value>Gravar</value>
+    </data>
+    
+    <!-- DataBase/Operations Messages -->
+    
+    <data name="OP_OK_TITLE" xml:space="preserve">
+        <value>Correcto</value>
+    </data>
+    
+    <data name="OP_OK" xml:space="preserve">
+        <value>Datos almacenados correctamente.</value>
+    </data>
+    
+    <data name="OP_FAIL_TITLE" xml:space="preserve">
+        <value>Error</value>
+    </data>
+    
+    <data name="OP_FAIL" xml:space="preserve">
+        <value>Hubo un error.</value>
+    </data>
+    
+    <data name="OP_WARNING_TITLE" xml:space="preserve">
+        <value>Atención</value>
+    </data>
+    
+    <data name="OP_WARNING" xml:space="preserve">
+        <value>La transacción contiene errores.</value>
+    </data>
+    
+    <data name="OP_PROCESS_RUNNING" xml:space="preserve">
+        <value>Procesando la petición. Por favor, espere.</value>
+    </data>
+    
+    <!-- Errades de redirecció de pàgina -->
+    <data name="ADDRESS_WRONG" xml:space="preserve">
+        <value>Lo sentimos, pero no hay nada en esta página.</value>
+    </data>
+    
+    
+</root>

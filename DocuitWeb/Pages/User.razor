@@ -1,0 +1,92 @@
+﻿@page "/user"
+@using DocuitWeb.Models
+@using DocuitWeb.Data
+
+@inject IStringLocalizer<User> Localizer
+
+@inject UserService UserService
+@inject SecurityService SecurityService
+
+    <br>
+    <div class="container text-left">
+        <h3 class="PageHeader">@Localizer["Title"]</h3>
+        <br>
+        <input type="hidden" name="CompanyId" @bind="@user.CompanyId" />
+        <!--<div class="row">
+        <div class="col-4" style="text-align:right"><b>@Localizer["UserID"]</b></div>
+        <div class="col-8"><input type="text" name="FiscalId" @bind="@user.UserId" size="15" /></div>
+    </div>-->
+        <div class="row">
+            <div class="col-4" style="text-align:right"><b>@Localizer["Name"]</b></div>
+            <div class="col-8"><input type="text" name="FiscalId" @bind="@user.Name" size="15" /></div>
+        </div>
+        <div class="row">
+            <div class="col-4" style="text-align:right"><b>@Localizer["FamilyName"]</b></div>
+            <div class="col-8"><input type="text" name="Name" @bind="@user.FamilyName" size="25" /></div>
+        </div>
+        <div class="row">
+            <div class="col-4" style="text-align:right"><b>@Localizer["Email"]</b></div>
+            <div class="col-8"><input type="text" name="Email" @bind="@user.Email" size="25" /></div>
+        </div>
+        <div class="row">
+            <div class="col-4" style="text-align:right"><b>@Localizer["Username"]</b></div>
+            <div class="col-8"><input type="text" name="Address" @bind="@user.Username" size="30" /></div>
+        </div>
+        <div class="row">
+            <div class="col-4" style="text-align:right"><b>@Localizer["Password"]</b></div>
+            <div class="col-8"><input type="text" name="Town" @bind="@user.Password" size="15" /></div>
+        </div>
+
+        <div class="row">
+            <div class="col-4" style="text-align:right"><b>@Localizer["SecurityID"]</b></div>
+            <div class="col-8">
+
+                <select id="security_select" name="security_select" @bind="@user.SecurityId">
+                    @foreach (Security security in securities)
+                    {
+                        <option value="@security.SecurityId">@security.Description</option>
+                    }
+                </select>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4" style="text-align:right"><b>@Localizer["CreatedOn"]</b></div>
+            <div class="col-8"><input type="text" name="ZipCode" @bind="@user.CreationTime" size="5" /></div>
+        </div>
+        <div class="row" style="margin-top: 15px;text-align: center">
+            <div class="col" style="text-align:center">
+                <button class="btn btn_general btn-success" @onclick="OnClickPutButton">@SharedLocalizer["MSG_SAVE"]</button>
+            </div>
+        </div>
+    </div>
+
+@code
+{
+    DocuitWeb.Models.User user = new DocuitWeb.Models.User();
+    IEnumerable<Security> securities = new List<Security>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        myBlocker.Show();
+        securities = await SecurityService.FetchAsync();
+        user = await UserService.FetchAsync();
+        myBlocker.Hide();
+    }
+
+    private async void OnClickPutButton()
+    {
+        myBlocker.Show();
+        user = await UserService.PutAsync(user);
+        myBlocker.Hide();
+
+        if (user == null)
+        {
+            toastService.ShowError(@SharedLocalizer["OP_FAIL"]);
+        }
+        else
+        {
+            toastService.ShowSuccess(@SharedLocalizer["OP_OK"]);
+        }
+    }
+}
