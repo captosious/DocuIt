@@ -97,6 +97,15 @@
     <Compile Update="Resources\Components\WorkingCenter.ca-ES.Designer.cs">
       <DependentUpon>WorkingCenter.ca-ES.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Components\BuildingType.ca-ES.Designer.cs">
+      <DependentUpon>BuildingType.ca-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\BuildingType.es-ES.Designer.cs">
+      <DependentUpon>BuildingType.es-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\WorkingCenter.ca-ES.Designer.cs">
+      <DependentUpon>WorkingCenter.ca-ES.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources\Models\SharedLocalizer.ca-ES.resx">
@@ -178,6 +187,18 @@
     <EmbeddedResource Update="Resources\Components\WorkingCenter.es-ES.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>WorkingCenter.es-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\WorkingCenter.ca-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>WorkingCenter.ca-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\BuildingType.ca-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>BuildingType.ca-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\BuildingType.es-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>BuildingType.es-ES.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Components\WorkingCenter.ca-ES.resx">
       <Generator>ResXFileCodeGenerator</Generator>

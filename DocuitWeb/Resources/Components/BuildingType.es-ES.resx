@@ -16,11 +16,11 @@
     <!-- MESSAGES -->
     
     <data name="edit" xml:space="preserve">
-        <value>Edición Centros Trabajo</value>
+        <value>Edición Tipo Edificio</value>
     </data>
     
     <data name="title" xml:space="preserve">
-        <value>Centros de Trabajo</value>
+        <value>Tipos Edificio</value>
     </data>
     
     <data name="id" xml:space="preserve">

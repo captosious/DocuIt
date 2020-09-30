@@ -4,11 +4,14 @@
 @inject IStringLocalizer<BuildingType> Localizer
 @inject BuildingTypeService BuildingTypeService
 
-
 <h3>@Localizer["title"]</h3>
-<DataGrid TItem="DocuitWeb.Models.BuildingType" Data="@objList" @bind-SelectedRow="@obj" Editable="false" Filterable="true" Sortable="true" ShowPager="true" PageSize="10" Narrow="true" Hoverable="true">
-    <DataGridCommandColumn TItem="DocuitWeb.Models.BuildingType" />
-    <DataGridColumn Width="100px" TItem="DocuitWeb.Models.BuildingType" Field="@nameof(DocuitWeb.Models.BuildingType.Id)" Caption="@Localizer["id"]" TextAlignment="TextAlignment.Left" />
+<DataGrid TItem="DocuitWeb.Models.BuildingType" Editable="false" Data="@objList" @bind-SelectedRow="@obj" RowClicked="@Edit" 
+          Filterable="true" Sortable="true"
+          ShowPager="true" PageSize="5" Narrow="true" Hoverable="true" 
+          SelectedRowStyling="@OnSelectedRowStyling"
+          >
+    <DataGridCommandColumn TItem="DocuitWeb.Models.BuildingType"  />
+    <DataGridColumn Width="100px" Readonly="true" TItem="DocuitWeb.Models.BuildingType" Field="@nameof(DocuitWeb.Models.BuildingType.Id)" Caption="@Localizer["id"]" TextAlignment="TextAlignment.Left" />
     <DataGridColumn TItem="DocuitWeb.Models.BuildingType" Field="@nameof(DocuitWeb.Models.BuildingType.Name)" Caption="@Localizer["description"]" TextAlignment="TextAlignment.Justified" />
 </DataGrid>
 
@@ -20,9 +23,8 @@
     <ModalBackdrop />
     <ModalContent Size="ModalSize.Default" Centered="true">
         <ModalHeader>
-            @*<i class="fas fa-edit fa-2x"></i>*@
-            <Icon Name="IconName.Mail"></Icon>
-            <ModalTitle>@Localizer["customeredit"]</ModalTitle>
+            <i class="fas fa-edit fa-2x"></i>
+            <ModalTitle>@Localizer["edit"]</ModalTitle>
             <CloseButton Clicked="@CloseModal" />
         </ModalHeader>
         <ModalBody>
@@ -65,9 +67,8 @@
         myBlocker.Hide();
     }
 
-    private void Edit(DocuitWeb.Models.BuildingType obj)
+    private void Edit()
     {
-        this.obj = obj;
         modalWindow.Show();
     }
 
@@ -112,5 +113,10 @@
         e.Cancel = false;
         IsNew = false;
         StateHasChanged();
+    }
+
+    void OnSelectedRowStyling(DocuitWeb.Models.BuildingType obj, DataGridRowStyling styling)
+    {
+        styling.Background = Background.Info;
     }
 }

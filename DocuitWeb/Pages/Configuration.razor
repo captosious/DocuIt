@@ -1,15 +1,17 @@
 ﻿@page "/configuration"
-
 @using DocuitWeb.Data
 
 @inject IStringLocalizer<Configuration> Localizer
 
-
-<br />
 <div class="container text-left">
     <div class="row">
-        <div class="col-6">
+        <div class="col-12">
             <Company></Company>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <BuildingType></BuildingType>
         </div>
         <div class="col-6">
             <WorkingCenter></WorkingCenter>
