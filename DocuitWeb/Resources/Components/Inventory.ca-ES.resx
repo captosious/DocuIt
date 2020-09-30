@@ -12,22 +12,4 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    
-    <!-- MESSAGES -->
-    
-    <data name="edit" xml:space="preserve">
-        <value>Edición Tipo Edificio</value>
-    </data>
-    
-    <data name="title" xml:space="preserve">
-        <value>Tipos Edificio</value>
-    </data>
-    
-    <data name="id" xml:space="preserve">
-        <value>Identificador</value>
-    </data>
-    
-    <data name="description" xml:space="preserve">
-        <value>Descripción</value>
-    </data>
 </root>

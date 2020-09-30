@@ -106,6 +106,12 @@
     <Compile Update="Resources\Components\WorkingCenter.ca-ES.Designer.cs">
       <DependentUpon>WorkingCenter.ca-ES.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Components\Inventory.ca-ES.Designer.cs">
+      <DependentUpon>Inventory.ca-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\Inventory.es-ES.Designer.cs">
+      <DependentUpon>Inventory.es-ES.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources\Models\SharedLocalizer.ca-ES.resx">
@@ -203,6 +209,14 @@
     <EmbeddedResource Update="Resources\Components\WorkingCenter.ca-ES.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>WorkingCenter.ca-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\Inventory.ca-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Inventory.ca-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\Inventory.es-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Inventory.es-ES.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

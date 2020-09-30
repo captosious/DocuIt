@@ -5,7 +5,7 @@
 @inject WorkingCenterService WorkingCenterService
 
 
-<h3>@Localizer["title"]</h3>
+<h3 class="PageHeader">@Localizer["title"]</h3>
 <DataGrid TItem="DocuitWeb.Models.WorkingCenter" Data="@objList" @bind-SelectedRow="@obj" RowClicked="@Edit" Editable="false" Filterable="true" Sortable="true" ShowPager="true" PageSize="5" Narrow="true" Hoverable="true">
     <DataGridCommandColumn TItem="DocuitWeb.Models.WorkingCenter" />
     <DataGridColumn Width="100px" TItem="DocuitWeb.Models.WorkingCenter" Field="@nameof(DocuitWeb.Models.WorkingCenter.Id)" Caption="@Localizer["id"]" TextAlignment="TextAlignment.Left" />
