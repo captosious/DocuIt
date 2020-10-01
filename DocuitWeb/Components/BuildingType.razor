@@ -32,7 +32,7 @@
                     <AddonLabel Class="addonlabel_style">@Localizer["id"]</AddonLabel>
                 </Addon>
                 <Addon AddonType="AddonType.Body">
-                    <TextEdit @bind-Text="@obj.Id" />
+                    <TextEdit @bind-Text="@objEdit.Id" />
                 </Addon>
             </Addons>
             <Addons>
@@ -40,7 +40,7 @@
                     <AddonLabel Class="addonlabel_style">@Localizer["description"]</AddonLabel>
                 </Addon>
                 <Addon AddonType="AddonType.Body">
-                    <TextEdit @bind-Text="@obj.Name" />
+                    <TextEdit @bind-Text="@objEdit.Name" />
                 </Addon>
             </Addons>
         </ModalBody>
@@ -49,10 +49,12 @@
         </ModalFooter>
     </ModalContent>
 </Modal>
+
 @code
 {
     IEnumerable<DocuitWeb.Models.BuildingType> objList = new List<DocuitWeb.Models.BuildingType>();
     DocuitWeb.Models.BuildingType obj = new DocuitWeb.Models.BuildingType();
+    DocuitWeb.Models.BuildingType objEdit = new DocuitWeb.Models.BuildingType();
 
     //Modal
     private Modal modalWindow;
@@ -68,13 +70,14 @@
 
     private void Edit()
     {
+        objEdit = (DocuitWeb.Models.BuildingType)obj.Clone();
         modalWindow.Show();
     }
 
     private async void Save()
     {
         myBlocker.Show();
-        obj = await BuildingTypeService.PutAsync(obj);
+        obj = await BuildingTypeService.PutAsync(objEdit);
         myBlocker.Hide();
 
         if (obj == null)
@@ -90,8 +93,8 @@
     private void Add()
     {
         IsNew = true;
-        obj = new Models.BuildingType();
-        obj.CompanyId = 1;
+        objEdit = new Models.BuildingType();
+        objEdit.CompanyId = 1;
         OpenModal();
     }
 

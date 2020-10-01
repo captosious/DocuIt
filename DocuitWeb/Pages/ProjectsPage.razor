@@ -9,13 +9,14 @@
 
 <br />
 <div class="container text-left">
-    <ProjectSearch2 OnUserClickTable="UserProjectSelection"></ProjectSearch2>
+    <ProjectSearch OnUserClickTable="UserProjectSelection"></ProjectSearch>
     @{
         if (showDetail)
         {<ProjectDetail myProject=project OnUserSaveButton="UserSavedProjectDetail"></ProjectDetail>}
     }
 </div>
-    @code
+
+@code
 {
         Project project = new Project();
 

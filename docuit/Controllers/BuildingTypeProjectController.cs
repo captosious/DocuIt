@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using DocuItService.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace DocuItService.Controllers
 {
@@ -22,10 +23,10 @@ namespace DocuItService.Controllers
         }
 
         // GET: api/values
-        [HttpGet("{GetAll}")]
-        public IEnumerable<BuildingTypeProject> Get()
+        [HttpGet]
+        public IEnumerable<BuildingTypeProject> GetAll([FromBody] BuildingTypeProject objParams)
         {
-            IEnumerable<BuildingTypeProject> objReturn = MyDBContext.BuildingTypeProject;
+            IEnumerable<BuildingTypeProject> objReturn = MyDBContext.BuildingTypeProject.Where(x=>x.CompanyId==objParams.CompanyId && x.ProjectId==objParams.ProjectId);
 
             if (objReturn == null)
             {

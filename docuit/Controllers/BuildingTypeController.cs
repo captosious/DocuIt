@@ -23,7 +23,7 @@ namespace DocuItService.Controllers
         }
 
         // GET: api/values
-        [HttpGet]
+        [HttpGet("{GetAll}")]
         public IEnumerable<BuildingType> GetAll([FromBody] BuildingType objParams)
         {
             IEnumerable<BuildingType> objReturn = MyDBContext.BuildingType.Where(x=>x.CompanyId==objParams.CompanyId);

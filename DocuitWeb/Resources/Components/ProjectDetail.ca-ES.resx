@@ -36,4 +36,12 @@
         <value>Estat</value>
     </data>
     
+    <data name="Buildings" xml:space="preserve">
+        <value>Edificis</value>
+    </data>
+    
+    <data name="WorkCenters" xml:space="preserve">
+        <value>Centres Treball</value>
+    </data>
+    
 </root>

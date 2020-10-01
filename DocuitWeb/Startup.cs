@@ -15,7 +15,6 @@ using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Blazored.Toast;
 using ProtectedLocalStore;
-using Radzen;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
@@ -40,9 +39,7 @@ namespace DocuitWeb
             services.AddBlazoredToast();
             services.AddProtectedLocalStore(new EncryptionService(
                 new KeyInfo("45BLO2yoJkvBwz99kBEMlNkxvL40vUSGaqr/WBu3+Vg=", "Ou3fn+I9SVicGWMLkFEgZQ==")));
-            // Radzen
-            services.AddScoped<DialogService>();
-            services.AddScoped<NotificationService>();
+            
 
             services.AddSingleton<CompanyService>();
             services.AddSingleton<UserService>();

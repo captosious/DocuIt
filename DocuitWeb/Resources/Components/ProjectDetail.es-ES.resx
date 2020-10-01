@@ -32,4 +32,12 @@
     <data name="Status" xml:space="preserve">
         <value>Estado</value>
     </data>
+    
+    <data name="Buildings" xml:space="preserve">
+        <value>Edificios</value>
+    </data>
+    
+    <data name="WorkCenters" xml:space="preserve">
+        <value>Centros Trabajo</value>
+    </data>
 </root>

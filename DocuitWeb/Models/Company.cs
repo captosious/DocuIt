@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace DocuitWeb.Models
 {
-    public partial class Company
+    public partial class Company: ICloneable
     {
         public Company()
         {
@@ -27,5 +27,22 @@ namespace DocuitWeb.Models
         public virtual ICollection<Project> Project { get; set; }
         public virtual ICollection<User> User { get; set; }
 
+        public object Clone()
+        {
+            Company company = new Company();
+
+            company.CompanyId = this.CompanyId;
+            company.Name = this.Name;
+            company.Email = this.Email;
+            company.FiscalId = this.FiscalId;
+            company.Address = this.Address;
+            company.Town = this.Town;
+            company.ZipCode = this.ZipCode;
+
+            company.Project = this.Project;
+            company.User = this.User;
+
+            return company;
+        }
     }
 }

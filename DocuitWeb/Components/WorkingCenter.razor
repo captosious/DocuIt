@@ -51,6 +51,7 @@
 {
     IEnumerable<DocuitWeb.Models.WorkingCenter> objList = new List<DocuitWeb.Models.WorkingCenter>();
     DocuitWeb.Models.WorkingCenter obj = new DocuitWeb.Models.WorkingCenter();
+    DocuitWeb.Models.WorkingCenter objEdit = new DocuitWeb.Models.WorkingCenter();
 
     //Modal
     private Modal modalWindow;
@@ -66,13 +67,14 @@
 
     private void Edit()
     {
+        objEdit = (DocuitWeb.Models.WorkingCenter)obj.Clone();
         modalWindow.Show();
     }
 
     private async void Save()
     {
         myBlocker.Show();
-        obj = await WorkingCenterService.PutAsync(obj);
+        obj = await WorkingCenterService.PutAsync(objEdit);
         myBlocker.Hide();
 
         if (obj == null)
