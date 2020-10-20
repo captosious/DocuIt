@@ -27,7 +27,7 @@ namespace DocuItService.Controllers
         }
 
         [HttpGet("{LogIn}")]
-        public Login Get([FromBody] Login LoginParameters)
+        public Login GetLogin([FromBody] Login LoginParameters)
         {
             Login login = new Login(MyDBContext, MySettings);
 
@@ -45,24 +45,6 @@ namespace DocuItService.Controllers
             return null;
         }
 
-        [HttpGet("{LogOut}")]
-        public Login GetOut([FromBody] Login LoginParameters)
-        {
-            Login login = new Login(MyDBContext, MySettings);
-
-            if (LoginParameters == null)
-            {
-                return null;
-            }
-            login.CompanyId = LoginParameters.CompanyId;
-            login.UserName = LoginParameters.UserName;
-            login.Password = LoginParameters.Password;
-            if ( login.CheckUser())
-            {
-                login.LoggedIn = false;
-                return login;
-            }
-            return null;
-        }
+       
     }
 }

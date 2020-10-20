@@ -17,7 +17,7 @@ namespace DocuItService.Models
         public string Email { get; set; }
         public string Name { get; set; }
         public string FamilyName { get; set; }
-        public byte Locked { get; set; }
+        public bool Locked { get; set; }
         public DateTimeOffset CreationTime { get; set; }
         public int SecurityId { get; set; }
 

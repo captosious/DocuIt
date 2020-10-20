@@ -51,7 +51,7 @@ namespace DocuItService.Models
                 Name = user.Name;
                 FamilyName = user.FamilyName;
                 SecurityId = user.SecurityId;
-                Locked = bool.Parse(user.Locked.ToString());
+                Locked = user.Locked;
                 LoggedIn = true;
                 Token = GetToken();
             }
