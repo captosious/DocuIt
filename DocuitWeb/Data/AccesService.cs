@@ -19,19 +19,23 @@ namespace DocuitWeb.Data
             _appSettings = appSettings;
         }
 
-        public async Task<User> LogIn(string Username, string Password)
+        public async Task<Login> LogIn(string Username, string Password)
         {
-            User user = new User();
-            DocuitWeb.Models.login logIn
+
+            Login login = new Login();
+            Login login_response = new Login();
+
             HttpClient httpClient = new HttpClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
-            user.CompanyId = _appSettings.CompanyId;
+            login.CompanyId = _appSettings.CompanyId;
+            login.UserName = Username;
+            login.Password = Password;
 
             httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/login");
 
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json");
 
             var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
 
@@ -39,8 +43,8 @@ namespace DocuitWeb.Data
             {
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                user = JsonConvert.DeserializeObject<User>(responseBody);
-                return await Task.FromResult(user);
+                login_response = JsonConvert.DeserializeObject<Login>(responseBody);
+                return await Task.FromResult(login_response);
             }
             catch
             {
