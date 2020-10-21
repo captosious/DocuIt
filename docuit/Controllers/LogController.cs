@@ -15,20 +15,19 @@ namespace DocuItService.Controllers
     [Produces("application/json")]
     [ApiController]
 
-    public class LoginController : ControllerBase
+    public class LogController : ControllerBase
     {
         private readonly DocuItContext MyDBContext;
         private readonly MyAppSettings MySettings;
 
-        public LoginController(DocuItContext db, MyAppSettings MySettings)
+        public LogController(DocuItContext db, MyAppSettings MySettings)
         {
             MyDBContext = db;
             this.MySettings = MySettings;
         }
-
-        //[HttpGet("{LogIn}")]
-        [HttpGet]
-        public Login LogIn([FromBody] Login LoginParameters)
+        
+        [HttpGet("{LogIn}")]
+        public Login Get([FromBody] Login LoginParameters)
         {
             Login login = new Login(MyDBContext, MySettings);
 
@@ -47,7 +46,7 @@ namespace DocuItService.Controllers
         }
 
         [HttpGet("{LogOut}")]
-        public bool LogOut([FromBody] Login LoginParameters)
+        public bool GetOut([FromBody] Login LoginParameters)
         {
             //Login login = new Login(MyDBContext, MySettings);
 
