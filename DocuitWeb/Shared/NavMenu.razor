@@ -41,13 +41,10 @@
                         </div>
                         <div class="form-group">
                             <div class="input-group" id="show_hide_password">
-                                <input type="password" class="form-control" placeholder="@SharedLocalizer["MSG102"]" required="required">
-                                <div class="input-group-addon">
-                                    <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
-                                </div>
+                                <input name="Password" type="password" class="form-control" placeholder="@SharedLocalizer["MSG102"]" required="required">
                             </div>
                         </div>
-                        <input type="submit" class="btn btn-primary btn-block" value="@SharedLocalizer["MSG106"]">
+                        <button class="btn btn_general btn-success" @onclick="LogInMe">@SharedLocalizer["MSG106"]</button>
                     </form>
                 </div>
             </div>
@@ -66,4 +63,8 @@
         collapseNavMenu = !collapseNavMenu;
     }
 
+    private void LogInMe()
+    {
+
+    }
 }
