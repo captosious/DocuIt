@@ -1,4 +1,4 @@
-﻿
+﻿@inject AccessService AccessService;
 
 <nav class="navbar navbar-expand-md navbar-dark">
     <a href="#" class="navbar-brand">Docu<b>it</b></a>
@@ -34,37 +34,38 @@
                     <i class="fa fa-user-circle" aria-hidden="true" style="margin-right: 3px;"></i>@SharedLocalizer["MSG103"]
                 </a>
                 <div class="dropdown-menu action-form">
-                    <form action="/examples/actions/confirmation.php" method="post">
-                        <p class="hint-text">@SharedLocalizer["MSG105"]</p>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="@SharedLocalizer["MSG101"]" required="required">
+                    
+                    <p class="hint-text">@SharedLocalizer["MSG105"]</p>
+                    <div class="form-group">
+                        <input type="text" @bind="@UserName" class="form-control" placeholder="@SharedLocalizer["MSG101"]" required="required">
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group" id="show_hide_password">
+                            <input name="Password" @bind="@Password" type="password" class="form-control" placeholder="@SharedLocalizer["MSG102"]" required="required">
                         </div>
-                        <div class="form-group">
-                            <div class="input-group" id="show_hide_password">
-                                <input name="Password" type="password" class="form-control" placeholder="@SharedLocalizer["MSG102"]" required="required">
-                            </div>
-                        </div>
-                        <button class="btn btn_general btn-success" @onclick="LogInMe">@SharedLocalizer["MSG106"]</button>
-                    </form>
+                    </div>
+                    <button class="btn btn_general btn-success" @onclick="LogInMe">@SharedLocalizer["MSG106"]</button>
                 </div>
             </div>
         </div>
     </div>
 </nav>
 
-
 @code {
     private bool collapseNavMenu = true;
-
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private string Password { get; set; }
+    private string UserName { get; set; }
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
 
-    private void LogInMe()
+    private async void LogInMe()
     {
-
+        User user = await AccessService.LogIn(UserName, Password);
     }
+
 }

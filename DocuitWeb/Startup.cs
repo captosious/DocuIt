@@ -50,6 +50,7 @@ namespace DocuitWeb
             services.AddSingleton<DossierElementService>();
             services.AddSingleton<WorkingCenterService>();
             services.AddSingleton<BuildingTypeService>();
+            services.AddSingleton<AccessService>();
 
             services.AddSingleton<AppSettings>();
             services.AddScoped<MyBlocker>();
