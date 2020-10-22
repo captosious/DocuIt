@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DocuItService.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,6 +26,7 @@ namespace DocuItService.Controllers
 
         // GET: api/values
         [HttpGet("{GetAll}")]
+        [Authorize]
         public IEnumerable<User> Get()
         {
             IEnumerable<User> users = MyDBContext.User;

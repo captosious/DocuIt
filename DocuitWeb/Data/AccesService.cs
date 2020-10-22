@@ -12,7 +12,7 @@ namespace DocuitWeb.Data
     public class AccessService
     {
         private AppSettings _appSettings;
-        private string _resource = "/login";
+        private string _resource = "/log";
 
         public AccessService(AppSettings appSettings)
         {

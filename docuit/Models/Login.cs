@@ -7,6 +7,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using DocuItService.Models;
+using Newtonsoft.Json;
 
 namespace DocuItService.Models
 {
@@ -65,8 +66,8 @@ namespace DocuItService.Models
             // Creamos los claims (pertenencias, características) del usuario
             var claims = new[]
             {
-                    new Claim(ClaimTypes.NameIdentifier, user.Username),
-                    new Claim(ClaimTypes.Email, user.Email)
+                    // Creamos un Claim con el Objeto User
+                    new Claim("UserData", JsonConvert.SerializeObject(this))
                 };
             var tokenDescriptor = new SecurityTokenDescriptor
             {
