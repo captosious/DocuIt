@@ -18,6 +18,9 @@ using ProtectedLocalStore;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace DocuitWeb
 {
@@ -65,6 +68,28 @@ namespace DocuitWeb
             // Add LocalLanguages.
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             //services.AddBootstrapCss();
+            // Session
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+
+            // AUTHENTICATION
+            var key = Encoding.ASCII.GetBytes(Configuration["AppSettings:SecretKey"]);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -102,7 +127,8 @@ namespace DocuitWeb
                 SupportedCultures = supportedCultures,
                 SupportedUICultures = supportedCultures
             });
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapBlazorHub();

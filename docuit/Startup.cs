@@ -50,9 +50,7 @@ namespace DocuItService
                     ValidateAudience = false
                 };
             });
-            // Session
-            services.AddDistributedMemoryCache();
-            services.AddSession();
+            
             // Add MyAppSettings
             services.AddSingleton<MyAppSettings>();
         }
