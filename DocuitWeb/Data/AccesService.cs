@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using DocuitWeb.Models;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 namespace DocuitWeb.Data
 {
@@ -13,10 +14,13 @@ namespace DocuitWeb.Data
     {
         private AppSettings _appSettings;
         private string _resource = "/log";
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public AccessService(AppSettings appSettings)
+        public AccessService(SignInManager<IdentityUser> signInManager, AppSettings appSettings)
         {
             _appSettings = appSettings;
+            _signInManager = signInManager;
+
         }
 
         public async Task<Login> LogIn(string Username, string Password)
@@ -24,6 +28,7 @@ namespace DocuitWeb.Data
 
             Login login = new Login();
             Login login_response = new Login();
+            IdentityUser user = new IdentityUser();
 
             HttpClient httpClient = new HttpClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
@@ -44,6 +49,10 @@ namespace DocuitWeb.Data
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 login_response = JsonConvert.DeserializeObject<Login>(responseBody);
+                user.UserName = login_response.UserName;
+                user.Id = login_response.UserId.ToString();
+
+                await _signInManager.SignInAsync(user, false, null);
                 return await Task.FromResult(login_response);
             }
             catch
