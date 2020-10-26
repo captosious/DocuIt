@@ -14,13 +14,11 @@ namespace DocuitWeb.Data
     {
         private AppSettings _appSettings;
         private string _resource = "/log";
-        private readonly SignInManager<IdentityUser> _signInManager;
+        
 
-        public AccessService(SignInManager<IdentityUser> signInManager, AppSettings appSettings)
+        public AccessService(AppSettings appSettings)
         {
             _appSettings = appSettings;
-            _signInManager = signInManager;
-
         }
 
         public async Task<Login> LogIn(string Username, string Password)
@@ -52,7 +50,6 @@ namespace DocuitWeb.Data
                 user.UserName = login_response.UserName;
                 user.Id = login_response.UserId.ToString();
 
-                await _signInManager.SignInAsync(user, false, null);
                 return await Task.FromResult(login_response);
             }
             catch
