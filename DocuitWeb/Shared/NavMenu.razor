@@ -1,6 +1,7 @@
 ﻿@inject AccessService AccessService;
 @using Microsoft.AspNetCore.Identity;
-
+@inject AuthenticationStateProvider AuthenStateProv;
+ 
     <nav class="navbar navbar-expand-md navbar-dark">
         <a href="#" class="navbar-brand">Docu<b>it</b></a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -59,6 +60,8 @@
         private string Password { get; set; }
         private string UserName { get; set; }
 
+        private User user;
+
         private void ToggleNavMenu()
         {
             collapseNavMenu = !collapseNavMenu;
@@ -68,5 +71,7 @@
         {
             Login login = await AccessService.LogIn(UserName, Password);
 
+            ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsAuthenticated(UserName);
         }
     }
+ 

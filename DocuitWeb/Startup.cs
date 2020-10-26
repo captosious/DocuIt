@@ -14,7 +14,6 @@ using DocuitWeb.Models;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Blazored.Toast;
-using ProtectedLocalStore;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
@@ -44,8 +43,8 @@ namespace DocuitWeb
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddBlazoredToast();
-            services.AddProtectedLocalStore(new EncryptionService(
-                new KeyInfo("45BLO2yoJkvBwz99kBEMlNkxvL40vUSGaqr/WBu3+Vg=", "Ou3fn+I9SVicGWMLkFEgZQ==")));
+            //services.AddProtectedLocalStore(new EncryptionService(
+            //    new KeyInfo("45BLO2yoJkvBwz99kBEMlNkxvL40vUSGaqr/WBu3+Vg=", "Ou3fn+I9SVicGWMLkFEgZQ==")));
             
 
             services.AddSingleton<CompanyService>();
@@ -73,8 +72,8 @@ namespace DocuitWeb
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             //services.AddBootstrapCss();
             // Session
-            services.AddDistributedMemoryCache();
-            services.AddSession();
+            //services.AddDistributedMemoryCache();
+            //services.AddSession();
 
 
             //services.ConfigureApplicationCookie(options =>
@@ -91,8 +90,8 @@ namespace DocuitWeb
             //});
            
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie();
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //    .AddCookie();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddSingleton<HttpClient>();
         }

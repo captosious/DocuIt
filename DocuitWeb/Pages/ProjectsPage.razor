@@ -7,17 +7,17 @@
 @inject StatusService StatusService
 @inject ProjectService ProjectService
 
-@attribute [Authorize]
+    <AuthorizeRouteView>
+        <br />
+        <div class="container text-left">
+            <ProjectSearch OnUserClickTable="UserProjectSelection"></ProjectSearch>
+            @{
+                if (showDetail)
+                {<ProjectDetail myProject=project OnUserSaveButton="UserSavedProjectDetail"></ProjectDetail>}
+            }
+        </div>
 
-<br />
-<div class="container text-left">
-    <ProjectSearch OnUserClickTable="UserProjectSelection"></ProjectSearch>
-    @{
-        if (showDetail)
-        {<ProjectDetail myProject=project OnUserSaveButton="UserSavedProjectDetail"></ProjectDetail>}
-    }
-</div>
-
+    </AuthorizeRouteView>
 @code
 {
     Project project = new Project();

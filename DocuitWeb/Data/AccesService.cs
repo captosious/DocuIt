@@ -19,6 +19,7 @@ namespace DocuitWeb.Data
         public AccessService(AppSettings appSettings)
         {
             _appSettings = appSettings;
+            
         }
 
         public async Task<Login> LogIn(string Username, string Password)
