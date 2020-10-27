@@ -13,13 +13,11 @@ namespace DocuitWeb.Data
     public class AccessService
     {
         private AppSettings _appSettings;
-        private string _resource = "/log";
+        private string _resource = "/auth";
         
-
         public AccessService(AppSettings appSettings)
         {
             _appSettings = appSettings;
-            
         }
 
         public async Task<Login> LogIn(string Username, string Password)
@@ -48,9 +46,7 @@ namespace DocuitWeb.Data
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 login_response = JsonConvert.DeserializeObject<Login>(responseBody);
-                user.UserName = login_response.UserName;
-                user.Id = login_response.UserId.ToString();
-
+                
                 return await Task.FromResult(login_response);
             }
             catch

@@ -17,10 +17,7 @@ using Blazored.Toast;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Net.Http;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -56,6 +53,7 @@ namespace DocuitWeb
             services.AddSingleton<DossierElementService>();
             services.AddSingleton<WorkingCenterService>();
             services.AddSingleton<BuildingTypeService>();
+            services.AddSingleton<CustomAuthenticationStateProvider>();
             services.AddSingleton<AccessService>();
 
             services.AddSingleton<AppSettings>();
