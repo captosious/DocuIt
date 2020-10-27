@@ -38,7 +38,7 @@
                                 <i class="fa fa-user-circle" aria-hidden="true" style="margin-right: 3px;"></i>@SharedLocalizer["MSG103"]
                             </a>
                             <div class="dropdown-menu action-form">
-                                <button class="btn btn_general btn-success" @onclick="LogInMe">@SharedLocalizer["MSG104"]</button>
+                                <button class="btn btn_general btn-success" @onclick="LogOutMe">@SharedLocalizer["MSG104"]</button>
                             </div>
                         </div>
                     </div>
@@ -99,7 +99,7 @@
 
         private async void LogOutMe()
         {
-
+            ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsNotAuthenticated();
         }
     }
  

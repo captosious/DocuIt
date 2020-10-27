@@ -24,5 +24,13 @@ namespace DocuitWeb.Models
             var user = new ClaimsPrincipal(identity);
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user))); 
         }
+
+        public void MarkUserAsNotAuthenticated()
+        {
+            var identity = new ClaimsIdentity();
+            
+            var user = new ClaimsPrincipal(identity);
+            NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
+        }
     }
 }
