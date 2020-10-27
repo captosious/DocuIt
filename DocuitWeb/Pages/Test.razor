@@ -1,0 +1,33 @@
+﻿@page "/test"
+@using DocuitWeb.Models
+@using DocuitWeb.Data
+
+@inject IStringLocalizer<User> Localizer
+
+@inject UserService UserService
+@inject SecurityService SecurityService
+
+
+<h1>@Pepe</h1>
+
+@code{
+
+    string Pepe { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        Login login;
+
+        login = await MyStorageTools.BufferGetLocalStorageAsync();
+        Pepe = login.UserName;
+        //if (firstRender) { StateHasChanged(); }
+
+    }
+
+
+}

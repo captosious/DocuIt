@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <a asp-controller="" asp-action="" class="nav-item nav-link">@SharedLocalizer["MSG005"]</a>
-                @*<a href="Configuration" class="nav-item nav-link">@SharedLocalizer["MSG007"]</a>*@
+                <a href="Test" class="nav-item nav-link">Testing</a>
                 @*<a href="WorkingCenter" class="nav-item nav-link">TesterA</a>*@
             </div>
             <AuthorizeView>
@@ -35,7 +35,7 @@
                     <div class="navbar-nav ml-auto action-buttons">
                         <div class="nav-item dropdown">
                             <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle mr-4">
-                                <i class="fa fa-user-circle" aria-hidden="true" style="margin-right: 3px;"></i>@SharedLocalizer["MSG103"]
+                                <i class="fa fa-user-circle" aria-hidden="true" style="margin-right: 3px;"></i>@CompleteUserName
                             </a>
                             <div class="dropdown-menu action-form">
                                 <button class="btn btn_general btn-success" @onclick="LogOutMe">@SharedLocalizer["MSG104"]</button>
@@ -77,6 +77,7 @@
         private string UserName { get; set; }
 
         private User user;
+        private string CompleteUserName { get; set; }
 
         private void ToggleNavMenu()
         {
@@ -90,11 +91,16 @@
             if (login != null)
             {
                 ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsAuthenticated(UserName);
+                // Save in Local Storage User Information
+                //await ProtectedLocalStorage.SetAsync("UserName", currentCount);
+                await MyStorageTools.BufferPutLocalStorageAsync(login);
+                CompleteUserName = login.Name + " " + login.FamilyName;
             }
             else
             {
-
+                ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsNotAuthenticated();
             }
+            StateHasChanged();
         }
 
         private async void LogOutMe()

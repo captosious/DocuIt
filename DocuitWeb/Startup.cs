@@ -21,6 +21,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using System.Net.Http;
 using Microsoft.AspNetCore.Components.Authorization;
+using DocuitWeb.Services;
 
 namespace DocuitWeb
 {
@@ -55,6 +56,7 @@ namespace DocuitWeb
             services.AddSingleton<BuildingTypeService>();
             services.AddSingleton<CustomAuthenticationStateProvider>();
             services.AddSingleton<AccessService>();
+            services.AddScoped<StorageTools>();
 
             services.AddSingleton<AppSettings>();
             services.AddScoped<MyBlocker>();
@@ -92,6 +94,7 @@ namespace DocuitWeb
             //    .AddCookie();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddSingleton<HttpClient>();
+            services.AddProtectedBrowserStorage();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

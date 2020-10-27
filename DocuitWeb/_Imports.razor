@@ -9,6 +9,7 @@
 @using DocuitWeb.Shared
 @using Microsoft.Extensions.Localization
 @using DocuitWeb.Models
+@using DocuitWeb.Services
 @using DocuitWeb.Components
 @using DocuitWeb.Data
 @using System.ComponentModel
@@ -20,8 +21,13 @@
 @using Blazorise
 @using Blazorise.DataGrid
 
+@using Microsoft.AspNetCore.ProtectedBrowserStorage
+@inject ProtectedLocalStorage ProtectedLocalStorage
+
+@inject ProtectedSessionStorage ProtectedSessionStorage
+@inject StorageTools MyStorageTools
+
 @inject IToastService toastService
 @inject IStringLocalizer<SharedLocalizer> SharedLocalizer
 @inject AppSettings appSettings
 @inject MyBlocker myBlocker
-

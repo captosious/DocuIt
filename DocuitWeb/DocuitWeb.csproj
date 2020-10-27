@@ -12,7 +12,6 @@
     <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.1.2" />
     <PackageReference Include="Blazorise.DataGrid" Version="0.9.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Blazored.LocalStorage" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.ProtectedBrowserStorage" Version="0.1.0-alpha.19521.1" />
   </ItemGroup>
   <ItemGroup>
@@ -24,6 +23,7 @@
     <Folder Include="wwwroot\js\" />
     <Folder Include="Components\" />
     <Folder Include="Resources\Components\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\Models\SharedLocalizer.ca-ES.Designer.cs">
