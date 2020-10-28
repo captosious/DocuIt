@@ -15,6 +15,7 @@ namespace DocuitWeb.Services
 
         public async System.Threading.Tasks.Task BufferPutLocalStorageAsync(Login login)
         {
+            await _protectedStorage.SetAsync("CompanyId", login.CompanyId.ToString());
             await _protectedStorage.SetAsync("UserName", login.UserName);
             await _protectedStorage.SetAsync("Name", login.Name);
             await _protectedStorage.SetAsync("FamilyName", login.FamilyName);
@@ -28,6 +29,9 @@ namespace DocuitWeb.Services
             login.UserName = await _protectedStorage.GetAsync<string>("UserName");
             login.Name = await _protectedStorage.GetAsync<string>("Name");
             login.FamilyName = await _protectedStorage.GetAsync<string>("FamilyName");
+            login.CompanyId =
+            login.Locked =
+            login.
             return login;
         }
 
