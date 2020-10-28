@@ -215,6 +215,24 @@ namespace DocuitWeb.Resources.Models {
             }
         }
         
+        internal static string LOGIN_TITLE {
+            get {
+                return ResourceManager.GetString("LOGIN_TITLE", resourceCulture);
+            }
+        }
+        
+        internal static string LOGIN_CREDENTIALS_ERROR {
+            get {
+                return ResourceManager.GetString("LOGIN_CREDENTIALS_ERROR", resourceCulture);
+            }
+        }
+        
+        internal static string LOGIN_NOT_LOGGED {
+            get {
+                return ResourceManager.GetString("LOGIN_NOT_LOGGED", resourceCulture);
+            }
+        }
+        
         internal static string ADDRESS_WRONG {
             get {
                 return ResourceManager.GetString("ADDRESS_WRONG", resourceCulture);

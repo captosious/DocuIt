@@ -99,11 +99,12 @@
             else
             {
                 ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsNotAuthenticated();
+                toastService.ShowError(SharedLocalizer["LOGIN_CREDENTIALS_ERROR"], SharedLocalizer["LOGIN_TITLE"]);
             }
             StateHasChanged();
         }
 
-        private async void LogOutMe()
+        private void LogOutMe()
         {
             ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsNotAuthenticated();
         }

@@ -133,7 +133,18 @@
         <value>Processant la petició. Sisplau, esperi.</value>
     </data>
     
+    <!-- Missatges de Login -->
+    <data name="LOGIN_TITLE" xml:space="preserve">
+        <value>Error de credencials.</value>
+    </data>
     
+    <data name="LOGIN_CREDENTIALS_ERROR" xml:space="preserve">
+        <value>El vostre usuari i/o contrasenya no són correctes.</value>
+    </data>
+    
+    <data name="LOGIN_NOT_LOGGED" xml:space="preserve">
+        <value>Valideu-vos amb d'entrar al sistema.</value>
+    </data>
     
     <!-- Errades de redirecció de pàgina -->
     <data name="ADDRESS_WRONG" xml:space="preserve">
