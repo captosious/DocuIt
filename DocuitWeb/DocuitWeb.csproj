@@ -116,6 +116,9 @@
     <Compile Update="Resources\Pages\Profile.ca-ES.Designer.cs">
       <DependentUpon>Profile.ca-ES.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Pages\Profile.es-ES.Designer.cs">
+      <DependentUpon>Profile.es-ES.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources\Models\SharedLocalizer.ca-ES.resx">
@@ -225,6 +228,10 @@
     <EmbeddedResource Update="Resources\Pages\Profile.ca-ES.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Profile.ca-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Profile.es-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Profile.es-ES.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 </Project>
