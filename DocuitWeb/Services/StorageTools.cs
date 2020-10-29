@@ -15,11 +15,10 @@ namespace DocuitWeb.Services
 
         public async System.Threading.Tasks.Task BufferPutLocalStorageAsync(Login login)
         {
-            await _protectedStorage.SetAsync("CompanyId", login.CompanyId.ToString());
             await _protectedStorage.SetAsync("UserName", login.UserName);
             await _protectedStorage.SetAsync("Name", login.Name);
             await _protectedStorage.SetAsync("FamilyName", login.FamilyName);
-
+            await _protectedStorage.SetAsync("CompanyId", login.CompanyId.ToString());
         }
 
         public async System.Threading.Tasks.Task<Login> BufferGetLocalStorageAsync()
@@ -29,9 +28,8 @@ namespace DocuitWeb.Services
             login.UserName = await _protectedStorage.GetAsync<string>("UserName");
             login.Name = await _protectedStorage.GetAsync<string>("Name");
             login.FamilyName = await _protectedStorage.GetAsync<string>("FamilyName");
-            login.CompanyId =
-            login.Locked =
-            login.
+            int.TryParse(await _protectedStorage.GetAsync<string>("CompanyId"), out login.CompanyId);
+            
             return login;
         }
 
@@ -40,6 +38,7 @@ namespace DocuitWeb.Services
             _protectedStorage.DeleteAsync("UserName");
             _protectedStorage.DeleteAsync("Name");
             _protectedStorage.DeleteAsync("FamilyName");
+            _protectedStorage.DeleteAsync("CompanyId");
         }
     }
 }

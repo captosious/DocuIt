@@ -146,13 +146,12 @@
     </data>
     
     <data name="LOGIN_PROFILE" xml:space="preserve">
-        <value>Perfil</value>
+        <value>Editar perfil de usuario</value>
     </data>
     
     <!-- Errades de redirecció de pàgina -->
     <data name="ADDRESS_WRONG" xml:space="preserve">
         <value>Lo sentimos, pero no hay nada en esta página.</value>
     </data>
-    
     
 </root>

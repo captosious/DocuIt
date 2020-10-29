@@ -8,11 +8,15 @@
 @inject SecurityService SecurityService
 
 
-<h1>@Pepe</h1>
+
+<h1>Cookie-Info</h1>
+<p>Connected User: @ConnectedUser</p>
+<p>CompanyId: @CompanyId</p>
 
 @code{
 
-    string Pepe { get; set; }
+    string ConnectedUser { get; set; }
+    int CompanyId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -24,10 +28,8 @@
         Login login;
 
         login = await MyStorageTools.BufferGetLocalStorageAsync();
-        Pepe = login.UserName;
-        //if (firstRender) { StateHasChanged(); }
-
+        ConnectedUser = login.Name + " " + login.FamilyName;
+        CompanyId = login.CompanyId;
+        if (firstRender) { StateHasChanged(); }
     }
-
-
 }
