@@ -145,6 +145,10 @@
         <value>Valídese antes de entrar en el sistema.</value>
     </data>
     
+    <data name="LOGIN_PROFILE" xml:space="preserve">
+        <value>Perfil</value>
+    </data>
+    
     <!-- Errades de redirecció de pàgina -->
     <data name="ADDRESS_WRONG" xml:space="preserve">
         <value>Lo sentimos, pero no hay nada en esta página.</value>

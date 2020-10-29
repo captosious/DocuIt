@@ -233,6 +233,12 @@ namespace DocuitWeb.Resources.Models {
             }
         }
         
+        internal static string LOGIN_PROFILE {
+            get {
+                return ResourceManager.GetString("LOGIN_PROFILE", resourceCulture);
+            }
+        }
+        
         internal static string ADDRESS_WRONG {
             get {
                 return ResourceManager.GetString("ADDRESS_WRONG", resourceCulture);
