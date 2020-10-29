@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using DocuitWeb.Models;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.ProtectedBrowserStorage;
 
 namespace DocuitWeb.Data
 {
@@ -14,10 +15,14 @@ namespace DocuitWeb.Data
     {
         private AppSettings _appSettings;
         private string _resource = "/auth";
-        
-        public AccessService(AppSettings appSettings)
+        HttpClient _httpClient; 
+        readonly ProtectedSessionStorage _protectedStorage;
+
+        public AccessService(AppSettings appSettings, HttpClient httpClient, ProtectedSessionStorage protectedStorage)
         {
             _appSettings = appSettings;
+            _httpClient=  httpClient;
+            _protectedStorage = protectedStorage;
         }
 
         public async Task<Login> LogIn(string Username, string Password)
@@ -46,6 +51,10 @@ namespace DocuitWeb.Data
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 login_response = JsonConvert.DeserializeObject<Login>(responseBody);
+                if (login_response != null)
+                {
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _protectedStorage.GetAsync<string>("Token").ToString());
+                }
                 
                 return await Task.FromResult(login_response);
             }

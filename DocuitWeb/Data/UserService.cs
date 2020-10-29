@@ -18,9 +18,8 @@ namespace DocuitWeb.Data
             _appSettings = appSettings;
         }
 
-        public async Task<User> FetchAsync()
+        public async Task<User> FetchAsync(User user)
         {
-            User user = new User();
             HttpClient httpClient = new HttpClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 

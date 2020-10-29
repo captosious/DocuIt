@@ -96,6 +96,7 @@
                 //await ProtectedLocalStorage.SetAsync("UserName", currentCount);
                 await MyStorageTools.BufferPutLocalStorageAsync(login);
                 CompleteUserName = login.Name + " " + login.FamilyName;
+                
             }
             else
             {

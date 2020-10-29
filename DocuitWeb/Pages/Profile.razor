@@ -70,7 +70,7 @@
     {
         myBlocker.Show();
         securities = await SecurityService.FetchAsync();
-        user = await UserService.FetchAsync();
+        user = await UserService.FetchAsync(user);
         myBlocker.Hide();
     }
 
