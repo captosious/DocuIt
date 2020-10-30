@@ -135,7 +135,11 @@
     
     <!-- Missatges de Login -->
     <data name="LOGIN_TITLE" xml:space="preserve">
-        <value>Error de credencials.</value>
+        <value>Autenticat</value>
+    </data>
+    
+    <data name="LOGIN_TITLE_ERROR" xml:space="preserve">
+        <value>Error de credencials</value>
     </data>
     
     <data name="LOGIN_CREDENTIALS_ERROR" xml:space="preserve">
@@ -143,7 +147,11 @@
     </data>
     
     <data name="LOGIN_NOT_LOGGED" xml:space="preserve">
-        <value>Valideu-vos amb d'entrar al sistema.</value>
+        <value>Valideu-vos abans d'entrar al sistema.</value>
+    </data>
+    
+    <data name="LOGIN_SUCCESS" xml:space="preserve">
+        <value>Us heu validat al sistema.</value>
     </data>
     
     <data name="LOGIN_PROFILE" xml:space="preserve">

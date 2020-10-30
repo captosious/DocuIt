@@ -221,6 +221,12 @@ namespace DocuitWeb.Resources.Models {
             }
         }
         
+        internal static string LOGIN_TITLE_ERROR {
+            get {
+                return ResourceManager.GetString("LOGIN_TITLE_ERROR", resourceCulture);
+            }
+        }
+        
         internal static string LOGIN_CREDENTIALS_ERROR {
             get {
                 return ResourceManager.GetString("LOGIN_CREDENTIALS_ERROR", resourceCulture);
@@ -230,6 +236,12 @@ namespace DocuitWeb.Resources.Models {
         internal static string LOGIN_NOT_LOGGED {
             get {
                 return ResourceManager.GetString("LOGIN_NOT_LOGGED", resourceCulture);
+            }
+        }
+        
+        internal static string LOGIN_SUCCESS {
+            get {
+                return ResourceManager.GetString("LOGIN_SUCCESS", resourceCulture);
             }
         }
         

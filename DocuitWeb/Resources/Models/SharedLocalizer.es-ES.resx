@@ -134,15 +134,23 @@
     
     <!-- Missatges de Login -->
     <data name="LOGIN_TITLE" xml:space="preserve">
-        <value>Error de credenciales.</value>
+        <value>Autenticado</value>
+    </data>
+    
+    <data name="LOGIN_TITLE_ERROR" xml:space="preserve">
+        <value>Error de credenciales</value>
     </data>
     
     <data name="LOGIN_CREDENTIALS_ERROR" xml:space="preserve">
-        <value>El usuario y/o contraseñaa no son correctos.</value>
+        <value>El usuario y/o contraseña no son correctos.</value>
     </data>
     
     <data name="LOGIN_NOT_LOGGED" xml:space="preserve">
         <value>Valídese antes de entrar en el sistema.</value>
+    </data>
+    
+    <data name="LOGIN_SUCCESS" xml:space="preserve">
+        <value>Ha sido validado en el sistema.</value>
     </data>
     
     <data name="LOGIN_PROFILE" xml:space="preserve">

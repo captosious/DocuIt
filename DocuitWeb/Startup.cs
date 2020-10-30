@@ -55,7 +55,7 @@ namespace DocuitWeb
             services.AddSingleton<WorkingCenterService>();
             services.AddSingleton<BuildingTypeService>();
             services.AddSingleton<CustomAuthenticationStateProvider>();
-            services.AddSingleton<AccessService>();
+            services.AddScoped<AccessService>();
             services.AddScoped<StorageTools>();
 
             services.AddSingleton<AppSettings>();

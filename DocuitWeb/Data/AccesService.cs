@@ -53,7 +53,7 @@ namespace DocuitWeb.Data
                 login_response = JsonConvert.DeserializeObject<Login>(responseBody);
                 if (login_response != null)
                 {
-                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _protectedStorage.GetAsync<string>("Token").ToString());
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _protectedStorage.GetAsync<string>("Token").ToString());
                 }
                 
                 return await Task.FromResult(login_response);

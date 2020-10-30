@@ -37,8 +37,9 @@
                             <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle mr-4">
                                 <i class="fa fa-user-circle" aria-hidden="true" style="margin-right: 3px;"></i>@CompleteUserName
                             </a>
-                            <div class="dropdown-menu action-form">
+                            <div class="dropdown-menu action-form" style="text-align:center">
                                 <a href="Profile" class="dropdown-item">@SharedLocalizer["LOGIN_PROFILE"]</a>
+                                <br />
                                 <button class="btn btn_general btn-success" style="width:100%;" @onclick="LogOutMe">@SharedLocalizer["MSG104"]</button>
                             </div>
                         </div>
@@ -61,7 +62,7 @@
                                         <input name="Password" @bind="@Password" type="password" class="form-control" placeholder="@SharedLocalizer["MSG102"]" required="required">
                                     </div>
                                 </div>
-                                <button class="btn btn_general btn-success" @onclick="LogInMe">@SharedLocalizer["MSG106"]</button>
+                                <button class="btn btn_general btn-success" style="width:100%;" @onclick="LogInMe">@SharedLocalizer["MSG106"]</button>
                             </div>
                         </div>
                     </div>
@@ -96,12 +97,12 @@
                 //await ProtectedLocalStorage.SetAsync("UserName", currentCount);
                 await MyStorageTools.BufferPutLocalStorageAsync(login);
                 CompleteUserName = login.Name + " " + login.FamilyName;
-                
+                toastService.ShowSuccess(SharedLocalizer["LOGIN_SUCCESS"], SharedLocalizer["LOGIN_TITLE"]);
             }
             else
             {
                 ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsNotAuthenticated();
-                toastService.ShowError(SharedLocalizer["LOGIN_CREDENTIALS_ERROR"], SharedLocalizer["LOGIN_TITLE"]);
+                toastService.ShowError(SharedLocalizer["LOGIN_CREDENTIALS_ERROR"], SharedLocalizer["LOGIN_TITLE_ERROR"]);
                 MyStorageTools.BufferClear();
             }
             StateHasChanged();

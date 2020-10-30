@@ -13,6 +13,8 @@ namespace DocuItService.Controllers
     [Route("[controller]")]
     [Produces("application/json")]
     [ApiController]
+    [Authorize]
+
     public class UserController : ControllerBase 
     {
         private readonly DocuItContext MyDBContext;
@@ -25,8 +27,7 @@ namespace DocuItService.Controllers
         }
 
         // GET: api/values
-        [HttpGet("{GetAll}")]
-        [Authorize]
+        [HttpGet("GetAll")]
         public IEnumerable<User> Get()
         {
             IEnumerable<User> users = MyDBContext.User;
@@ -38,11 +39,22 @@ namespace DocuItService.Controllers
             return users;
         }
 
-        // GET api/values/5
-        [HttpGet]
+        [HttpGet("GetById")]
         public User Get([FromBody] User UserParameters)
         {
-            User user =  (User)MyDBContext.User.FirstOrDefault(u=>u.CompanyId ==UserParameters.CompanyId && u.Username ==UserParameters.Username);
+            User user =  (User)MyDBContext.User.FirstOrDefault(u=>u.CompanyId ==UserParameters.CompanyId && u.UserId ==UserParameters.UserId);
+
+            if (user == null)
+            {
+                return null;
+            }
+            return user;
+        }
+
+        [HttpGet("GetByUserName")]
+        public User GetByUserName([FromBody] User UserParameters)
+        {
+            User user = (User)MyDBContext.User.FirstOrDefault(u => u.CompanyId == UserParameters.CompanyId && u.Username == UserParameters.Username);
 
             if (user == null)
             {

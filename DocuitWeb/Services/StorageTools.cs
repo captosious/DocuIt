@@ -20,7 +20,7 @@ namespace DocuitWeb.Services
             await _protectedStorage.SetAsync("FamilyName", login.FamilyName);
             await _protectedStorage.SetAsync("CompanyId", login.CompanyId.ToString());
             await _protectedStorage.SetAsync("Token", login.Token);
-        }
+        } 
 
         public async System.Threading.Tasks.Task<Login> BufferGetLocalStorageAsync()
         {

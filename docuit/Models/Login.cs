@@ -67,8 +67,9 @@ namespace DocuItService.Models
             var claims = new[]
             {
                     // Creamos un Claim con el Objeto User
-                    new Claim("UserData", JsonConvert.SerializeObject(this))
-                };
+                    new Claim("UserName", UserName), new Claim("UserId", UserId.ToString()),
+                    new Claim("CompanyId", CompanyId.ToString())
+            };
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
