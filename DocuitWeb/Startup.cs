@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Net.Http;
 using Microsoft.AspNetCore.Components.Authorization;
 using DocuitWeb.Services;
+using System.Security.Claims;
 
 namespace DocuitWeb
 {
@@ -70,31 +71,24 @@ namespace DocuitWeb
                 
             // Add LocalLanguages.
             services.AddLocalization(options => options.ResourcesPath = "Resources");
-            //services.AddBootstrapCss();
-            // Session
-            //services.AddDistributedMemoryCache();
-            //services.AddSession();
 
-
-            //services.ConfigureApplicationCookie(options =>
-            //{
-            //    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-            //    options.Cookie.Name = "YourAppCookieName";
-            //    options.Cookie.HttpOnly = true;
-            //    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
-            //    options.LoginPath = "/Identity/Account/Login";
-            //    // ReturnUrlParameter requires 
-            //    //using Microsoft.AspNetCore.Authentication.Cookies;
-            //    options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
-            //    options.SlidingExpiration = true;
-            //});
-           
-
-            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            //    .AddCookie();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddSingleton<HttpClient>();
             services.AddProtectedBrowserStorage();
+            services.AddAuthentication(options=>
+                {
+                    
+                }
+            );
+
+            services.AddAuthorization(options =>
+                {
+                    options.AddPolicy("administrator", policy => policy.RequireClaim(ClaimTypes.Role, "0"));
+                    options.AddPolicy("manager", policy => policy.RequireClaim(ClaimTypes.Role, "1"));
+                    options.AddPolicy("operator", policy => policy.RequireClaim(ClaimTypes.Role, "2"));
+                    options.AddPolicy("guest", policy => policy.RequireClaim(ClaimTypes.Role, "3"));
+                }
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -134,6 +128,8 @@ namespace DocuitWeb
             });
             app.UseAuthentication();
             app.UseAuthorization();
+
+           
 
             app.UseEndpoints(endpoints =>
             {

@@ -15,14 +15,12 @@ namespace DocuitWeb.Data
     {
         private AppSettings _appSettings;
         private string _resource = "/auth";
-        HttpClient _httpClient; 
-        readonly ProtectedSessionStorage _protectedStorage;
-
-        public AccessService(AppSettings appSettings, HttpClient httpClient, ProtectedSessionStorage protectedStorage)
+        private HttpClient _httpClient; 
+       
+        public AccessService(AppSettings appSettings, HttpClient httpClient)
         {
             _appSettings = appSettings;
             _httpClient=  httpClient;
-            _protectedStorage = protectedStorage;
         }
 
         public async Task<Login> LogIn(string Username, string Password)
@@ -40,7 +38,7 @@ namespace DocuitWeb.Data
             login.Password = Password;
 
             httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/login");
-
+            
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json");
 
@@ -53,7 +51,8 @@ namespace DocuitWeb.Data
                 login_response = JsonConvert.DeserializeObject<Login>(responseBody);
                 if (login_response != null)
                 {
-                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _protectedStorage.GetAsync<string>("Token").ToString());
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", login_response.Token);
+                    _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 }
                 
                 return await Task.FromResult(login_response);
@@ -72,18 +71,16 @@ namespace DocuitWeb.Data
         public async Task<IEnumerable<BuildingTypeProject>> FetchGetAllAsync()
         {
             BuildingType obj = new BuildingType();
-            HttpClient httpClient = new HttpClient();
+            
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
             obj.CompanyId = _appSettings.CompanyId;
 
-            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/GetAll");
+            _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/GetAll");
 
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
 
-            var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
-
+            var response = await _httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
             try
             {
                 response.EnsureSuccessStatusCode();
@@ -99,15 +96,15 @@ namespace DocuitWeb.Data
         public async Task<BuildingTypeProject> PutAsync(BuildingTypeProject obj)
         {
             obj.CompanyId = _appSettings.CompanyId;
-            HttpClient httpClient = new HttpClient();
+            
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
-            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
+            _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
 
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await httpClient.PutAsync(httpClient.BaseAddress, httpRequestMessage.Content);
+            HttpResponseMessage response = await _httpClient.PutAsync(_httpClient.BaseAddress, httpRequestMessage.Content);
             try
             {
                 response.EnsureSuccessStatusCode();

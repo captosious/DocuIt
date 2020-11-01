@@ -23,13 +23,10 @@ namespace DocuitWeb.Data
         public async Task<User> FetchAsync(User user)
         {
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
-
-            //user.CompanyId = _appSettings.CompanyId;
-            //user.Username = _appSettings.Username;
+            User return_user;
 
             _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/GetById");
 
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
             var response = await _httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
@@ -38,8 +35,8 @@ namespace DocuitWeb.Data
             {
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                user = JsonConvert.DeserializeObject<User>(responseBody);
-                return await Task.FromResult(user);
+                return_user = JsonConvert.DeserializeObject<User>(responseBody);
+                return await Task.FromResult(return_user);
             }
             catch
             {

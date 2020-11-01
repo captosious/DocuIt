@@ -27,9 +27,13 @@
     {
         Login login;
 
-        login = await MyStorageTools.BufferGetLocalStorageAsync();
-        ConnectedUser = login.Name + " " + login.FamilyName;
-        CompanyId = login.CompanyId;
-        if (firstRender) { StateHasChanged(); }
+        if (firstRender) {
+
+            login = await MyStorageTools.BufferGetLocalStorageAsync();
+            ConnectedUser = login.Name + " " + login.FamilyName;
+            CompanyId = login.CompanyId;
+            StateHasChanged();
+        }
+
     }
 }

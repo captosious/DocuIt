@@ -19,6 +19,7 @@ namespace DocuitWeb.Services
             await _protectedStorage.SetAsync("Name", login.Name);
             await _protectedStorage.SetAsync("FamilyName", login.FamilyName);
             await _protectedStorage.SetAsync("CompanyId", login.CompanyId.ToString());
+            await _protectedStorage.SetAsync("UserId", login.UserId.ToString());
             await _protectedStorage.SetAsync("Token", login.Token);
         } 
 
@@ -30,7 +31,8 @@ namespace DocuitWeb.Services
             login.Name = await _protectedStorage.GetAsync<string>("Name");
             login.FamilyName = await _protectedStorage.GetAsync<string>("FamilyName");
             int.TryParse(await _protectedStorage.GetAsync<string>("CompanyId"), out login.CompanyId);
-            
+            int.TryParse(await _protectedStorage.GetAsync<string>("UserId"), out login.UserId);
+
             return login;
         }
 
@@ -40,6 +42,7 @@ namespace DocuitWeb.Services
             _protectedStorage.DeleteAsync("Name");
             _protectedStorage.DeleteAsync("FamilyName");
             _protectedStorage.DeleteAsync("CompanyId");
+            _protectedStorage.DeleteAsync("UserId");
         }
     }
 }

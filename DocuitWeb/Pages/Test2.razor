@@ -1,0 +1,19 @@
+﻿@page "/test2"
+@using DocuitWeb.Models
+@using DocuitWeb.Data
+
+@inject IStringLocalizer<User> Localizer
+
+@inject UserService UserService
+@inject SecurityService SecurityService
+
+
+    <AuthorizeView Policy="administrator">
+        <Authorized>
+            <p>Ets un Administrador</p>
+
+        </Authorized>
+        <NotAuthorized>
+            <NotAuthorizedPage></NotAuthorizedPage>
+        </NotAuthorized>
+    </AuthorizeView>

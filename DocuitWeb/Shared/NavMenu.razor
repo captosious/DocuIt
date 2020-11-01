@@ -1,116 +1,118 @@
 ﻿@inject AccessService AccessService;
 @using Microsoft.AspNetCore.Identity;
 @inject AuthenticationStateProvider AuthenStateProv;
- 
-    <nav class="navbar navbar-expand-md navbar-dark">
-        <a href="#" class="navbar-brand">Docu<b>it</b></a>
-        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <!-- Collection of nav links, forms, and other content for toggling -->
-        <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
-            <div class="navbar-nav">
-                <a href="/" class="nav-item nav-link">@SharedLocalizer["MSG001"]</a>
-                <div class="nav-item dropdown">
-                    <a href="" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle">@SharedLocalizer["MSG002"]</a>
-                    <div class="dropdown-menu">
-                        <a href="Configuration" class="dropdown-item">@SharedLocalizer["MSG007"]</a>
-                        <a href="User" class="dropdown-item">@SharedLocalizer["MSG006"]</a>
-                    </div>
-                </div>
+@inject NavigationManager Navigation;
 
-                <div class="nav-item dropdown">
-                    <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle">@SharedLocalizer["MSG003"]</a>
-                    <div class="dropdown-menu">
-                        <a href="ProjectsPage" class="dropdown-item">@SharedLocalizer["MSG003"]</a>
-                        <a href="DossiersPage" class="dropdown-item">@SharedLocalizer["MSG004"]</a>
-                    </div>
+<nav class="navbar navbar-expand-md navbar-dark">
+    <a href="#" class="navbar-brand">Docu<b>it</b></a>
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Collection of nav links, forms, and other content for toggling -->
+    <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+        <div class="navbar-nav">
+            <a href="/" class="nav-item nav-link">@SharedLocalizer["MSG001"]</a>
+            <div class="nav-item dropdown">
+                <a href="" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle">@SharedLocalizer["MSG002"]</a>
+                <div class="dropdown-menu">
+                    <a href="Configuration" class="dropdown-item">@SharedLocalizer["MSG007"]</a>
+                    <a href="User" class="dropdown-item">@SharedLocalizer["MSG006"]</a>
                 </div>
-                <a asp-controller="" asp-action="" class="nav-item nav-link">@SharedLocalizer["MSG005"]</a>
-                <a href="Test" class="nav-item nav-link">Testing</a>
-                @*<a href="WorkingCenter" class="nav-item nav-link">TesterA</a>*@
             </div>
-            <AuthorizeView>
-                <Authorized>
-                    <div class="navbar-nav ml-auto action-buttons">
-                        <div class="nav-item dropdown">
-                            <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle mr-4">
-                                <i class="fa fa-user-circle" aria-hidden="true" style="margin-right: 3px;"></i>@CompleteUserName
-                            </a>
-                            <div class="dropdown-menu action-form" style="text-align:center">
-                                <a href="Profile" class="dropdown-item">@SharedLocalizer["LOGIN_PROFILE"]</a>
-                                <br />
-                                <button class="btn btn_general btn-success" style="width:100%;" @onclick="LogOutMe">@SharedLocalizer["MSG104"]</button>
-                            </div>
-                        </div>
-                    </div>
-                </Authorized>
-                <NotAuthorized>
-                    <div class="navbar-nav ml-auto action-buttons">
-                        <div class="nav-item dropdown">
-                            <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle mr-4">
-                                <i class="fa fa-sign-out-alt" aria-hidden="true" style="margin-right: 3px;"></i>@SharedLocalizer["MSG103"]
-                            </a>
-                            <div class="dropdown-menu action-form">
 
-                                <p class="hint-text">@SharedLocalizer["MSG105"]</p>
-                                <div class="form-group">
-                                    <input type="text" @bind="@UserName" class="form-control" placeholder="@SharedLocalizer["MSG101"]" required="required">
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group" id="show_hide_password">
-                                        <input name="Password" @bind="@Password" type="password" class="form-control" placeholder="@SharedLocalizer["MSG102"]" required="required">
-                                    </div>
-                                </div>
-                                <button class="btn btn_general btn-success" style="width:100%;" @onclick="LogInMe">@SharedLocalizer["MSG106"]</button>
-                            </div>
-                        </div>
-                    </div>
-                </NotAuthorized>
-            </AuthorizeView>
+            <div class="nav-item dropdown">
+                <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle">@SharedLocalizer["MSG003"]</a>
+                <div class="dropdown-menu">
+                    <a href="ProjectsPage" class="dropdown-item">@SharedLocalizer["MSG003"]</a>
+                    <a href="DossiersPage" class="dropdown-item">@SharedLocalizer["MSG004"]</a>
+                </div>
+            </div>
+            <a asp-controller="" asp-action="" class="nav-item nav-link">@SharedLocalizer["MSG005"]</a>
+            <a href="Test" class="nav-item nav-link">Testing</a>
+            <a href="Test2" class="nav-item nav-link">Testing2</a>
+            @*<a href="WorkingCenter" class="nav-item nav-link">TesterA</a>*@
         </div>
-    </nav>
+        <AuthorizeView>
+            <Authorized>
+                <div class="navbar-nav ml-auto action-buttons">
+                    <div class="nav-item dropdown">
+                        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle mr-4">
+                            <i class="fa fa-user-circle" aria-hidden="true" style="margin-right: 3px;"></i>@CompleteUserName
+                        </a>
+                        <div class="dropdown-menu action-form" style="text-align:center">
+                            <a href="Profile" class="dropdown-item">@SharedLocalizer["LOGIN_PROFILE"]</a>
+                            <br />
+                            <button class="btn btn_general btn-success" style="width:100%;" @onclick="LogOutMe">@SharedLocalizer["MSG104"]</button>
+                        </div>
+                    </div>
+                </div>
+            </Authorized>
+            <NotAuthorized>
+                <div class="navbar-nav ml-auto action-buttons">
+                    <div class="nav-item dropdown">
+                        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle mr-4">
+                            <i class="fa fa-sign-out-alt" aria-hidden="true" style="margin-right: 3px;"></i>@SharedLocalizer["MSG103"]
+                        </a>
+                        <div class="dropdown-menu action-form">
 
-    @code {
-        private bool collapseNavMenu = true;
-        private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+                            <p class="hint-text">@SharedLocalizer["MSG105"]</p>
+                            <div class="form-group">
+                                <input type="text" @bind="@UserName" class="form-control" placeholder="@SharedLocalizer["MSG101"]" required="required">
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group" id="show_hide_password">
+                                    <input name="Password" @bind="@Password" type="password" class="form-control" placeholder="@SharedLocalizer["MSG102"]" required="required">
+                                </div>
+                            </div>
+                            <button class="btn btn_general btn-success" style="width:100%;" @onclick="LogInMe">@SharedLocalizer["MSG106"]</button>
+                        </div>
+                    </div>
+                </div>
+            </NotAuthorized>
+        </AuthorizeView>
+    </div>
+</nav>
 
-        private string Password { get; set; }
-        private string UserName { get; set; }
+@code {
+    private bool collapseNavMenu = true;
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-        private User user;
-        private string CompleteUserName { get; set; }
+    private string Password { get; set; }
+    private string UserName { get; set; }
 
-        private void ToggleNavMenu()
+    private User user;
+    private string CompleteUserName { get; set; }
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    private async void LogInMe()
+    {
+        Login login = await AccessService.LogIn(UserName, Password);
+
+        if (login != null)
         {
-            collapseNavMenu = !collapseNavMenu;
+            ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsAuthenticated(UserName, login.SecurityId.ToString());
+            // Save in Local Storage User Information
+            //await ProtectedLocalStorage.SetAsync("UserName", currentCount);
+            await MyStorageTools.BufferPutLocalStorageAsync(login);
+            CompleteUserName = login.Name + " " + login.FamilyName;
+            toastService.ShowSuccess(SharedLocalizer["LOGIN_SUCCESS"], SharedLocalizer["LOGIN_TITLE"]);
         }
-
-        private async void LogInMe()
-        {
-            Login login = await AccessService.LogIn(UserName, Password);
-
-            if (login != null)
-            {
-                ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsAuthenticated(UserName);
-                // Save in Local Storage User Information
-                //await ProtectedLocalStorage.SetAsync("UserName", currentCount);
-                await MyStorageTools.BufferPutLocalStorageAsync(login);
-                CompleteUserName = login.Name + " " + login.FamilyName;
-                toastService.ShowSuccess(SharedLocalizer["LOGIN_SUCCESS"], SharedLocalizer["LOGIN_TITLE"]);
-            }
-            else
-            {
-                ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsNotAuthenticated();
-                toastService.ShowError(SharedLocalizer["LOGIN_CREDENTIALS_ERROR"], SharedLocalizer["LOGIN_TITLE_ERROR"]);
-                MyStorageTools.BufferClear();
-            }
-            StateHasChanged();
-        }
-
-        private void LogOutMe()
+        else
         {
             ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsNotAuthenticated();
+            toastService.ShowError(SharedLocalizer["LOGIN_CREDENTIALS_ERROR"], SharedLocalizer["LOGIN_TITLE_ERROR"]);
         }
+        StateHasChanged();
     }
- 
+
+    private void LogOutMe()
+    {
+        ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsNotAuthenticated();
+        MyStorageTools.BufferClear();
+        Navigation.NavigateTo("/");
+    }
+}

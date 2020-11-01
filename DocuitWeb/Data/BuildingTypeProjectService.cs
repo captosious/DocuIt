@@ -13,10 +13,12 @@ namespace DocuitWeb.Data
     {
         private AppSettings _appSettings;
         private string _resource = "/buildingtypeproject";
+        private HttpClient _httpClient;
 
-        public BuildingTypeProjectService(AppSettings appSettings)
+        public BuildingTypeProjectService(AppSettings appSettings, HttpClient httpClient)
         {
             _appSettings = appSettings;
+            _httpClient = httpClient;
         }
 
         public async Task<IEnumerable<BuildingTypeProject>> FetchGetAllAsync()
@@ -30,7 +32,6 @@ namespace DocuitWeb.Data
             httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/GetAll");
 
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
 
             var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
 
