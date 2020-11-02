@@ -41,6 +41,10 @@
         <value>Mot Clau</value>
     </data>
     
+    <data name="PasswordNew" xml:space="preserve">
+        <value>Nou mot clau</value>
+    </data>
+    
     <data name="SecurityID" xml:space="preserve">
         <value>Nivell de Seguretat</value>
     </data>

@@ -89,6 +89,12 @@ namespace DocuitWeb.Resources.Pages {
             }
         }
         
+        internal static string PasswordNew {
+            get {
+                return ResourceManager.GetString("PasswordNew", resourceCulture);
+            }
+        }
+        
         internal static string SecurityID {
             get {
                 return ResourceManager.GetString("SecurityID", resourceCulture);

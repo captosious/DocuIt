@@ -12,6 +12,8 @@ namespace DocuitWeb.Data
     public class StatusService
     {
         private AppSettings _appSettings;
+        private HttpClient _httpClient;
+        private string _resource = "/status";
 
         public StatusService(AppSettings appSettings)
         {
@@ -22,16 +24,12 @@ namespace DocuitWeb.Data
         {
             IEnumerable<Status> status_list = new List<Status>();
 
-            HttpClient httpClient = new HttpClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
-            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + "/status");
-
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(status_list), Encoding.UTF8, "application/json");
 
-            var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
-
+            var response = await _httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
             try
             {
                 response.EnsureSuccessStatusCode();

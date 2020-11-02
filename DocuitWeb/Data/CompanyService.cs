@@ -12,26 +12,25 @@ namespace DocuitWeb.Data
     {
         private AppSettings _appSettings;
         private string _resource = "/company";
+        private HttpClient _httpClient;
 
-        public CompanyService(AppSettings appSettings)
+        public CompanyService(AppSettings appSettings, HttpClient httpClient)
         {
             _appSettings = appSettings;
+            _httpClient = httpClient;
         } 
 
         public async Task<Company> FetchAsync()
         {
             Company company = new Company();
-            HttpClient httpClient = new HttpClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
             company.CompanyId = _appSettings.CompanyId;
 
-            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
-
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(company), Encoding.UTF8, "application/json");
 
-            var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
+            var response = await _httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
 
             try
             {
@@ -49,15 +48,12 @@ namespace DocuitWeb.Data
         public async Task<Company> PutAsync(Company company)
         {
             company.CompanyId = _appSettings.CompanyId;
-            HttpClient httpClient = new HttpClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
-            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
-
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(company), Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await httpClient.PutAsync(httpClient.BaseAddress, httpRequestMessage.Content);
+            HttpResponseMessage response = await _httpClient.PutAsync(_httpClient.BaseAddress, httpRequestMessage.Content);
             try
             {
                 response.EnsureSuccessStatusCode();

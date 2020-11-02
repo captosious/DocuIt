@@ -9,6 +9,7 @@ namespace DocuItService.Controllers
     [Route("[controller]")]
     [Produces("application/json")]
     [ApiController]
+    [Microsoft.AspNetCore.Authorization.Authorize]
 
     public class CompanyController : ControllerBase
     {

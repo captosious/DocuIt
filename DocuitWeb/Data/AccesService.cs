@@ -14,9 +14,9 @@ namespace DocuitWeb.Data
     public class AccessService
     {
         private AppSettings _appSettings;
+        private HttpClient _httpClient;
         private string _resource = "/auth";
-        private HttpClient _httpClient; 
-       
+
         public AccessService(AppSettings appSettings, HttpClient httpClient)
         {
             _appSettings = appSettings;
@@ -25,7 +25,6 @@ namespace DocuitWeb.Data
 
         public async Task<Login> LogIn(string Username, string Password)
         {
-
             Login login = new Login();
             Login login_response = new Login();
             IdentityUser user = new IdentityUser();
@@ -38,12 +37,10 @@ namespace DocuitWeb.Data
             login.Password = Password;
 
             httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/login");
-            
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json");
 
             var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
-
             try
             {
                 response.EnsureSuccessStatusCode();
@@ -54,7 +51,6 @@ namespace DocuitWeb.Data
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", login_response.Token);
                     _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 }
-                
                 return await Task.FromResult(login_response);
             }
             catch
@@ -71,13 +67,11 @@ namespace DocuitWeb.Data
         public async Task<IEnumerable<BuildingTypeProject>> FetchGetAllAsync()
         {
             BuildingType obj = new BuildingType();
-            
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
             obj.CompanyId = _appSettings.CompanyId;
 
             _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/GetAll");
-
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
 
             var response = await _httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
@@ -101,7 +95,6 @@ namespace DocuitWeb.Data
 
             _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
 
-            
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await _httpClient.PutAsync(_httpClient.BaseAddress, httpRequestMessage.Content);

@@ -11,9 +11,9 @@ namespace DocuitWeb.Data
     public class UserService
     {
         private AppSettings _appSettings;
-        private string _resource = "/user";
         private HttpClient _httpClient;
-
+        private string _resource = "/user";
+        
         public UserService(AppSettings appSettings, HttpClient httpClient)
         {
             _appSettings = appSettings;

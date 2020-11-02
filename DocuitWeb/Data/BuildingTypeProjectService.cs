@@ -12,8 +12,9 @@ namespace DocuitWeb.Data
     public class BuildingTypeProjectService
     {
         private AppSettings _appSettings;
-        private string _resource = "/buildingtypeproject";
         private HttpClient _httpClient;
+        private string _resource = "/buildingtypeproject";
+        
 
         public BuildingTypeProjectService(AppSettings appSettings, HttpClient httpClient)
         {
