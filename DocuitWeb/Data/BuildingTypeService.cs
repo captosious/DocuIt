@@ -12,7 +12,7 @@ namespace DocuitWeb.Data
     public class BuildingTypeService
     {
         private AppSettings _appSettings;
-        private HttpClient _httpClient;
+        private readonly HttpClient _httpClient;
         private string _resource = "/buildingtype";
 
         public BuildingTypeService(AppSettings appSettings, HttpClient httpClient)

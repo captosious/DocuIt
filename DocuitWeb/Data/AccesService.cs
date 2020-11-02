@@ -20,7 +20,7 @@ namespace DocuitWeb.Data
         public AccessService(AppSettings appSettings, HttpClient httpClient)
         {
             _appSettings = appSettings;
-            _httpClient=  httpClient;
+            _httpClient =  httpClient;
         }
 
         public async Task<Login> LogIn(string Username, string Password)

@@ -12,7 +12,7 @@ namespace DocuitWeb.Data
     public class WorkingCenterService
     {
         private AppSettings _appSettings;
-        private HttpClient _httpClient;
+        private readonly HttpClient _httpClient;
         private string _resource = "/workingcenter";
 
         public WorkingCenterService(AppSettings appSettings, HttpClient httpClient)

@@ -6,14 +6,7 @@
 
 
 <h3 class="PageHeader">@Localizer["title"]</h3>
-<DataGrid TItem="DocuitWeb.Models.WorkingCenter" Data="@objList" @bind-SelectedRow="@obj" RowClicked="@Edit" Editable="false" Filterable="true" Sortable="true" ShowPager="true" PageSize="5" Narrow="true" Hoverable="true">
 
-    <DataGridCommandColumn TItem="DocuitWeb.Models.WorkingCenter">
-        <DataGridColumn Width="100px" TItem="DocuitWeb.Models.WorkingCenter" Field="@nameof(DocuitWeb.Models.WorkingCenter.Id)" Caption="@Localizer["id"]" TextAlignment="TextAlignment.Left" />
-        <DataGridColumn TItem="DocuitWeb.Models.WorkingCenter" Field="@nameof(DocuitWeb.Models.WorkingCenter.Name)" Caption="@Localizer["description"]" TextAlignment="TextAlignment.Justified" />
-    </DataGridCommandColumn>
-    
-</DataGrid>
 
 
 <div class="d-flex justify-content-center">
@@ -53,7 +46,7 @@
 </Modal>
 @code
 {
-    IEnumerable<DocuitWeb.Models.WorkingCenter> objList = new List<DocuitWeb.Models.WorkingCenter>();
+    IEnumerable<DocuitWeb.Models.WorkingCenter> objList2 = new List<DocuitWeb.Models.WorkingCenter>();
     DocuitWeb.Models.WorkingCenter obj = new DocuitWeb.Models.WorkingCenter();
     DocuitWeb.Models.WorkingCenter objEdit = new DocuitWeb.Models.WorkingCenter();
 
@@ -63,10 +56,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        myBlocker.Show();
-        objList = await WorkingCenterService.FetchGetAllAsync();
-        if (objList == null) { toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]); }
-        myBlocker.Hide();
+        //myBlocker.Show();
+        objList2 = await WorkingCenterService.FetchGetAllAsync();
+        if (objList2 == null) { toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]); }
+        //myBlocker.Hide();
     }
 
     private void Edit()
