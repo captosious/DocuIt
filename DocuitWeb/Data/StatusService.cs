@@ -12,24 +12,25 @@ namespace DocuitWeb.Data
     public class StatusService
     {
         private AppSettings _appSettings;
-        private HttpClient _httpClient;
+        private MyHttp _myHttp;
         private string _resource = "/status";
 
-        public StatusService(AppSettings appSettings)
+        public StatusService(AppSettings appSettings, MyHttp myHttp)
         {
             _appSettings = appSettings;
+            _myHttp = myHttp;
         }
 
         public async Task<IEnumerable<Status>> FetchGetAllAsync()
         {
             IEnumerable<Status> status_list = new List<Status>();
-
+            HttpClient httpClient = _myHttp.GetClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
-            _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(status_list), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
+            var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
             try
             {
                 response.EnsureSuccessStatusCode();

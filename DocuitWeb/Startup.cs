@@ -23,6 +23,7 @@ using System.Net.Http;
 using Microsoft.AspNetCore.Components.Authorization;
 using DocuitWeb.Services;
 using System.Security.Claims;
+using System.Net.Http.Headers;
 
 namespace DocuitWeb
 {
@@ -89,6 +90,15 @@ namespace DocuitWeb
                     options.AddPolicy("guest", policy => policy.RequireClaim(ClaimTypes.Role, "3"));
                 }
             );
+
+            services.AddHttpClient("DocuItService", options =>
+                {
+                    options.BaseAddress = new Uri(Configuration["AppSettings:DocuItServiceServer"]);
+                    options.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                }
+             );
+
+            services.AddSingleton<MyHttp>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -107,7 +117,7 @@ namespace DocuitWeb
             
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+           
             app.UseRouting();
 
             app.ApplicationServices.UseBootstrapProviders();
@@ -128,8 +138,6 @@ namespace DocuitWeb
             });
             app.UseAuthentication();
             app.UseAuthorization();
-
-           
 
             app.UseEndpoints(endpoints =>
             {

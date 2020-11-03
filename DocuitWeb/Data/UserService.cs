@@ -11,25 +11,26 @@ namespace DocuitWeb.Data
     public class UserService
     {
         private AppSettings _appSettings;
-        private HttpClient _httpClient;
+        private MyHttp _myHttp;
         private string _resource = "/user";
         
-        public UserService(AppSettings appSettings, HttpClient httpClient)
+        public UserService(AppSettings appSettings, MyHttp myHttp)
         {
             _appSettings = appSettings;
-            _httpClient = httpClient;
+            _myHttp = myHttp;
         }
 
         public async Task<User> FetchAsync(User user)
         {
+            HttpClient httpClient = _myHttp.GetClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
             User return_user;
 
-            _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/GetById");
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/GetById");
 
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
+            var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
 
             try
             {
@@ -47,22 +48,22 @@ namespace DocuitWeb.Data
         public async Task<User> PutAsync(User user)
         {
             user.CompanyId = _appSettings.CompanyId;
-            
+            HttpClient httpClient = _myHttp.GetClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
-            _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
-
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await _httpClient.PutAsync(_httpClient.BaseAddress, httpRequestMessage.Content);
+            HttpResponseMessage response = await httpClient.PutAsync(httpClient.BaseAddress, httpRequestMessage.Content);
             try
             {
                 response.EnsureSuccessStatusCode();
+                httpClient.Dispose();
                 return await Task.FromResult(user);
             }
             catch
             {
+                httpClient.Dispose();
                 return null;
             }
         }

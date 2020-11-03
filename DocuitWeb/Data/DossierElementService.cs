@@ -12,27 +12,26 @@ namespace DocuitWeb.Data
     public class DossierElementService
     {
         private AppSettings _appSettings;
-        private HttpClient _httpClient;
+        private MyHttp _myHttp;
         private string _resource = "/dossierelement";
 
-        public DossierElementService(AppSettings appSettings, HttpClient httpClient)
+        public DossierElementService(AppSettings appSettings, MyHttp myHttp)
         {
             _appSettings = appSettings;
-            _httpClient = httpClient;
+            _myHttp = myHttp;
         }
 
         public async Task<IEnumerable<DossierElement>> FetchGetAllAsync(Dossier dossier)
         {
             List<DossierElement> dossierElements = new List<DossierElement>();
-            
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+            HttpClient httpClient = _myHttp.GetClient();
 
-            _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/getall");
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/getall");
 
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(dossier), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
+            var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
 
             try
             {

@@ -12,35 +12,37 @@ namespace DocuitWeb.Data
     public class BuildingTypeService
     {
         private AppSettings _appSettings;
-        private readonly HttpClient _httpClient;
+        private MyHttp _myHttp;
         private string _resource = "/buildingtype";
 
-        public BuildingTypeService(AppSettings appSettings, HttpClient httpClient)
+        public BuildingTypeService(AppSettings appSettings ,MyHttp myHttp)
         {
             _appSettings = appSettings;
-            _httpClient = httpClient;
+            
         }
 
         public async Task<IEnumerable<BuildingType>> FetchGetAllAsync()
         {
             BuildingType obj = new BuildingType();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
-
+            HttpClient httpClient = _myHttp.GetClient();
             obj.CompanyId = _appSettings.CompanyId;
 
-            _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/GetAll");
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/GetAll");
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
+            var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
 
             try
             {
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                httpClient.Dispose();
                 return await Task.FromResult(JsonConvert.DeserializeObject<List<BuildingType>>(responseBody));
             }
             catch
             {
+                httpClient.Dispose();
                 return null;
             }
         }
@@ -48,12 +50,15 @@ namespace DocuitWeb.Data
         public async Task<BuildingType> PutAsync(BuildingType obj)
         {
             obj.CompanyId = _appSettings.CompanyId;
+            HttpClient httpClient = new HttpClient(); 
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
-            _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
+            httpClient = _myHttp.GetClient();
+
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await _httpClient.PutAsync(_httpClient.BaseAddress, httpRequestMessage.Content);
+            HttpResponseMessage response = await httpClient.PutAsync(httpClient.BaseAddress, httpRequestMessage.Content);
             try
             {
                 response.EnsureSuccessStatusCode();

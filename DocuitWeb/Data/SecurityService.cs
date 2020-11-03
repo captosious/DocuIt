@@ -12,25 +12,25 @@ namespace DocuitWeb.Data
     public class SecurityService
     {
         private AppSettings _appSettings;
-        private HttpClient _httpClient;
+        private MyHttp _myHttp;
         private string _resource = "/security";
 
-        public SecurityService(AppSettings appSettings, HttpClient httpClient)
+        public SecurityService(AppSettings appSettings, MyHttp myHttp)
         {
             _appSettings = appSettings;
-            _httpClient = httpClient;
+            _myHttp = myHttp;
         }
 
         public async Task<IEnumerable<Security>> FetchAsync()
         {
             IEnumerable<Security> securities = new List<Security>();
-
+            HttpClient httpClient = _myHttp.GetClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
-            _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(securities), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
+            var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
             try
             {
                 response.EnsureSuccessStatusCode();

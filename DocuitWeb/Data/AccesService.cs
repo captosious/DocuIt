@@ -8,6 +8,7 @@ using DocuitWeb.Models;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ProtectedBrowserStorage;
+using Microsoft.Extensions.Configuration;
 
 namespace DocuitWeb.Data
 {
@@ -16,11 +17,17 @@ namespace DocuitWeb.Data
         private AppSettings _appSettings;
         private HttpClient _httpClient;
         private string _resource = "/auth";
+        //private IHttpClientFactory _factoryhttp;
+        private MyHttp _myHttp;
 
-        public AccessService(AppSettings appSettings, HttpClient httpClient)
+        public AccessService(AppSettings appSettings, MyHttp myHttp)
         {
             _appSettings = appSettings;
-            _httpClient =  httpClient;
+            //_factoryhttp = factoryhttp;
+            //_httpClient = httpClient;
+            _myHttp = myHttp;
+
+
         }
 
         public async Task<Login> LogIn(string Username, string Password)
@@ -29,17 +36,16 @@ namespace DocuitWeb.Data
             Login login_response = new Login();
             IdentityUser user = new IdentityUser();
 
-            HttpClient httpClient = new HttpClient();
+            HttpClient httpClient = _myHttp.GetClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
             login.CompanyId = _appSettings.CompanyId;
             login.UserName = Username;
             login.Password = Password;
+            
 
             httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/login");
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json");
-
             var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
             try
             {
@@ -48,9 +54,10 @@ namespace DocuitWeb.Data
                 login_response = JsonConvert.DeserializeObject<Login>(responseBody);
                 if (login_response != null)
                 {
-                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", login_response.Token);
-                    _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    _myHttp.Token = login_response.Token;
+                   //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", login_response.Token); 
                 }
+                httpClient.Dispose();
                 return await Task.FromResult(login_response);
             }
             catch

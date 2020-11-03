@@ -12,30 +12,25 @@ namespace DocuitWeb.Data
     public class BuildingTypeProjectService
     {
         private AppSettings _appSettings;
-        private HttpClient _httpClient;
+        private MyHttp _myHttp;
         private string _resource = "/buildingtypeproject";
         
-
-        public BuildingTypeProjectService(AppSettings appSettings, HttpClient httpClient)
+        public BuildingTypeProjectService(AppSettings appSettings, MyHttp myHttp)
         {
             _appSettings = appSettings;
-            _httpClient = httpClient;
+            _myHttp = myHttp;
         }
 
         public async Task<IEnumerable<BuildingTypeProject>> FetchGetAllAsync()
         {
             BuildingType obj = new BuildingType();
-            HttpClient httpClient = new HttpClient();
+            HttpClient httpClient = _myHttp.GetClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
             obj.CompanyId = _appSettings.CompanyId;
 
             httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/GetAll");
-
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
             var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
-
             try
             {
                 response.EnsureSuccessStatusCode();
@@ -51,12 +46,10 @@ namespace DocuitWeb.Data
         public async Task<BuildingTypeProject> PutAsync(BuildingTypeProject obj)
         {
             obj.CompanyId = _appSettings.CompanyId;
-            HttpClient httpClient = new HttpClient();
+            HttpClient httpClient = _myHttp.GetClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
             httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
-
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await httpClient.PutAsync(httpClient.BaseAddress, httpRequestMessage.Content);

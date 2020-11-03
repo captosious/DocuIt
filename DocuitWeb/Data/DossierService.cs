@@ -13,37 +13,35 @@ namespace DocuitWeb.Data
     {
         private AppSettings _appSettings;
         private string _resource = "/dossier";
-        private HttpClient _httpClient;
+        private MyHttp _myHttp;
 
-        public DossierService(AppSettings appSettings, HttpClient httpClient)
+        public DossierService(AppSettings appSettings, MyHttp myHttp)
         {
             _appSettings = appSettings;
-            _httpClient = httpClient;
+            _myHttp = myHttp;
         }
 
         public async Task<IEnumerable<Dossier>> FetchGetAllAsync(Project project)
         {
             List<Dossier> dossiers = new List<Dossier>();
-            
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
-
+            HttpClient httpClient = _myHttp.GetClient();
             
-            _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/getall");
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/getall");
 
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(project), Encoding.UTF8, "application/json");
-
-            var response = await _httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
-
+            var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
             try
             {
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 dossiers = JsonConvert.DeserializeObject<List<Dossier>>(responseBody);
+                httpClient.Dispose();
                 return await Task.FromResult(dossiers);
             }
             catch
             {
+                httpClient.Dispose();
                 return null;
             }
         }
@@ -55,18 +53,18 @@ namespace DocuitWeb.Data
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
             httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
-
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(dossier), Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await httpClient.PutAsync(httpClient.BaseAddress, httpRequestMessage.Content);
             try
             {
                 response.EnsureSuccessStatusCode();
+                httpClient.Dispose();
                 return await Task.FromResult(dossier);
             }
             catch
             {
+                httpClient.Dispose();
                 return null;
             }
         }

@@ -12,30 +12,28 @@ namespace DocuitWeb.Data
     public class ProjectService
     {
         private AppSettings _appSettings;
-        private HttpClient _httpClient;
+        private MyHttp _myHttp;
         private string _resource = "/project";
 
-        public ProjectService(AppSettings appSettings, HttpClient httpClient)
+        public ProjectService(AppSettings appSettings, MyHttp myHttp)
         {
             _appSettings = appSettings;
-            _httpClient = httpClient;
+            _myHttp = myHttp;
         }
 
         public async Task<IEnumerable<Project>> FetchGetAllAsync()
         {
             List<Project> projects = new List<Project>();
             Project project = new Project();
-
+            HttpClient httpClient = _myHttp.GetClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
             project.CompanyId = _appSettings.CompanyId;
 
-            _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/getall");
-
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/getall");
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(project), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
+            var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
 
             try
             {
@@ -53,15 +51,13 @@ namespace DocuitWeb.Data
         public async Task<Project> PutAsync(Project project)
         {
             project.CompanyId = _appSettings.CompanyId;
-            
+            HttpClient httpClient = _myHttp.GetClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
-            _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
-
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(project), Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await _httpClient.PutAsync(_httpClient.BaseAddress, httpRequestMessage.Content);
+            HttpResponseMessage response = await httpClient.PutAsync(httpClient.BaseAddress, httpRequestMessage.Content);
             try
             {
                 response.EnsureSuccessStatusCode();

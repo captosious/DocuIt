@@ -12,34 +12,38 @@ namespace DocuitWeb.Data
     public class WorkingCenterService
     {
         private AppSettings _appSettings;
-        private readonly HttpClient _httpClient;
+        //private readonly HttpClient _httpClient;
+        private MyHttp _myHttp;
         private string _resource = "/workingcenter";
 
-        public WorkingCenterService(AppSettings appSettings, HttpClient httpClient)
+        public WorkingCenterService(AppSettings appSettings, MyHttp myHttp)
         {
             _appSettings = appSettings;
-            _httpClient = httpClient;
+            _myHttp = myHttp;
         }
 
         public async Task<IEnumerable<WorkingCenter>> FetchGetAllAsync()
         {
             WorkingCenter obj = new WorkingCenter();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+            HttpClient httpClient = _myHttp.GetClient();
 
             obj.CompanyId = _appSettings.CompanyId;
 
-            _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/GetAll");
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/GetAll");
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
+            var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
             try
             {
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                
                 return await Task.FromResult(JsonConvert.DeserializeObject<List<WorkingCenter>>(responseBody));
             }
             catch
             {
+                
                 return null;
             }
         }
@@ -47,11 +51,12 @@ namespace DocuitWeb.Data
         public async Task<WorkingCenter> PutAsync(WorkingCenter obj)
         {
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+            HttpClient httpClient = _myHttp.GetClient();
 
-            _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await _httpClient.PutAsync(_httpClient.BaseAddress, httpRequestMessage.Content);
+            HttpResponseMessage response = await httpClient.PutAsync(httpClient.BaseAddress, httpRequestMessage.Content);
             try
             {
                 response.EnsureSuccessStatusCode();

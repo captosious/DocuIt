@@ -12,25 +12,25 @@ namespace DocuitWeb.Data
     {
         private AppSettings _appSettings;
         private string _resource = "/company";
-        private HttpClient _httpClient;
+        private MyHttp _myHttp;
 
-        public CompanyService(AppSettings appSettings, HttpClient httpClient)
+        public CompanyService(AppSettings appSettings, MyHttp myHttp)
         {
             _appSettings = appSettings;
-            _httpClient = httpClient;
+            _myHttp = myHttp;
         } 
 
         public async Task<Company> FetchAsync()
         {
             Company company = new Company();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
-
+            HttpClient httpClient = _myHttp.GetClient();
             company.CompanyId = _appSettings.CompanyId;
 
-            _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(company), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
+            var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
 
             try
             {
@@ -49,11 +49,12 @@ namespace DocuitWeb.Data
         {
             company.CompanyId = _appSettings.CompanyId;
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+            HttpClient httpClient = _myHttp.GetClient();
 
-            _httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(company), Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await _httpClient.PutAsync(_httpClient.BaseAddress, httpRequestMessage.Content);
+            HttpResponseMessage response = await httpClient.PutAsync(httpClient.BaseAddress, httpRequestMessage.Content);
             try
             {
                 response.EnsureSuccessStatusCode();
