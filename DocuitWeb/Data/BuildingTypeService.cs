@@ -18,7 +18,7 @@ namespace DocuitWeb.Data
         public BuildingTypeService(AppSettings appSettings ,MyHttp myHttp)
         {
             _appSettings = appSettings;
-            
+            _myHttp = myHttp;
         }
 
         public async Task<IEnumerable<BuildingType>> FetchGetAllAsync()

@@ -26,8 +26,6 @@ namespace DocuitWeb.Data
             //_factoryhttp = factoryhttp;
             //_httpClient = httpClient;
             _myHttp = myHttp;
-
-
         }
 
         public async Task<Login> LogIn(string Username, string Password)

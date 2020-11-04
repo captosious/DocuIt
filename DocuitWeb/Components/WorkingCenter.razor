@@ -7,7 +7,14 @@
 
 <h3 class="PageHeader">@Localizer["title"]</h3>
 
-
+<DataGrid TItem="DocuitWeb.Models.WorkingCenter" Editable="false" Data="@objList2" @bind-SelectedRow="@obj" RowClicked="@Edit"
+          Filterable="true" Sortable="true"
+          ShowPager="true" PageSize="5" Narrow="true" Hoverable="true"
+          >
+    <DataGridCommandColumn TItem="DocuitWeb.Models.WorkingCenter" />
+    <DataGridColumn Width="100px" Readonly="true" TItem="DocuitWeb.Models.WorkingCenter" Field="@nameof(DocuitWeb.Models.WorkingCenter.Id)" Caption="@Localizer["id"]" TextAlignment="TextAlignment.Left" />
+    <DataGridColumn TItem="DocuitWeb.Models.WorkingCenter" Field="@nameof(DocuitWeb.Models.WorkingCenter.Name)" Caption="@Localizer["description"]" TextAlignment="TextAlignment.Justified" />
+</DataGrid>
 
 <div class="d-flex justify-content-center">
     <button class="btn btn_general btn-success" @onclick="Add">@SharedLocalizer["MSG_ADD"]</button>
@@ -109,5 +116,10 @@
         e.Cancel = false;
         IsNew = false;
         StateHasChanged();
+    }
+
+    private void OnSelectedRowStyling(DocuitWeb.Models.BuildingType obj, DataGridRowStyling styling)
+    {
+        styling.Background = Background.Info;
     }
 }

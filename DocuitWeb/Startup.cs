@@ -24,7 +24,6 @@ using Microsoft.AspNetCore.Components.Authorization;
 using DocuitWeb.Services;
 using System.Security.Claims;
 using System.Net.Http.Headers;
-using DocuItService.Data;
 
 namespace DocuitWeb
 {
@@ -48,15 +47,15 @@ namespace DocuitWeb
             //    new KeyInfo("45BLO2yoJkvBwz99kBEMlNkxvL40vUSGaqr/WBu3+Vg=", "Ou3fn+I9SVicGWMLkFEgZQ==")));
             
 
-            services.AddSingleton<CompanyService>();
-            services.AddSingleton<UserService>();
-            services.AddSingleton<SecurityService>();
-            services.AddSingleton<StatusService>();
-            services.AddSingleton<ProjectService>();
-            services.AddSingleton<DossierService>();
-            services.AddSingleton<DossierElementService>();
-            services.AddSingleton<WorkingCenterService>();
-            services.AddSingleton<BuildingTypeService>();
+            services.AddScoped<CompanyService>();
+            services.AddScoped<UserService>();
+            services.AddScoped<SecurityService>();
+            services.AddScoped<StatusService>();
+            services.AddScoped<ProjectService>();
+            services.AddScoped<DossierService>();
+            services.AddScoped<DossierElementService>();
+            services.AddScoped<WorkingCenterService>();
+            services.AddScoped<BuildingTypeService>();
             services.AddScoped<CustomAuthenticationStateProvider>();
             services.AddScoped<AccessService>();
             services.AddScoped<StorageTools>();
@@ -99,9 +98,9 @@ namespace DocuitWeb
                 }
              );
 
-            services.AddSingleton<MyHttp>();
+            services.AddScoped<MyHttp>();
 
-            services.AddSingleton<TestingService>();
+            services.AddScoped<TestingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
