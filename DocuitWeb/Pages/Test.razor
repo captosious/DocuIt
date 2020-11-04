@@ -1,6 +1,7 @@
 ﻿@page "/test"
 @using DocuitWeb.Models
 @using DocuitWeb.Data
+@inject TestingService testing 
 
 @inject IStringLocalizer<User> Localizer
 
@@ -12,6 +13,9 @@
 <h1>Cookie-Info</h1>
 <p>Connected User: @ConnectedUser</p>
 <p>CompanyId: @CompanyId</p>
+<p>Testing Value: @testing.CommonText </p>
+<p><input type="text" @bind="testing.CommonText" /></p>
+<button ></button>
 
 @code{
 
@@ -21,6 +25,11 @@
     protected override async Task OnInitializedAsync()
     {
 
+    }
+
+    protected void TimesTwo()
+    {
+        testing.CommonText = "";
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

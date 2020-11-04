@@ -24,6 +24,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using DocuitWeb.Services;
 using System.Security.Claims;
 using System.Net.Http.Headers;
+using DocuItService.Data;
 
 namespace DocuitWeb
 {
@@ -56,7 +57,7 @@ namespace DocuitWeb
             services.AddSingleton<DossierElementService>();
             services.AddSingleton<WorkingCenterService>();
             services.AddSingleton<BuildingTypeService>();
-            services.AddSingleton<CustomAuthenticationStateProvider>();
+            services.AddScoped<CustomAuthenticationStateProvider>();
             services.AddScoped<AccessService>();
             services.AddScoped<StorageTools>();
 
@@ -74,7 +75,7 @@ namespace DocuitWeb
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
-            services.AddSingleton<HttpClient>();
+            //services.AddSingleton<HttpClient>();
             services.AddProtectedBrowserStorage();
             services.AddAuthentication(options=>
                 {
@@ -99,6 +100,8 @@ namespace DocuitWeb
              );
 
             services.AddSingleton<MyHttp>();
+
+            services.AddSingleton<TestingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
