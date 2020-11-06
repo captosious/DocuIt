@@ -242,4 +242,7 @@
       <LastGenOutput>BuildingType.es-ES.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Properties\PublishProfiles\FolderProfile 12.pubxml" />
+  </ItemGroup>
 </Project>

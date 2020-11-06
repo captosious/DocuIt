@@ -13,27 +13,22 @@ namespace DocuitWeb.Models
     public class MyJSONPatch : IMyJSONPatch
     {
         string IMyJSONPatch.PatchDocument => throw new NotImplementedException();
-        IEnumerable list = new List();
+        Dictionary<string, string> dictionary = new Dictionary<string, string>();
 
         public string PatchDocument()
         {
-            throw new NotImplementedException();
+            string patchFile = "";
+
+            foreach (var keyValue in dictionary)
+            {
+                keyValue.Key = "";
+                keyValue.Value = "";
+            }
         }
-         
+        
         public void Values(string field, string value)
         {
-            throw new NotImplementedException();
-        }
-    }
-
-    internal class JSONPair
-    {
-        string field { get; set; }
-        string value { get; set; }
-
-        public JSONPair()
-        {
-             
+            dictionary.Add(field, value);
         }
     }
 }

@@ -95,14 +95,14 @@
 
     private async void LogInMe()
     {
-        Login login = await AccessService.LogIn(UserName, Password);
+        login = await AccessService.LogIn(UserName, Password);
 
         if (login != null)
         {
             ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsAuthenticated(UserName, login.SecurityId.ToString());
             // Save in Local Storage User Information
             //await ProtectedLocalStorage.SetAsync("UserName", currentCount);
-            await MyStorageTools.BufferPutLocalStorageAsync(login);
+            //await MyStorageTools.BufferPutLocalStorageAsync(login);
             CompleteUserName = login.Name + " " + login.FamilyName;
             toastService.ShowSuccess(SharedLocalizer["LOGIN_SUCCESS"], SharedLocalizer["LOGIN_TITLE"]);
         }
@@ -117,7 +117,7 @@
     private void LogOutMe()
     {
         ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsNotAuthenticated();
-        MyStorageTools.BufferClear();
+        //MyStorageTools.BufferClear();
         Navigation.NavigateTo("/");
     }
 }
