@@ -1,6 +1,6 @@
 ﻿namespace DocuitWeb.Models
 {
-    public partial class Login
+    public class Login
     {
         public  Login()
         {
@@ -19,7 +19,5 @@
         public bool Locked { get; set; }
         public bool LoggedIn { get; set; }
         public string Token { get; set; }
-
-
     }
 }

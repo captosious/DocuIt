@@ -6,59 +6,60 @@
 
 @inject UserService UserService
 @inject SecurityService SecurityService
-    
+@inject TestingService myLogin;
+
+<br>
+<div class="container text-left">
+    <h3 class="PageHeader">@Localizer["Title"]</h3>
     <br>
-    <div class="container text-left">
-        <h3 class="PageHeader">@Localizer["Title"]</h3>
-        <br>
-        <input type="hidden" name="CompanyId" @bind="@user.CompanyId" />
-        <div class="row">
-            <div class="col-4" style="text-align:right"><b>@Localizer["Name"]</b></div>
-            <div class="col-8"><input type="text" name="FiscalId" @bind="@user.Name" size="15" /></div>
-        </div>
-        <div class="row">
-            <div class="col-4" style="text-align:right"><b>@Localizer["FamilyName"]</b></div>
-            <div class="col-8"><input type="text" name="Name" @bind="@user.FamilyName" size="25" /></div>
-        </div>
-        <div class="row">
-            <div class="col-4" style="text-align:right"><b>@Localizer["Email"]</b></div>
-            <div class="col-8"><input type="text" name="Email" @bind="@user.Email" size="25" /></div>
-        </div>
-        <div class="row">
-            <div class="col-4" style="text-align:right"><b>@Localizer["Username"]</b></div>
-            <div class="col-8"><input type="text" disabled="disabled" @bind="@user.Username" size="30" /></div>
-        </div>
-        <div class="row">
-            <div class="col-4" style="text-align:right"><b>@Localizer["Password"]</b></div>
-            <div class="col-8"><input type="text" name="Town" @bind="@user.Password" size="15" /></div>
-        </div>
-        <div class="row">
-            <div class="col-4" style="text-align:right"><b>@Localizer["PasswordNew"]</b></div>
-            <div class="col-8"><input type="text" name="Town" @bind="@user.Password" size="15" /></div>
-        </div>
-        <div class="row">
-            <div class="col-4" style="text-align:right"><b>@Localizer["SecurityID"]</b></div>
-            <div class="col-8">
-                <select id="security_select" disabled="disabled" name="security_select" @bind="@user.SecurityId">
-                    @foreach (Security security in securities)
-                    {
-                        <option value="@security.SecurityId">@security.Description</option>
-                    }
-                </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-4" style="text-align:right"><b>@Localizer["CreatedOn"]</b></div>
-            <div class="col-8"><input type="text" name="ZipCode" @bind="@user.CreationTime" size="5" /></div>
-        </div>
-        <div class="row" style="margin-top: 15px;text-align: center">
-            <div class="col" style="text-align:center">
-                <button class="btn btn_general btn-success" @onclick="OnClickPutButton">@SharedLocalizer["MSG_SAVE"]</button>
-            </div>
+    <input type="hidden" name="CompanyId" @bind="@user.CompanyId" />
+    <div class="row">
+        <div class="col-4" style="text-align:right"><b>@Localizer["Name"]</b></div>
+        <div class="col-8"><input type="text" name="FiscalId" @bind="@user.Name" size="15" /></div>
+    </div>
+    <div class="row">
+        <div class="col-4" style="text-align:right"><b>@Localizer["FamilyName"]</b></div>
+        <div class="col-8"><input type="text" name="Name" @bind="@user.FamilyName" size="25" /></div>
+    </div>
+    <div class="row">
+        <div class="col-4" style="text-align:right"><b>@Localizer["Email"]</b></div>
+        <div class="col-8"><input type="text" name="Email" @bind="@user.Email" size="25" /></div>
+    </div>
+    <div class="row">
+        <div class="col-4" style="text-align:right"><b>@Localizer["Username"]</b></div>
+        <div class="col-8"><input type="text" disabled="disabled" @bind="@user.Username" size="30" /></div>
+    </div>
+    <div class="row">
+        <div class="col-4" style="text-align:right"><b>@Localizer["Password"]</b></div>
+        <div class="col-8"><input type="text" name="Town" @bind="@user.Password" size="15" /></div>
+    </div>
+    <div class="row">
+        <div class="col-4" style="text-align:right"><b>@Localizer["PasswordNew"]</b></div>
+        <div class="col-8"><input type="text" name="Town" @bind="@user.Password" size="15" /></div>
+    </div>
+    <div class="row">
+        <div class="col-4" style="text-align:right"><b>@Localizer["SecurityID"]</b></div>
+        <div class="col-8">
+            <select id="security_select" disabled="disabled" name="security_select" @bind="@user.SecurityId">
+                @foreach (Security security in securities)
+                {
+                    <option value="@security.SecurityId">@security.Description</option>
+                }
+            </select>
         </div>
     </div>
+    <div class="row">
+        <div class="col-4" style="text-align:right"><b>@Localizer["CreatedOn"]</b></div>
+        <div class="col-8"><input type="text" name="ZipCode" @bind="@user.CreationTime" size="5" /></div>
+    </div>
+    <div class="row" style="margin-top: 15px;text-align: center">
+        <div class="col" style="text-align:center">
+            <button class="btn btn_general btn-success" @onclick="OnClickPutButton">@SharedLocalizer["MSG_SAVE"]</button>
+        </div>
+    </div>
+</div>
 
-    @code
+@code
 {
     DocuitWeb.Models.User user = new DocuitWeb.Models.User();
     IEnumerable<Security> securities = new List<Security>();
@@ -66,45 +67,45 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Login login;
+        //Login login;
 
         myBlocker.Show();
-        string pepe = ProtectedSessionStorage.GetAsync<string>("CompanyId").ToString();
+        //string pepe = ProtectedSessionStorage.GetAsync<string>("CompanyId").ToString();
 
-        login = await MyStorageTools.BufferGetLocalStorageAsync();
-        user.CompanyId = login.CompanyId;
-        user.UserId = login.UserId;
+        //login = await MyStorageTools.BufferGetLocalStorageAsync();
+        user.CompanyId = myLogin.CompanyId;
+        user.UserId = myLogin.UserId;
 
-            @*user.CompanyId = int.Parse(ProtectedSessionStorage.GetAsync<string>("CompanyId").ToString());
+        @*user.CompanyId = int.Parse(ProtectedSessionStorage.GetAsync<string>("CompanyId").ToString());
             user.UserId = int.Parse(ProtectedSessionStorage.GetAsync<string>("UserId").ToString());*@
 
-            securities = await SecurityService.FetchAsync();
-            user = await UserService.FetchAsync(user);
-            myBlocker.Hide();
-        }
+        securities = await SecurityService.FetchAsync();
+        user = await UserService.FetchAsync(user);
+        myBlocker.Hide();
+    }
 
-        private async void OnClickPutButton()
+    private async void OnClickPutButton()
+    {
+        myBlocker.Show();
+        user = await UserService.PutAsync(user);
+        myBlocker.Hide();
+
+        if (user == null)
         {
-            myBlocker.Show();
-            user = await UserService.PutAsync(user);
-            myBlocker.Hide();
-
-            if (user == null)
-            {
-                toastService.ShowError(@SharedLocalizer["OP_FAIL"]);
-            }
-            else
-            {
-                toastService.ShowSuccess(@SharedLocalizer["OP_OK"]);
-            }
+            toastService.ShowError(@SharedLocalizer["OP_FAIL"]);
         }
-
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+        else
         {
-            if (firstRender)
-            {
-
-                //StateHasChanged();
-            }
+            toastService.ShowSuccess(@SharedLocalizer["OP_OK"]);
         }
     }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+
+            //StateHasChanged();
+        }
+    }
+}

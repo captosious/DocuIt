@@ -5,21 +5,22 @@ namespace DocuitWeb.Data
 {
     public class TestingService
     {
-        private readonly IConfiguration MyConfiguration;
-
-        public TestingService(IConfiguration configuration)
+        public TestingService()
         {
-            MyConfiguration = configuration;
-            SmtpServer = configuration["AppSettings:SmtpServer"];
-            SmtpUser = configuration["AppSettings:SmtpUser"];
-            SmtpPassword = configuration["AppSettings:SmtpPassword"];
-            SecretKey = configuration["AppSettings:SecretKey"];
+            
         }
 
-        public string SmtpServer { get; set; }
-        public string SmtpUser { get; set; }
-        public string SmtpPassword { get; set; }
-        public string SecretKey { get; set; }
-        public string CommonText { get; set; }
+        public int CompanyId;
+        public int UserId;
+        public string UserName { get; set; }
+        public string Password { get; set; }
+
+        public string Name { get; set; }
+        public string FamilyName { get; set; }
+
+        public int SecurityId { get; set; }
+        public bool Locked { get; set; }
+        public bool LoggedIn { get; set; }
+        public string Token { get; set; }
     }
 }

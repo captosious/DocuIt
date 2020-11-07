@@ -8,6 +8,7 @@ namespace DocuitWeb.Models
     {
         public string PatchDocument { get; }
         public void Values(string field, string value);
+        public void Clear();
     }
 
     public class MyJSONPatch : IMyJSONPatch
@@ -17,18 +18,24 @@ namespace DocuitWeb.Models
 
         public string PatchDocument()
         {
-            string patchFile = "";
+            string patchFile = "{'Company': [{'CompanyId': 1}],'Patching': [";
 
             foreach (var keyValue in dictionary)
             {
-                keyValue.Key = "";
-                keyValue.Value = "";
+                patchFile = patchFile + "{'op':'replace','path':'" + keyValue.Key + "', 'value':'" + keyValue.Value + "'}";
             }
+            patchFile = patchFile + "]}";
+            return patchFile;
         }
         
         public void Values(string field, string value)
         {
             dictionary.Add(field, value);
+        }
+
+        public void Clear()
+        {
+            dictionary.Clear();
         }
     }
 }

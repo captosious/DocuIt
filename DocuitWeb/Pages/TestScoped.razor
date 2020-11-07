@@ -13,8 +13,8 @@
 <h1>Cookie-Info</h1>
 <p>Connected User: @ConnectedUser</p>
 <p>CompanyId: @CompanyId</p>
-<p>Testing Value: @testing.CommonText </p>
-<p><input type="text" @bind="testing.CommonText" /></p>
+@*<p>Testing Value: @testing.CommonText </p>
+<p><input type="text" @bind="testing.CommonText" /></p>*@
 <button type="submit"></button>
 
 @code{
@@ -29,7 +29,7 @@
 
     protected void TimesTwo()
     {
-        testing.CommonText = "Hola!!!";
+        @*testing.CommonText = "Hola!!!";*@
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
