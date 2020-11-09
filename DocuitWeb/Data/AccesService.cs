@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ProtectedBrowserStorage;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace DocuitWeb.Data
 {
@@ -17,56 +18,61 @@ namespace DocuitWeb.Data
         private AppSettings _appSettings;
         private HttpClient _httpClient;
         private string _resource = "/auth";
-        //private IHttpClientFactory _factoryhttp;
+        public Login MyLogin { get; set; }
         private MyHttp _myHttp;
+        private AuthenticationStateProvider _AuthenStateProv;
 
-        public AccessService(AppSettings appSettings, MyHttp myHttp)
+        public AccessService(AppSettings appSettings, MyHttp myHttp, AuthenticationStateProvider AuthenStateProv)
         {
             _appSettings = appSettings;
-            //_factoryhttp = factoryhttp;
-            //_httpClient = httpClient;
             _myHttp = myHttp;
+            _AuthenStateProv = AuthenStateProv;
+            MyLogin = new Login();
         }
 
-        public async Task<Login> LogIn(string Username, string Password)
+        public async void LogIn(string Username, string Password)
         {
-            Login login = new Login();
-            Login login_response = new Login();
-            IdentityUser user = new IdentityUser();
-
             HttpClient httpClient = _myHttp.GetClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+            HttpResponseMessage httpResponseMessage = new HttpResponseMessage(); 
 
-            login.CompanyId = _appSettings.CompanyId;
-            login.UserName = Username;
-            login.Password = Password;
+            MyLogin.CompanyId = _appSettings.CompanyId;
+            MyLogin.UserName = Username;
+            MyLogin.Password = Password;
             
-
             httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/login");
-            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json");
-            var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
+            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(MyLogin), Encoding.UTF8, "application/json");
+            httpResponseMessage.EnsureSuccessStatusCode();
             try
             {
-                response.EnsureSuccessStatusCode();
-                var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                login_response = JsonConvert.DeserializeObject<Login>(responseBody);
-                if (login_response != null)
+                MyLogin = null;
+                httpResponseMessage = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
+                string responseBody = await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+                MyLogin = JsonConvert.DeserializeObject<Login>(responseBody);
+                if (MyLogin != null)
                 {
-                    _myHttp.Token = login_response.Token;
-                   //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", login_response.Token); 
+                    _myHttp.Token = MyLogin.Token;
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MyLogin.Token);
+                    ((CustomAuthenticationStateProvider)_AuthenStateProv).MarkUserAsAuthenticated(Username, MyLogin.SecurityId.ToString());
+                }
+                else
+                {
+                    // If somethig went wrong... better to leave the user as logged off.
+                    LogOut();
+                    MyLogin = null;
                 }
                 httpClient.Dispose();
-                return await Task.FromResult(login_response);
             }
             catch
             {
-                return null;
+                // If somethig went wrong... better to leave the user as logged off.
+                LogOut();
             }
         }
 
-        public async Task<User> LogOut()
+        public void LogOut()
         {
-            return null;
+            ((CustomAuthenticationStateProvider)_AuthenStateProv).MarkUserAsNotAuthenticated();
         }
 
         public async Task<IEnumerable<BuildingTypeProject>> FetchGetAllAsync()

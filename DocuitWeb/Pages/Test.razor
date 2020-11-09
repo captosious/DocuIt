@@ -8,14 +8,12 @@
 @inject UserService UserService
 @inject SecurityService SecurityService
 
-
-
 <h1>Cookie-Info</h1>
 <p>Connected User: @ConnectedUser</p>
 <p>CompanyId: @CompanyId</p>
 @*<p>Testing Value: @testing.CommonText </p>*@
 @*<p><input type="text" @bind="testing.CommonText" /></p>*@
-<button type="submit"></button>
+<button type="submit" ></button>
 
 @code{
 
@@ -38,10 +36,10 @@
 
         if (firstRender) {
 
-            login = await MyStorageTools.BufferGetLocalStorageAsync();
+            @*login = await MyStorageTools.BufferGetLocalStorageAsync();
             ConnectedUser = login.Name + " " + login.FamilyName;
             CompanyId = login.CompanyId;
-            StateHasChanged();
+            StateHasChanged();*@
         }
 
     }

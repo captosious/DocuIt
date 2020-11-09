@@ -2,7 +2,6 @@
 @using Microsoft.AspNetCore.Identity;
 @inject AuthenticationStateProvider AuthenStateProv;
 @inject NavigationManager Navigation;
-@inject TestingService myLogin;
 
 <nav class="navbar navbar-expand-md navbar-dark">
     <a href="#" class="navbar-brand">Docu<b>it</b></a>
@@ -94,26 +93,13 @@
         collapseNavMenu = !collapseNavMenu;
     }
 
-    private async void LogInMe()
+    private void LogInMe()
     {
-        Login login;
-
-        login = await AccessService.LogIn(UserName, Password);
-        myLogin.CompanyId = login.CompanyId;
-        myLogin.Name = login.Name;
-        myLogin.FamilyName = login.FamilyName;
-        myLogin.SecurityId = login.SecurityId;
-        myLogin.Token = login.Token;
-        myLogin.UserId = login.UserId;
-        myLogin.UserName = login.UserName;
-
-        if (myLogin != null)
+        AccessService.LogIn(UserName, Password);
+        
+        if (AccessService.MyLogin != null)
         {
-            ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsAuthenticated(UserName, myLogin.SecurityId.ToString());
-            // Save in Local Storage User Information
-            //await ProtectedLocalStorage.SetAsync("UserName", currentCount);
-            //await MyStorageTools.BufferPutLocalStorageAsync(login);
-            CompleteUserName = myLogin.Name + " " + myLogin.FamilyName;
+            CompleteUserName = AccessService.MyLogin.Name + " " + AccessService.MyLogin.FamilyName;
             toastService.ShowSuccess(SharedLocalizer["LOGIN_SUCCESS"], SharedLocalizer["LOGIN_TITLE"]);
         }
         else
@@ -126,8 +112,7 @@
 
     private void LogOutMe()
     {
-        ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsNotAuthenticated();
-        //MyStorageTools.BufferClear();
+        AccessService.LogOut();
         Navigation.NavigateTo("/");
     }
 }
