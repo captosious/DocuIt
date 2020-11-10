@@ -95,7 +95,7 @@ namespace DocuItService.Controllers
         {
             Company company;
             // Keys
-            int CompanyId = int.Parse(companyToPatch.Operations.Where(o => o.path.Equals("")));
+            int CompanyId = 1;// int.Parse(companyToPatch.Operations.Where(o => o.path.Equals("")));
 
             if (companyToPatch == null)
             {

@@ -21,7 +21,6 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using System.Net.Http;
 using Microsoft.AspNetCore.Components.Authorization;
-using DocuitWeb.Services;
 using System.Security.Claims;
 using System.Net.Http.Headers;
 
@@ -59,8 +58,7 @@ namespace DocuitWeb
             services.AddScoped<CustomAuthenticationStateProvider>();
             services.AddScoped<AccessService>();
             services.AddScoped<Login>();
-            services.AddScoped<StorageTools>();
-
+            
             services.AddSingleton<AppSettings>();
             services.AddScoped<MyBlocker>();
 
@@ -75,8 +73,6 @@ namespace DocuitWeb
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
-            //services.AddSingleton<HttpClient>();
-            services.AddProtectedBrowserStorage();
             services.AddAuthentication(options=>
                 {
                     
