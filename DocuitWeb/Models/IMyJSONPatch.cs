@@ -6,21 +6,29 @@ namespace DocuitWeb.Models
 {
     public interface IMyJSONPatch
     {
-        public string PatchDocument { get; }
+        //public string PatchDocument { set; get; }
+        public void Keys(string key, string value);
         public void Values(string field, string value);
-        public void Clear();
+        public void ClearValues();
+        public void ClearKeys();
     }
 
     public class MyJSONPatch : IMyJSONPatch
     {
-        string IMyJSONPatch.PatchDocument => throw new NotImplementedException();
-        Dictionary<string, string> dictionary = new Dictionary<string, string>();
+        Dictionary<string, string> valuesDictionary = new Dictionary<string, string>();
+        Dictionary<string, string> keysDictionary = new Dictionary<string, string>();
 
-        public string PatchDocument()
+        public string PatchDocument(string table)
         {
-            string patchFile = "{'Company': [{'CompanyId': 1}],'Patching': [";
+            string patchHeader = "{'" + table + "': "[{'CompanyId': 1}],'Patching': [";
+            string patchFile = "{'" + table + "': [{'CompanyId': 1}],'Patching': [";
 
-            foreach (var keyValue in dictionary)
+            foreach (var keyValue in valuesDictionary)
+            {
+                patchFile = patchFile + "{'op':'replace','path':'" + keyValue.Key + "', 'value':'" + keyValue.Value + "'}";
+            }
+
+            foreach (var keyValue in valuesDictionary)
             {
                 patchFile = patchFile + "{'op':'replace','path':'" + keyValue.Key + "', 'value':'" + keyValue.Value + "'}";
             }
@@ -30,12 +38,22 @@ namespace DocuitWeb.Models
         
         public void Values(string field, string value)
         {
-            dictionary.Add(field, value);
+            valuesDictionary.Add(field, value);
         }
 
-        public void Clear()
+        public void ClearValues()
         {
-            dictionary.Clear();
+            valuesDictionary.Clear();
+        }
+
+        public void Keys(string key, string value)
+        {
+            keysDictionary.Add(key, value);
+        }
+
+        public void ClearKeys()
+        {
+            keysDictionary.Clear();
         }
     }
 }
