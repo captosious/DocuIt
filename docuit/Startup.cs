@@ -63,7 +63,7 @@ namespace DocuItService
                 app.UseDeveloperExceptionPage();
             }
             //app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            //app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

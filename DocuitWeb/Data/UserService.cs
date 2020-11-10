@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using DocuitWeb.Models;
+using Microsoft.AspNetCore.JsonPatch;
+using System.Linq;
 
 namespace DocuitWeb.Data
 {
@@ -27,11 +29,8 @@ namespace DocuitWeb.Data
             User return_user;
 
             httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/GetById");
-
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
-
             var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
-
             try
             {
                 response.EnsureSuccessStatusCode();
@@ -67,5 +66,30 @@ namespace DocuitWeb.Data
                 return null;
             }
         }
+
+        public async Task<User> PatchAsync(User user)
+        {
+            JsonPatchDocument jsonPatchDocument;// = JsonPatchDocument<User>();
+
+            HttpClient httpClient = _myHttp.GetClient();
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
+            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await httpClient.PutAsync(httpClient.BaseAddress, httpRequestMessage.Content);
+            try
+            {
+                response.EnsureSuccessStatusCode();
+                httpClient.Dispose();
+                return await Task.FromResult(user);
+            }
+            catch
+            {
+                httpClient.Dispose();
+                return null;
+            }
+        }
+
     }
 }

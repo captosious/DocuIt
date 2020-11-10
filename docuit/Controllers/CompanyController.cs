@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using DocuItService.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace DocuItService.Controllers
 {
@@ -90,9 +91,11 @@ namespace DocuItService.Controllers
 
         // PATCH api/values (PARTIAL UPDATE)
         [HttpPatch]
-        public async Task<IActionResult> Patch(int CompanyId, [FromBody] JsonPatchDocument<Company> companyToPatch)
+        public async Task<IActionResult> Patch([FromBody] JsonPatchDocument<Company> companyToPatch)
         {
             Company company;
+            // Keys
+            int CompanyId = int.Parse(companyToPatch.Operations.Where(o => o.path.Equals("")));
 
             if (companyToPatch == null)
             {

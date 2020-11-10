@@ -20,12 +20,12 @@ namespace DocuitWeb.Models
 
         public string PatchDocument(string table)
         {
-            string patchHeader = "{'" + table + "': "[{'CompanyId': 1}],'Patching': [";
+            string patchHeader = "{'" + table + "': [" + "{'CompanyId': 1}],'Patching': [";
             string patchFile = "{'" + table + "': [{'CompanyId': 1}],'Patching': [";
 
             foreach (var keyValue in valuesDictionary)
             {
-                patchFile = patchFile + "{'op':'replace','path':'" + keyValue.Key + "', 'value':'" + keyValue.Value + "'}";
+                patchHeader = patchHeader + "{'op':'replace','path':'" + keyValue.Key + "', 'value':'" + keyValue.Value + "'}";
             }
 
             foreach (var keyValue in valuesDictionary)
@@ -33,7 +33,15 @@ namespace DocuitWeb.Models
                 patchFile = patchFile + "{'op':'replace','path':'" + keyValue.Key + "', 'value':'" + keyValue.Value + "'}";
             }
             patchFile = patchFile + "]}";
-            return patchFile;
+
+            if (valuesDictionary.Count > 0 & keysDictionary.Count >0)
+            {
+                return null;
+            }
+            else
+            {
+                return patchFile;
+            }
         }
         
         public void Values(string field, string value)
