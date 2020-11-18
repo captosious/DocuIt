@@ -29,7 +29,7 @@ namespace DocuitWeb.Data
             MyLogin = new Login();
         }
 
-        public async void LogIn(string Username, string Password)
+        public async Task LogInAsync(string Username, string Password)
         {
             HttpClient httpClient = _myHttp.GetClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
@@ -44,9 +44,8 @@ namespace DocuitWeb.Data
             httpResponseMessage.EnsureSuccessStatusCode();
             try
             {
-                //MyLogin = null;
-                httpResponseMessage = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
-                string responseBody = await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+                httpResponseMessage = httpClient.Send(httpRequestMessage);
+                string responseBody = await httpResponseMessage.Content.ReadAsStringAsync();
                 MyLogin = JsonConvert.DeserializeObject<Login>(responseBody);
                 if (MyLogin != null)
                 {
@@ -58,7 +57,6 @@ namespace DocuitWeb.Data
                 {
                     // If somethig went wrong... better to leave the user as logged off.
                     LogOut();
-                    MyLogin = null;
                 }
                 httpClient.Dispose();
             }

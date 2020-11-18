@@ -92,9 +92,9 @@
         collapseNavMenu = !collapseNavMenu;
     }
 
-    private void LogInMe()
+    private async void LogInMe()
     {
-        AccessService.LogIn(UserName, Password);
+        Task loginTask = AccessService.LogInAsync(UserName, Password);
         
         if (AccessService.MyLogin != null)
         {
