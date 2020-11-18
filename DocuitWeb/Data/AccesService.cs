@@ -44,7 +44,7 @@ namespace DocuitWeb.Data
             httpResponseMessage.EnsureSuccessStatusCode();
             try
             {
-                MyLogin = null;
+                //MyLogin = null;
                 httpResponseMessage = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
                 string responseBody = await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
                 MyLogin = JsonConvert.DeserializeObject<Login>(responseBody);
@@ -62,7 +62,7 @@ namespace DocuitWeb.Data
                 }
                 httpClient.Dispose();
             }
-            catch
+            catch (Exception ex)
             {
                 // If somethig went wrong... better to leave the user as logged off.
                 LogOut();
@@ -72,6 +72,7 @@ namespace DocuitWeb.Data
         public void LogOut()
         {
             ((CustomAuthenticationStateProvider)_AuthenStateProv).MarkUserAsNotAuthenticated();
+            MyLogin = null;
         }
 
         public async Task<IEnumerable<BuildingTypeProject>> FetchGetAllAsync()
