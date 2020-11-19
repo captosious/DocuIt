@@ -72,7 +72,7 @@ namespace DocuitWeb.Data
         public Task<int> LogOut()
         {
             ((CustomAuthenticationStateProvider)_AuthenStateProv).MarkUserAsNotAuthenticated();
-            MyLogin = null;
+            MyLogin = new Login();
             return Task.FromResult(0);
         }
 

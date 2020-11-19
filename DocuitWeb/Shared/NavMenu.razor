@@ -95,7 +95,7 @@
         collapseNavMenu = !collapseNavMenu;
     }
 
-    private void LogInMe()
+    private async void LogInMe()
     {
         int return_code = -1;
         Task<int> loginTask;
@@ -103,7 +103,7 @@
         myBlocker.Show();
         loginTask = AccessService.LogInAsync(UserName, Password);
 
-        return_code = loginTask;
+        return_code = await loginTask;
 
         switch (loginTask.Result)
         {
@@ -124,9 +124,9 @@
         myBlocker.Hide();
     }
 
-    private void LogOutMe()
+    private async void LogOutMe()
     {
-        loginTask = AccessService.LogOut();
+        await AccessService.LogOut();
         Navigation.NavigateTo("/");
     }
 }
