@@ -163,5 +163,12 @@
         <value>Perdoneu, però no hi ha res a aquesta pàgina.</value>
     </data>
     
+    <!-- Errades de connexió al servidor -->
+    <data name="CONNECTION_ERROR" xml:space="preserve">
+        <value>Perdoneu, però hi ha un problema amb la connexió al servidor. Proveu d'accedir-hi més tard.</value>
+    </data>
     
+    <data name="TITLE_CONNECTION_ERROR" xml:space="preserve">
+        <value>Error Connexió</value>
+    </data>
 </root>

@@ -87,31 +87,46 @@
     private User user;
     private string CompleteUserName { get; set; }
 
+
+
+
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
 
-    private async void LogInMe()
+    private void LogInMe()
     {
-        Task loginTask = AccessService.LogInAsync(UserName, Password);
-        
-        if (AccessService.MyLogin != null)
+        int return_code = -1;
+        Task<int> loginTask;
+
+        myBlocker.Show();
+        loginTask = AccessService.LogInAsync(UserName, Password);
+
+        return_code = loginTask;
+
+        switch (loginTask.Result)
         {
-            CompleteUserName = AccessService.MyLogin.Name + " " + AccessService.MyLogin.FamilyName;
-            toastService.ShowSuccess(SharedLocalizer["LOGIN_SUCCESS"], SharedLocalizer["LOGIN_TITLE"]);
-        }
-        else
-        {
-            ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsNotAuthenticated();
-            toastService.ShowError(SharedLocalizer["LOGIN_CREDENTIALS_ERROR"], SharedLocalizer["LOGIN_TITLE_ERROR"]);
+            case 0:
+                CompleteUserName = AccessService.MyLogin.Name + " " + AccessService.MyLogin.FamilyName;
+                toastService.ShowSuccess(SharedLocalizer["LOGIN_SUCCESS"], SharedLocalizer["LOGIN_TITLE"]);
+                break;
+            case 1:
+                ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsNotAuthenticated();
+                toastService.ShowError(SharedLocalizer["LOGIN_CREDENTIALS_ERROR"], SharedLocalizer["LOGIN_TITLE_ERROR"]);
+                break;
+            case 2:
+                ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsNotAuthenticated();
+                toastService.ShowError(SharedLocalizer["CONNECTION_ERROR"], SharedLocalizer["TITLE_CONNECTION_ERROR"]);
+                break;
         }
         StateHasChanged();
+        myBlocker.Hide();
     }
 
     private void LogOutMe()
     {
-        AccessService.LogOut();
+        loginTask = AccessService.LogOut();
         Navigation.NavigateTo("/");
     }
 }

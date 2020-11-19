@@ -29,7 +29,7 @@ namespace DocuitWeb.Data
             MyLogin = new Login();
         }
 
-        public async Task LogInAsync(string Username, string Password)
+        public async Task<int> LogInAsync(string Username, string Password)
         {
             HttpClient httpClient = _myHttp.GetClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
@@ -50,27 +50,30 @@ namespace DocuitWeb.Data
                 if (MyLogin != null)
                 {
                     _myHttp.Token = MyLogin.Token;
-                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", MyLogin.Token);
                     ((CustomAuthenticationStateProvider)_AuthenStateProv).MarkUserAsAuthenticated(Username, MyLogin.SecurityId.ToString());
+                    return 0;
                 }
                 else
                 {
                     // If somethig went wrong... better to leave the user as logged off.
-                    LogOut();
+                    await LogOut();
+                    return 1;
                 }
-                httpClient.Dispose();
+                //httpClient.Dispose();
             }
             catch (Exception ex)
             {
                 // If somethig went wrong... better to leave the user as logged off.
-                LogOut();
+                await LogOut();
+                return 2;
             }
         }
 
-        public void LogOut()
+        public Task<int> LogOut()
         {
             ((CustomAuthenticationStateProvider)_AuthenStateProv).MarkUserAsNotAuthenticated();
             MyLogin = null;
+            return Task.FromResult(0);
         }
 
         public async Task<IEnumerable<BuildingTypeProject>> FetchGetAllAsync()

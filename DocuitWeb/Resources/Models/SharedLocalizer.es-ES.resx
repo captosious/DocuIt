@@ -162,4 +162,12 @@
         <value>Lo sentimos, pero no hay nada en esta página.</value>
     </data>
     
+    <!-- Errades de connexió al servidor -->
+    <data name="CONNECTION_ERROR" xml:space="preserve">
+        <value>Lo sentimos, ha habido un problema con la conexión al servidor. Intentadlo más tarde.</value>
+    </data>
+    
+    <data name="TITLE_CONNECTION_ERROR" xml:space="preserve">
+        <value>Error Conexión</value>
+    </data>
 </root>

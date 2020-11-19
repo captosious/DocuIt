@@ -256,5 +256,17 @@ namespace DocuitWeb.Resources.Models {
                 return ResourceManager.GetString("ADDRESS_WRONG", resourceCulture);
             }
         }
+        
+        internal static string CONNECTION_ERROR {
+            get {
+                return ResourceManager.GetString("CONNECTION_ERROR", resourceCulture);
+            }
+        }
+        
+        internal static string TITLE_CONNECTION_ERROR {
+            get {
+                return ResourceManager.GetString("TITLE_CONNECTION_ERROR", resourceCulture);
+            }
+        }
     }
 }
