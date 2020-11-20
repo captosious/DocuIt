@@ -30,6 +30,18 @@
     text-align: center;
 }
 
+#BlockAllCentered {
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;
