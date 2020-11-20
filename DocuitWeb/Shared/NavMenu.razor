@@ -83,8 +83,6 @@
 
     private string Password { get; set; }
     private string UserName { get; set; }
-
-    private User user;
     private string CompleteUserName { get; set; }
 
     private void ToggleNavMenu()
@@ -106,11 +104,9 @@
                 toastService.ShowSuccess(SharedLocalizer["LOGIN_SUCCESS"], SharedLocalizer["LOGIN_TITLE"]);
                 break;
             case 1:
-                ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsNotAuthenticated();
                 toastService.ShowError(SharedLocalizer["LOGIN_CREDENTIALS_ERROR"], SharedLocalizer["LOGIN_TITLE_ERROR"]);
                 break;
             case 2:
-                ((CustomAuthenticationStateProvider)AuthenStateProv).MarkUserAsNotAuthenticated();
                 toastService.ShowError(SharedLocalizer["CONNECTION_ERROR"], SharedLocalizer["TITLE_CONNECTION_ERROR"]);
                 break;
         }

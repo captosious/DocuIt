@@ -76,6 +76,8 @@ namespace DocuitWeb.Data
             return Task.FromResult(0);
         }
 
+
+        // *****************
         public async Task<IEnumerable<BuildingTypeProject>> FetchGetAllAsync()
         {
             BuildingType obj = new BuildingType();
