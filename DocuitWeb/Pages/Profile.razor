@@ -4,8 +4,7 @@
 
 @inject IStringLocalizer<Profile> Localizer
 @inject UserService UserService
-@inject SecurityService SecurityService
-@inject TestingService myLogin;
+
 
 <br>
 <div class="container text-left">
@@ -66,30 +65,23 @@
 
     protected override async Task OnInitializedAsync()
     {
-        //Login login;
-
         myBlocker.Show();
-        //string pepe = ProtectedSessionStorage.GetAsync<string>("CompanyId").ToString();
 
-        //login = await MyStorageTools.BufferGetLocalStorageAsync();
-        user.CompanyId = myLogin.CompanyId;
-        user.UserId = myLogin.UserId;
+        user.CompanyId = accessService.MyLogin.CompanyId;
+        user.UserId = accessService.MyLogin.UserId;
 
-        @*user.CompanyId = int.Parse(ProtectedSessionStorage.GetAsync<string>("CompanyId").ToString());
-            user.UserId = int.Parse(ProtectedSessionStorage.GetAsync<string>("UserId").ToString());*@
-
-        securities = await SecurityService.FetchAsync();
         user = await UserService.FetchAsync(user);
         myBlocker.Hide();
     }
 
     private async void OnClickPutButton()
     {
-        myBlocker.Show();
-        user = await UserService.PutAsync(user);
-        myBlocker.Hide();
+        int result;
 
-        if (user == null)
+        myBlocker.Show();
+        result = await UserService.PutAsync(user);
+        myBlocker.Hide();
+        if (result != 0)
         {
             toastService.ShowError(@SharedLocalizer["OP_FAIL"]);
         }
@@ -103,7 +95,6 @@
     {
         if (firstRender)
         {
-
             //StateHasChanged();
         }
     }

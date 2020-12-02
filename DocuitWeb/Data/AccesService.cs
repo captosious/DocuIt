@@ -15,7 +15,7 @@ namespace DocuitWeb.Data
     public class AccessService
     {
         private AppSettings _appSettings;
-        private HttpClient _httpClient;
+        //private HttpClient _httpClient;
         private string _resource = "/auth";
         public Login MyLogin { get; set; }
         private MyHttp _myHttp;

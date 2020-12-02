@@ -44,7 +44,7 @@ namespace DocuitWeb.Data
             }
         }
 
-        public async Task<User> PutAsync(User user)
+        public async Task<int> PutAsync(User user)
         {
             user.CompanyId = _appSettings.CompanyId;
             HttpClient httpClient = _myHttp.GetClient();
@@ -58,12 +58,12 @@ namespace DocuitWeb.Data
             {
                 response.EnsureSuccessStatusCode();
                 httpClient.Dispose();
-                return await Task.FromResult(user);
+                return await Task.FromResult(0);
             }
             catch
             {
                 httpClient.Dispose();
-                return null;
+                return 1;
             }
         }
 
@@ -90,6 +90,5 @@ namespace DocuitWeb.Data
                 return null;
             }
         }
-
     }
 }

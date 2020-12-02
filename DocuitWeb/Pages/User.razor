@@ -76,11 +76,13 @@
 
     private async void OnClickPutButton()
     {
+        int result;
+
         myBlocker.Show();
-        user = await UserService.PutAsync(user);
+        result = await UserService.PutAsync(user);
         myBlocker.Hide();
 
-        if (user == null)
+        if (result != 0)
         {
             toastService.ShowError(@SharedLocalizer["OP_FAIL"]);
         }

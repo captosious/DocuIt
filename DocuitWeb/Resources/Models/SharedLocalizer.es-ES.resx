@@ -99,7 +99,7 @@
     </data>
     
     <data name="MSG_SAVE" xml:space="preserve">
-        <value>Gravar</value>
+        <value>Grabar</value>
     </data>
     
     <!-- DataBase/Operations Messages -->
@@ -168,6 +168,6 @@
     </data>
     
     <data name="TITLE_CONNECTION_ERROR" xml:space="preserve">
-        <value>Error Conexión</value>
+        <value>Error de Conexión</value>
     </data>
 </root>
