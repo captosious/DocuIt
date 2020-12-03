@@ -8,11 +8,12 @@ namespace DocuItService.Models
     {
         public DocuItContext()
         {
+
         }
 
-        public DocuItContext(DbContextOptions<DocuItContext> options)
-            : base(options)
+        public DocuItContext(DbContextOptions<DocuItContext> options) : base(options)
         {
+
         }
 
         public virtual DbSet<BuildingType> BuildingType { get; set; }
@@ -35,6 +36,7 @@ namespace DocuItService.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+
             }
         }
 
@@ -48,7 +50,7 @@ namespace DocuItService.Models
                 entity.ToTable("building_type", "DocuIt");
 
                 entity.HasIndex(e => e.CompanyId)
-                    .HasName("fk_building_type_company_idx");
+                    .HasDatabaseName("fk_building_type_company_idx");
 
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
@@ -77,10 +79,10 @@ namespace DocuItService.Models
                 entity.ToTable("building_type_project", "DocuIt");
 
                 entity.HasIndex(e => new { e.CompanyId, e.Id })
-                    .HasName("fk_building_type_project_building_type1_idx");
+                    .HasDatabaseName("fk_building_type_project_building_type1_idx");
 
                 entity.HasIndex(e => new { e.CompanyId, e.ProjectId })
-                    .HasName("fk_bulding_type_project1_idx");
+                    .HasDatabaseName("fk_bulding_type_project1_idx");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
@@ -103,7 +105,7 @@ namespace DocuItService.Models
                 entity.ToTable("company", "DocuIt");
 
                 entity.HasIndex(e => e.CompanyId)
-                    .HasName("main_index");
+                    .HasDatabaseName("main_index");
 
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
@@ -149,7 +151,7 @@ namespace DocuItService.Models
                 entity.ToTable("dossier", "DocuIt");
 
                 entity.HasIndex(e => new { e.CompanyId, e.ProjectId, e.UserId })
-                    .HasName("fk_dossier_project_security_idx");
+                    .HasDatabaseName("fk_dossier_project_security_idx");
 
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
@@ -193,10 +195,10 @@ namespace DocuItService.Models
                 entity.ToTable("dossier_element", "DocuIt");
 
                 entity.HasIndex(e => new { e.CompanyId, e.ElementTypeId })
-                    .HasName("fk_dossier_element_element_type_idx");
+                    .HasDatabaseName("fk_dossier_element_element_type_idx");
 
                 entity.HasIndex(e => new { e.FileId, e.CompanyId })
-                    .HasName("index");
+                    .HasDatabaseName("index");
 
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
@@ -247,7 +249,7 @@ namespace DocuItService.Models
                 entity.ToTable("dossier_element_questionnaire", "DocuIt");
 
                 entity.HasIndex(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.DossierElementId })
-                    .HasName("fk_dossier_element_questionnaire_dossier_element_idx");
+                    .HasDatabaseName("fk_dossier_element_questionnaire_dossier_element_idx");
 
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
@@ -274,7 +276,7 @@ namespace DocuItService.Models
                 entity.ToTable("element_type", "DocuIt");
 
                 entity.HasIndex(e => e.CompanyId)
-                    .HasName("fk_element_type_company1_idx");
+                    .HasDatabaseName("fk_element_type_company1_idx");
 
                 entity.Property(e => e.ElementTypeId).HasColumnName("element_type_id");
 
@@ -311,13 +313,13 @@ namespace DocuItService.Models
                 entity.ToTable("project", "DocuIt");
 
                 entity.HasIndex(e => e.CompanyId)
-                    .HasName("fk_project_company_idx");
+                    .HasDatabaseName("fk_project_company_idx");
 
                 entity.HasIndex(e => e.StatusId)
-                    .HasName("status_index");
+                    .HasDatabaseName("status_index");
 
                 entity.HasIndex(e => new { e.CompanyId, e.ProjectId })
-                    .HasName("project_index");
+                    .HasDatabaseName("project_index");
 
                 entity.Property(e => e.ProjectId)
                     .HasColumnName("project_id")
@@ -362,7 +364,7 @@ namespace DocuItService.Models
                 entity.ToTable("project_security", "DocuIt");
 
                 entity.HasIndex(e => new { e.CompanyId, e.UserId })
-                    .HasName("fk_project_security_user_idx");
+                    .HasDatabaseName("fk_project_security_user_idx");
 
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
@@ -420,18 +422,18 @@ namespace DocuItService.Models
                 entity.ToTable("user", "DocuIt");
 
                 entity.HasIndex(e => e.SecurityId)
-                    .HasName("index_security");
+                    .HasDatabaseName("index_security");
 
                 entity.HasIndex(e => new { e.CompanyId, e.Email })
-                    .HasName("email_UNIQUE")
+                    .HasDatabaseName("email_UNIQUE")
                     .IsUnique();
 
                 entity.HasIndex(e => new { e.CompanyId, e.UserId })
-                    .HasName("user_UNIQUE")
+                    .HasDatabaseName("user_UNIQUE")
                     .IsUnique();
 
                 entity.HasIndex(e => new { e.CompanyId, e.Username })
-                    .HasName("username_UNIQUE")
+                    .HasDatabaseName("username_UNIQUE")
                     .IsUnique();
 
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
@@ -501,7 +503,7 @@ namespace DocuItService.Models
                 entity.ToTable("working_center", "DocuIt");
 
                 entity.HasIndex(e => e.CompanyId)
-                    .HasName("fk_working_center_company_idx");
+                    .HasDatabaseName("fk_working_center_company_idx");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
@@ -530,7 +532,7 @@ namespace DocuItService.Models
                 entity.ToTable("working_center_project", "DocuIt");
 
                 entity.HasIndex(e => new { e.CompanyId, e.ProjectId })
-                    .HasName("fk_working_center_project_idx");
+                    .HasDatabaseName("fk_working_center_project_idx");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")

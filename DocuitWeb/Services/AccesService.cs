@@ -15,7 +15,7 @@ namespace DocuitWeb.Data
     public class AccessService
     {
         private AppSettings _appSettings;
-        //private HttpClient _httpClient;
+        private HttpClient _httpClient;
         private string _resource = "/auth";
         public Login MyLogin { get; set; }
         private MyHttp _myHttp;
@@ -41,10 +41,10 @@ namespace DocuitWeb.Data
             
             httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/login");
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(MyLogin), Encoding.UTF8, "application/json");
-            httpResponseMessage.EnsureSuccessStatusCode();
             try
             {
                 httpResponseMessage = httpClient.Send(httpRequestMessage);
+                httpResponseMessage.EnsureSuccessStatusCode();
                 string responseBody = await httpResponseMessage.Content.ReadAsStringAsync();
                 MyLogin = JsonConvert.DeserializeObject<Login>(responseBody);
                 if (MyLogin != null)
