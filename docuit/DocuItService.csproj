@@ -8,22 +8,61 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.0">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.1" />
     <PackageReference Include="MySql.Data" Version="8.0.22" />
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.22" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="5.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.10">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Properties\PublishProfiles\FolderProfile 2.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 38.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 26.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 34.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 10.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 36.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 28.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 24.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 12.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 16.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 20.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 4.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 8.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 32.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 14.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 18.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 30.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 6.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 22.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 11.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 27.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 3.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 39.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 35.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 13.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 29.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 37.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 1.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 25.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 5.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 21.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 9.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 33.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 17.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 31.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 23.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 7.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 15.pubxml" />
+    <None Remove="Properties\PublishProfiles\FolderProfile 19.pubxml" />
   </ItemGroup>
 </Project>
