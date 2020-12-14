@@ -59,7 +59,6 @@ namespace DocuitWeb.Data
                     await LogOut();
                     return 1;
                 }
-                //httpClient.Dispose();
             }
             catch (Exception ex)
             {
@@ -75,7 +74,6 @@ namespace DocuitWeb.Data
             MyLogin = new Login();
             return Task.FromResult(0);
         }
-
 
         // *****************
         public async Task<IEnumerable<BuildingTypeProject>> FetchGetAllAsync()
