@@ -20,7 +20,6 @@ namespace DocuItService.Models
         public double? LocationLongitude { get; set; }
         public string Comment { get; set; }
         public string FileId { get; set; }
-        public DateTimeOffset CreationTime { get; set; }
 
         public virtual Dossier Dossier { get; set; }
         public virtual ICollection<DossierElementQuestionnaire> DossierElementQuestionnaire { get; set; }

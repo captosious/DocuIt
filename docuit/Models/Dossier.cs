@@ -8,6 +8,7 @@ namespace DocuItService.Models
         public Dossier()
         {
             DossierElement = new HashSet<DossierElement>();
+            InventoryReport = new HashSet<InventoryReport>();
         }
 
         public int CompanyId { get; set; }
@@ -18,9 +19,9 @@ namespace DocuItService.Models
         public double? LocationLatitude { get; set; }
         public double? LocationLongitude { get; set; }
         public int UserId { get; set; }
-        public DateTimeOffset CreationTime { get; set; }
 
         public virtual ProjectSecurity ProjectSecurity { get; set; }
         public virtual ICollection<DossierElement> DossierElement { get; set; }
+        public virtual ICollection<InventoryReport> InventoryReport { get; set; }
     }
 }

@@ -22,11 +22,11 @@ namespace DocuItService.Controllers
             this.MySettings = MySettings;
         }
 
-        [HttpGet("GetInventory")]
-        public IEnumerable<InventoryReport> GetInventory([FromBody] InventoryReport params)
-        {
-            IEnumerable<InventoryReport> 
-            return 
-        }
+        //[HttpGet("GetInventory")]
+        //public IEnumerable<InventoryReport> GetInventory([FromBody] InventoryReport params)
+        //{
+        //    //IEnumerable<InventoryReport> 
+        //    //return 
+        //}
     }
 }

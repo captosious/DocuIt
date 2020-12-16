@@ -8,12 +8,11 @@ namespace DocuItService.Models
     {
         public DocuItContext()
         {
-
         }
 
-        public DocuItContext(DbContextOptions<DocuItContext> options) : base(options)
+        public DocuItContext(DbContextOptions<DocuItContext> options)
+            : base(options)
         {
-            
         }
 
         public virtual DbSet<BuildingType> BuildingType { get; set; }
@@ -23,7 +22,11 @@ namespace DocuItService.Models
         public virtual DbSet<DossierElement> DossierElement { get; set; }
         public virtual DbSet<DossierElementQuestionnaire> DossierElementQuestionnaire { get; set; }
         public virtual DbSet<ElementType> ElementType { get; set; }
+        public virtual DbSet<InventoryParagraph> InventoryParagraph { get; set; }
+        public virtual DbSet<InventoryQuestions> InventoryQuestions { get; set; }
         public virtual DbSet<InventoryReport> InventoryReport { get; set; }
+        public virtual DbSet<InventoryType> InventoryType { get; set; }
+        public virtual DbSet<Pictures> Pictures { get; set; }
         public virtual DbSet<Project> Project { get; set; }
         public virtual DbSet<ProjectSecurity> ProjectSecurity { get; set; }
         public virtual DbSet<Security> Security { get; set; }
@@ -36,7 +39,7 @@ namespace DocuItService.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                
+
             }
         }
 
@@ -56,13 +59,11 @@ namespace DocuItService.Models
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasMaxLength(5)
-                    .IsUnicode(false);
+                    .HasMaxLength(5);
 
                 entity.Property(e => e.Name)
                     .HasColumnName("name")
-                    .HasMaxLength(25)
-                    .IsUnicode(false);
+                    .HasMaxLength(25);
 
                 entity.HasOne(d => d.Company)
                     .WithMany(p => p.BuildingType)
@@ -86,8 +87,7 @@ namespace DocuItService.Models
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasMaxLength(5)
-                    .IsUnicode(false);
+                    .HasMaxLength(5);
 
                 entity.Property(e => e.ProjectId).HasColumnName("project_id");
 
@@ -111,36 +111,30 @@ namespace DocuItService.Models
 
                 entity.Property(e => e.Address)
                     .HasColumnName("address")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasColumnName("email")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.FiscalId)
                     .IsRequired()
                     .HasColumnName("fiscal_id")
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
+                    .HasMaxLength(20);
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name")
-                    .HasMaxLength(30)
-                    .IsUnicode(false);
+                    .HasMaxLength(30);
 
                 entity.Property(e => e.Town)
                     .HasColumnName("town")
-                    .HasMaxLength(30)
-                    .IsUnicode(false);
+                    .HasMaxLength(30);
 
                 entity.Property(e => e.ZipCode)
                     .HasColumnName("zip_code")
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
+                    .HasMaxLength(10);
             });
 
             modelBuilder.Entity<Dossier>(entity =>
@@ -159,24 +153,18 @@ namespace DocuItService.Models
 
                 entity.Property(e => e.DossierId).HasColumnName("dossier_id");
 
-                entity.Property(e => e.CreationTime)
-                    .HasColumnName("creation_time")
-                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
                 entity.Property(e => e.LocationLatitude).HasColumnName("location_latitude");
 
                 entity.Property(e => e.LocationLongitude).HasColumnName("location_longitude");
 
                 entity.Property(e => e.Name)
                     .HasColumnName("name")
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(45);
 
                 entity.Property(e => e.ReferenceId)
                     .IsRequired()
                     .HasColumnName("reference_id")
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(45);
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
@@ -210,19 +198,13 @@ namespace DocuItService.Models
 
                 entity.Property(e => e.Comment)
                     .HasColumnName("comment")
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.CreationTime)
-                    .HasColumnName("creation_time")
-                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                    .HasMaxLength(255);
 
                 entity.Property(e => e.ElementTypeId).HasColumnName("element_type_id");
 
                 entity.Property(e => e.FileId)
                     .HasColumnName("file_id")
-                    .HasMaxLength(25)
-                    .IsUnicode(false);
+                    .HasMaxLength(25);
 
                 entity.Property(e => e.LocationLatitude).HasColumnName("location_latitude");
 
@@ -231,8 +213,7 @@ namespace DocuItService.Models
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name")
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
+                    .HasMaxLength(255);
 
                 entity.HasOne(d => d.Dossier)
                     .WithMany(p => p.DossierElement)
@@ -285,8 +266,7 @@ namespace DocuItService.Models
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name")
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(45);
 
                 entity.HasOne(d => d.Company)
                     .WithMany(p => p.ElementType)
@@ -295,14 +275,212 @@ namespace DocuItService.Models
                     .HasConstraintName("fk_element_type_company1");
             });
 
+            modelBuilder.Entity<InventoryParagraph>(entity =>
+            {
+                entity.HasKey(e => new { e.CompanyId, e.InventoryTypeId, e.Id })
+                    .HasName("PRIMARY");
+
+                entity.ToTable("inventory_paragraph", "DocuIt");
+
+                entity.Property(e => e.CompanyId).HasColumnName("company_id");
+
+                entity.Property(e => e.InventoryTypeId)
+                    .HasColumnName("inventory_type_id")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("name")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.SortId).HasColumnName("sort_id");
+
+                entity.HasOne(d => d.InventoryType)
+                    .WithMany(p => p.InventoryParagraph)
+                    .HasForeignKey(d => new { d.CompanyId, d.InventoryTypeId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_inventory_paragraph_inventory_type");
+            });
+
+            modelBuilder.Entity<InventoryQuestions>(entity =>
+            {
+                entity.HasKey(e => new { e.CompanyId, e.InventoryTypeId, e.Id })
+                    .HasName("PRIMARY");
+
+                entity.ToTable("inventory_questions", "DocuIt");
+
+                entity.HasIndex(e => new { e.CompanyId, e.InventoryTypeId })
+                    .HasName("fk_inventory_questions_inventory_type_idx");
+
+                entity.HasIndex(e => new { e.CompanyId, e.Id, e.InventoryTypeId })
+                    .HasName("index_paragraph_id");
+
+                entity.Property(e => e.CompanyId).HasColumnName("company_id");
+
+                entity.Property(e => e.InventoryTypeId)
+                    .HasColumnName("inventory_type_id")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.ParagraphId).HasColumnName("paragraph_id");
+
+                entity.Property(e => e.QuestionId)
+                    .HasColumnName("question_id")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.QuestionText)
+                    .HasColumnName("question_text")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.SortIndex).HasColumnName("sort_index");
+
+                entity.HasOne(d => d.InventoryType)
+                    .WithMany(p => p.InventoryQuestions)
+                    .HasForeignKey(d => new { d.CompanyId, d.InventoryTypeId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_inventory_questions_inventory_type");
+            });
+
             modelBuilder.Entity<InventoryReport>(entity =>
             {
+                entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.Id })
+                    .HasName("PRIMARY");
+
                 entity.ToTable("inventory_report", "DocuIt");
+
+                entity.HasIndex(e => new { e.CompanyId, e.ProjectId, e.BuildingTypeId })
+                    .HasName("fk_inventory_report_building_type_project1_idx");
+
+                entity.HasIndex(e => new { e.CompanyId, e.ProjectId, e.DossierId })
+                    .HasName("fk_inventory_report_dossier1_idx");
+
+                entity.HasIndex(e => new { e.WorkingCenterId, e.CompanyId, e.ProjectId })
+                    .HasName("fk_inventory_report_working_center_project1_idx");
+
+                entity.Property(e => e.CompanyId).HasColumnName("company_id");
+
+                entity.Property(e => e.ProjectId).HasColumnName("project_id");
+
+                entity.Property(e => e.DossierId).HasColumnName("dossier_id");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasMaxLength(5)
-                    .IsUnicode(false);
+                    .HasMaxLength(5);
+
+                entity.Property(e => e.BuildingTypeId)
+                    .IsRequired()
+                    .HasColumnName("building_type_id")
+                    .HasMaxLength(5);
+
+                entity.Property(e => e.Comment)
+                    .HasColumnName("comment")
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.WorkingCenterId)
+                    .IsRequired()
+                    .HasColumnName("working_center_id")
+                    .HasMaxLength(5);
+
+                entity.HasOne(d => d.Dossier)
+                    .WithMany(p => p.InventoryReport)
+                    .HasForeignKey(d => new { d.CompanyId, d.ProjectId, d.DossierId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_inventory_report_dossier");
+
+                entity.HasOne(d => d.WorkingCenterProject)
+                    .WithMany(p => p.InventoryReport)
+                    .HasForeignKey(d => new { d.WorkingCenterId, d.CompanyId, d.ProjectId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_inventory_report_working_center_project");
+            });
+
+            modelBuilder.Entity<InventoryType>(entity =>
+            {
+                entity.HasKey(e => new { e.CompanyId, e.Id })
+                    .HasName("PRIMARY");
+
+                entity.ToTable("inventory_type", "DocuIt");
+
+                entity.HasIndex(e => e.CompanyId)
+                    .HasName("fk_inventory_type_company1_idx");
+
+                entity.Property(e => e.CompanyId).HasColumnName("company_id");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasMaxLength(25);
+
+                entity.HasOne(d => d.Company)
+                    .WithMany(p => p.InventoryType)
+                    .HasForeignKey(d => d.CompanyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_inventory_type_company");
+            });
+
+            modelBuilder.Entity<Pictures>(entity =>
+            {
+                entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.ReportId, e.PictureId })
+                    .HasName("PRIMARY");
+
+                entity.ToTable("pictures", "DocuIt");
+
+                entity.HasIndex(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.ReportId })
+                    .HasName("fk_company_1_inventory_report1_idx");
+
+                entity.Property(e => e.CompanyId).HasColumnName("company_id");
+
+                entity.Property(e => e.ProjectId).HasColumnName("project_id");
+
+                entity.Property(e => e.DossierId).HasColumnName("dossier_id");
+
+                entity.Property(e => e.ReportId)
+                    .HasColumnName("report_id")
+                    .HasMaxLength(5);
+
+                entity.Property(e => e.PictureId)
+                    .HasColumnName("picture_id")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.Angle)
+                    .HasColumnName("angle")
+                    .HasColumnType("decimal(3,1)");
+
+                entity.Property(e => e.Comment)
+                    .HasColumnName("comment")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.Description)
+                    .HasColumnName("description")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.Height)
+                    .HasColumnName("height")
+                    .HasComment("In Centimeters");
+
+                entity.Property(e => e.Latitude)
+                    .HasColumnName("latitude")
+                    .HasColumnType("decimal(10,7)");
+
+                entity.Property(e => e.Longitude)
+                    .HasColumnName("longitude")
+                    .HasColumnType("decimal(11,8)");
+
+                entity.Property(e => e.Orientation)
+                    .HasColumnName("orientation")
+                    .HasColumnType("decimal(4,1)");
+
+                entity.HasOne(d => d.InventoryReport)
+                    .WithMany(p => p.Pictures)
+                    .HasForeignKey(d => new { d.CompanyId, d.ProjectId, d.DossierId, d.ReportId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_company_1_inventory_report1");
             });
 
             modelBuilder.Entity<Project>(entity =>
@@ -327,19 +505,13 @@ namespace DocuItService.Models
 
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
-                entity.Property(e => e.CreationTime)
-                    .HasColumnName("creation_time")
-                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
                 entity.Property(e => e.Name)
                     .HasColumnName("name")
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(45);
 
                 entity.Property(e => e.ReferenceId)
                     .HasColumnName("reference_id")
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(45);
 
                 entity.Property(e => e.StatusId).HasColumnName("status_id");
 
@@ -372,10 +544,6 @@ namespace DocuItService.Models
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
-                entity.Property(e => e.CreationTime)
-                    .HasColumnName("creation_time")
-                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
                 entity.Property(e => e.IsOwner)
                     .HasColumnName("is_owner")
                     .HasComment(@"Boolean meaning the user is the creator of the project.
@@ -397,8 +565,7 @@ namespace DocuItService.Models
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasColumnName("description")
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(45);
             });
 
             modelBuilder.Entity<Status>(entity =>
@@ -410,8 +577,7 @@ namespace DocuItService.Models
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name")
-                    .HasMaxLength(25)
-                    .IsUnicode(false);
+                    .HasMaxLength(25);
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -440,21 +606,15 @@ namespace DocuItService.Models
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
-                entity.Property(e => e.CreationTime)
-                    .HasColumnName("creation_time")
-                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasColumnName("email")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.FamilyName)
                     .IsRequired()
                     .HasColumnName("family_name")
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(45);
 
                 entity.Property(e => e.Locked)
                     .HasColumnName("locked")
@@ -463,14 +623,12 @@ namespace DocuItService.Models
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name")
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(45);
 
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .HasColumnName("password")
-                    .HasMaxLength(30)
-                    .IsUnicode(false);
+                    .HasMaxLength(30);
 
                 entity.Property(e => e.SecurityId)
                     .HasColumnName("security_id")
@@ -479,8 +637,7 @@ namespace DocuItService.Models
                 entity.Property(e => e.Username)
                     .IsRequired()
                     .HasColumnName("username")
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(45);
 
                 entity.HasOne(d => d.Company)
                     .WithMany(p => p.User)
@@ -507,15 +664,13 @@ namespace DocuItService.Models
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasMaxLength(5)
-                    .IsUnicode(false);
+                    .HasMaxLength(5);
 
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
                 entity.Property(e => e.Name)
                     .HasColumnName("name")
-                    .HasMaxLength(25)
-                    .IsUnicode(false);
+                    .HasMaxLength(25);
 
                 entity.HasOne(d => d.Company)
                     .WithMany(p => p.WorkingCenter)
@@ -536,8 +691,7 @@ namespace DocuItService.Models
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasMaxLength(5)
-                    .IsUnicode(false);
+                    .HasMaxLength(5);
 
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
