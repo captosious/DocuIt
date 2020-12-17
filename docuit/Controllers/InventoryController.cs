@@ -25,8 +25,9 @@ namespace DocuItService.Controllers
         //[HttpGet("GetInventory")]
         //public IEnumerable<InventoryReport> GetInventory([FromBody] InventoryReport params)
         //{
-        //    //IEnumerable<InventoryReport> 
-        //    //return 
+        //    IEnumerable<InventoryReport> inventoryReports;
+
+        //    return inventoryReports;
         //}
     }
 }
