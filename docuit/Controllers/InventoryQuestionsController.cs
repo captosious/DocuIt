@@ -1,18 +1,17 @@
-﻿using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DocuItService.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 
 namespace DocuItService.Controllers
 {
     [Route("[controller]")]
     [Produces("application/json")]
     [ApiController]
+    //[Microsoft.AspNetCore.Authorization.Authorize]
 
     public class InventoryQuestionsController : ControllerBase
     {
@@ -26,12 +25,23 @@ namespace DocuItService.Controllers
         }
 
         [HttpGet("GetInventoryQuestionnaire")]
-        public IEnumerable<InventoryQuestionsTable> GetInventoryQuestionnaire([FromBody] InventoryReport params)
+        public IEnumerable<InventoryQuestions> Get([FromBody] InventoryParams param)
         {
-            var questionnaire;
+            IEnumerable<InventoryQuestions> questionnaire;
+            IEnumerable<InventoryQuestionsTable> fullquestionnaire = null;
 
-            questionnaire = MyDBContext.Select;
-
+            questionnaire = (IEnumerable<InventoryQuestions>)MyDBContext.InventoryQuestions.Where(q => q.CompanyId==param.CompanyId && q.InventoryTypeId == param.TypeId)
+                            .OrderBy(x=>x.ParagraphId)
+                            .OrderBy(x => x.SortIndex);
+            //questionnaire = (IEnumerable<InventoryQuestions>)MyDBContext.InventoryQuestions;
+            if (questionnaire != null)
+            {
+                return questionnaire;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
