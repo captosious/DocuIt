@@ -22,6 +22,7 @@ namespace DocuItService.Models
         public virtual DbSet<DossierElement> DossierElement { get; set; }
         public virtual DbSet<DossierElementQuestionnaire> DossierElementQuestionnaire { get; set; }
         public virtual DbSet<ElementType> ElementType { get; set; }
+        public virtual DbSet<GetInventory> GetInventory { get; set; }
         public virtual DbSet<InventoryParagraph> InventoryParagraph { get; set; }
         public virtual DbSet<InventoryQuestions> InventoryQuestions { get; set; }
         public virtual DbSet<InventoryReport> InventoryReport { get; set; }
@@ -50,7 +51,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.CompanyId, e.Id })
                     .HasName("PRIMARY");
 
-                entity.ToTable("building_type", "DocuIt");
+                entity.ToTable("building_type");
 
                 entity.HasIndex(e => e.CompanyId)
                     .HasName("fk_building_type_company_idx");
@@ -77,7 +78,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.Id, e.ProjectId, e.CompanyId })
                     .HasName("PRIMARY");
 
-                entity.ToTable("building_type_project", "DocuIt");
+                entity.ToTable("building_type_project");
 
                 entity.HasIndex(e => new { e.CompanyId, e.Id })
                     .HasName("fk_building_type_project_building_type1_idx");
@@ -102,7 +103,7 @@ namespace DocuItService.Models
 
             modelBuilder.Entity<Company>(entity =>
             {
-                entity.ToTable("company", "DocuIt");
+                entity.ToTable("company");
 
                 entity.HasIndex(e => e.CompanyId)
                     .HasName("main_index");
@@ -142,7 +143,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.DossierId })
                     .HasName("PRIMARY");
 
-                entity.ToTable("dossier", "DocuIt");
+                entity.ToTable("dossier");
 
                 entity.HasIndex(e => new { e.CompanyId, e.ProjectId, e.UserId })
                     .HasName("fk_dossier_project_security_idx");
@@ -180,7 +181,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.ElementId })
                     .HasName("PRIMARY");
 
-                entity.ToTable("dossier_element", "DocuIt");
+                entity.ToTable("dossier_element");
 
                 entity.HasIndex(e => new { e.CompanyId, e.ElementTypeId })
                     .HasName("fk_dossier_element_element_type_idx");
@@ -227,7 +228,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.DossierElementId, e.Id })
                     .HasName("PRIMARY");
 
-                entity.ToTable("dossier_element_questionnaire", "DocuIt");
+                entity.ToTable("dossier_element_questionnaire");
 
                 entity.HasIndex(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.DossierElementId })
                     .HasName("fk_dossier_element_questionnaire_dossier_element_idx");
@@ -254,7 +255,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.ElementTypeId, e.CompanyId })
                     .HasName("PRIMARY");
 
-                entity.ToTable("element_type", "DocuIt");
+                entity.ToTable("element_type");
 
                 entity.HasIndex(e => e.CompanyId)
                     .HasName("fk_element_type_company1_idx");
@@ -275,12 +276,40 @@ namespace DocuItService.Models
                     .HasConstraintName("fk_element_type_company1");
             });
 
+            modelBuilder.Entity<GetInventory>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("GetInventory");
+
+                entity.Property(e => e.CompanyId).HasColumnName("company_id");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.InventoryTypeId)
+                    .IsRequired()
+                    .HasColumnName("inventory_type_id")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("name")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.QuestionId)
+                    .HasColumnName("question_id")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.QuestionText)
+                    .HasColumnName("question_text")
+                    .HasMaxLength(45);
+            });
+
             modelBuilder.Entity<InventoryParagraph>(entity =>
             {
                 entity.HasKey(e => new { e.CompanyId, e.InventoryTypeId, e.Id })
                     .HasName("PRIMARY");
 
-                entity.ToTable("inventory_paragraph", "DocuIt");
+                entity.ToTable("inventory_paragraph");
 
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
@@ -308,7 +337,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.CompanyId, e.InventoryTypeId, e.Id })
                     .HasName("PRIMARY");
 
-                entity.ToTable("inventory_questions", "DocuIt");
+                entity.ToTable("inventory_questions");
 
                 entity.HasIndex(e => new { e.CompanyId, e.InventoryTypeId })
                     .HasName("fk_inventory_questions_inventory_type_idx");
@@ -348,7 +377,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.Id })
                     .HasName("PRIMARY");
 
-                entity.ToTable("inventory_report", "DocuIt");
+                entity.ToTable("inventory_report");
 
                 entity.HasIndex(e => new { e.CompanyId, e.ProjectId, e.BuildingTypeId })
                     .HasName("fk_inventory_report_building_type_project1_idx");
@@ -401,7 +430,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.CompanyId, e.Id })
                     .HasName("PRIMARY");
 
-                entity.ToTable("inventory_type", "DocuIt");
+                entity.ToTable("inventory_type");
 
                 entity.HasIndex(e => e.CompanyId)
                     .HasName("fk_inventory_type_company1_idx");
@@ -429,7 +458,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.ReportId, e.PictureId })
                     .HasName("PRIMARY");
 
-                entity.ToTable("pictures", "DocuIt");
+                entity.ToTable("pictures");
 
                 entity.HasIndex(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.ReportId })
                     .HasName("fk_company_1_inventory_report1_idx");
@@ -488,7 +517,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.ProjectId, e.CompanyId })
                     .HasName("PRIMARY");
 
-                entity.ToTable("project", "DocuIt");
+                entity.ToTable("project");
 
                 entity.HasIndex(e => e.CompanyId)
                     .HasName("fk_project_company_idx");
@@ -533,7 +562,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.UserId })
                     .HasName("PRIMARY");
 
-                entity.ToTable("project_security", "DocuIt");
+                entity.ToTable("project_security");
 
                 entity.HasIndex(e => new { e.CompanyId, e.UserId })
                     .HasName("fk_project_security_user_idx");
@@ -558,7 +587,7 @@ namespace DocuItService.Models
 
             modelBuilder.Entity<Security>(entity =>
             {
-                entity.ToTable("security", "DocuIt");
+                entity.ToTable("security");
 
                 entity.Property(e => e.SecurityId).HasColumnName("security_id");
 
@@ -570,7 +599,7 @@ namespace DocuItService.Models
 
             modelBuilder.Entity<Status>(entity =>
             {
-                entity.ToTable("status", "DocuIt");
+                entity.ToTable("status");
 
                 entity.Property(e => e.StatusId).HasColumnName("status_id");
 
@@ -585,7 +614,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.CompanyId, e.UserId })
                     .HasName("PRIMARY");
 
-                entity.ToTable("user", "DocuIt");
+                entity.ToTable("user");
 
                 entity.HasIndex(e => e.SecurityId)
                     .HasName("index_security");
@@ -657,7 +686,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.Id, e.CompanyId })
                     .HasName("PRIMARY");
 
-                entity.ToTable("working_center", "DocuIt");
+                entity.ToTable("working_center");
 
                 entity.HasIndex(e => e.CompanyId)
                     .HasName("fk_working_center_company_idx");
@@ -684,7 +713,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.Id, e.CompanyId, e.ProjectId })
                     .HasName("PRIMARY");
 
-                entity.ToTable("working_center_project", "DocuIt");
+                entity.ToTable("working_center_project");
 
                 entity.HasIndex(e => new { e.CompanyId, e.ProjectId })
                     .HasName("fk_working_center_project_idx");
