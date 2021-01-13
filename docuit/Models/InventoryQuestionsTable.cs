@@ -17,6 +17,5 @@ namespace DocuItService.Models
         public string QuestionText { get; set; }
         public int ParagraphId { get; set; }
         public string ParagraphName { get; set; }
-
     }
 }
