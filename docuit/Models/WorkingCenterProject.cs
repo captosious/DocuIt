@@ -7,7 +7,7 @@ namespace DocuItService.Models
     {
         public WorkingCenterProject()
         {
-            InventoryReport = new HashSet<InventoryReport>();
+            QuestionnaireReport = new HashSet<QuestionnaireReport>();
         }
 
         public int CompanyId { get; set; }
@@ -15,6 +15,6 @@ namespace DocuItService.Models
         public string Id { get; set; }
 
         public virtual WorkingCenter WorkingCenter { get; set; }
-        public virtual ICollection<InventoryReport> InventoryReport { get; set; }
+        public virtual ICollection<QuestionnaireReport> QuestionnaireReport { get; set; }
     }
 }

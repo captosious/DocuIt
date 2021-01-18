@@ -9,8 +9,8 @@ namespace DocuItService.Models
         {
             BuildingType = new HashSet<BuildingType>();
             ElementType = new HashSet<ElementType>();
-            InventoryType = new HashSet<InventoryType>();
             Project = new HashSet<Project>();
+            QuestionnaireType = new HashSet<QuestionnaireType>();
             User = new HashSet<User>();
             WorkingCenter = new HashSet<WorkingCenter>();
         }
@@ -25,8 +25,8 @@ namespace DocuItService.Models
 
         public virtual ICollection<BuildingType> BuildingType { get; set; }
         public virtual ICollection<ElementType> ElementType { get; set; }
-        public virtual ICollection<InventoryType> InventoryType { get; set; }
         public virtual ICollection<Project> Project { get; set; }
+        public virtual ICollection<QuestionnaireType> QuestionnaireType { get; set; }
         public virtual ICollection<User> User { get; set; }
         public virtual ICollection<WorkingCenter> WorkingCenter { get; set; }
     }

@@ -22,14 +22,14 @@ namespace DocuItService.Models
         public virtual DbSet<DossierElement> DossierElement { get; set; }
         public virtual DbSet<DossierElementQuestionnaire> DossierElementQuestionnaire { get; set; }
         public virtual DbSet<ElementType> ElementType { get; set; }
-        public virtual DbSet<GetInventory> GetInventory { get; set; }
-        public virtual DbSet<InventoryParagraph> InventoryParagraph { get; set; }
-        public virtual DbSet<InventoryQuestions> InventoryQuestions { get; set; }
-        public virtual DbSet<InventoryReport> InventoryReport { get; set; }
-        public virtual DbSet<InventoryType> InventoryType { get; set; }
         public virtual DbSet<Pictures> Pictures { get; set; }
         public virtual DbSet<Project> Project { get; set; }
         public virtual DbSet<ProjectSecurity> ProjectSecurity { get; set; }
+        public virtual DbSet<QuestionnaireParagraph> QuestionnaireParagraph { get; set; }
+        public virtual DbSet<QuestionnaireQuestions> QuestionnaireQuestions { get; set; }
+        public virtual DbSet<QuestionnaireReport> QuestionnaireReport { get; set; }
+        public virtual DbSet<QuestionnaireType> QuestionnaireType { get; set; }
+        public virtual DbSet<Questionnairetable> Questionnairetable { get; set; }
         public virtual DbSet<Security> Security { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<User> User { get; set; }
@@ -40,7 +40,8 @@ namespace DocuItService.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=montmany;database=DocuIt");
             }
         }
 
@@ -51,7 +52,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.CompanyId, e.Id })
                     .HasName("PRIMARY");
 
-                entity.ToTable("building_type");
+                entity.ToTable("building_type", "DocuIt");
 
                 entity.HasIndex(e => e.CompanyId)
                     .HasName("fk_building_type_company_idx");
@@ -78,7 +79,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.Id, e.ProjectId, e.CompanyId })
                     .HasName("PRIMARY");
 
-                entity.ToTable("building_type_project");
+                entity.ToTable("building_type_project", "DocuIt");
 
                 entity.HasIndex(e => new { e.CompanyId, e.Id })
                     .HasName("fk_building_type_project_building_type1_idx");
@@ -103,7 +104,7 @@ namespace DocuItService.Models
 
             modelBuilder.Entity<Company>(entity =>
             {
-                entity.ToTable("company");
+                entity.ToTable("company", "DocuIt");
 
                 entity.HasIndex(e => e.CompanyId)
                     .HasName("main_index");
@@ -143,7 +144,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.DossierId })
                     .HasName("PRIMARY");
 
-                entity.ToTable("dossier");
+                entity.ToTable("dossier", "DocuIt");
 
                 entity.HasIndex(e => new { e.CompanyId, e.ProjectId, e.UserId })
                     .HasName("fk_dossier_project_security_idx");
@@ -181,7 +182,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.ElementId })
                     .HasName("PRIMARY");
 
-                entity.ToTable("dossier_element");
+                entity.ToTable("dossier_element", "DocuIt");
 
                 entity.HasIndex(e => new { e.CompanyId, e.ElementTypeId })
                     .HasName("fk_dossier_element_element_type_idx");
@@ -228,7 +229,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.DossierElementId, e.Id })
                     .HasName("PRIMARY");
 
-                entity.ToTable("dossier_element_questionnaire");
+                entity.ToTable("dossier_element_questionnaire", "DocuIt");
 
                 entity.HasIndex(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.DossierElementId })
                     .HasName("fk_dossier_element_questionnaire_dossier_element_idx");
@@ -255,7 +256,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.ElementTypeId, e.CompanyId })
                     .HasName("PRIMARY");
 
-                entity.ToTable("element_type");
+                entity.ToTable("element_type", "DocuIt");
 
                 entity.HasIndex(e => e.CompanyId)
                     .HasName("fk_element_type_company1_idx");
@@ -276,189 +277,12 @@ namespace DocuItService.Models
                     .HasConstraintName("fk_element_type_company1");
             });
 
-            modelBuilder.Entity<GetInventory>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("GetInventory");
-
-                entity.Property(e => e.CompanyId).HasColumnName("company_id");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.InventoryTypeId)
-                    .IsRequired()
-                    .HasColumnName("inventory_type_id")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Name)
-                    .HasColumnName("name")
-                    .HasMaxLength(45);
-
-                entity.Property(e => e.QuestionId)
-                    .HasColumnName("question_id")
-                    .HasMaxLength(45);
-
-                entity.Property(e => e.QuestionText)
-                    .HasColumnName("question_text")
-                    .HasMaxLength(45);
-            });
-
-            modelBuilder.Entity<InventoryParagraph>(entity =>
-            {
-                entity.HasKey(e => new { e.CompanyId, e.InventoryTypeId, e.Id })
-                    .HasName("PRIMARY");
-
-                entity.ToTable("inventory_paragraph");
-
-                entity.Property(e => e.CompanyId).HasColumnName("company_id");
-
-                entity.Property(e => e.InventoryTypeId)
-                    .HasColumnName("inventory_type_id")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Name)
-                    .HasColumnName("name")
-                    .HasMaxLength(45);
-
-                entity.Property(e => e.SortId).HasColumnName("sort_id");
-
-                entity.HasOne(d => d.InventoryType)
-                    .WithMany(p => p.InventoryParagraph)
-                    .HasForeignKey(d => new { d.CompanyId, d.InventoryTypeId })
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_inventory_paragraph_inventory_type");
-            });
-
-            modelBuilder.Entity<InventoryQuestions>(entity =>
-            {
-                entity.HasKey(e => new { e.CompanyId, e.InventoryTypeId, e.Id })
-                    .HasName("PRIMARY");
-
-                entity.ToTable("inventory_questions");
-
-                entity.HasIndex(e => new { e.CompanyId, e.InventoryTypeId })
-                    .HasName("fk_inventory_questions_inventory_type_idx");
-
-                entity.HasIndex(e => new { e.CompanyId, e.Id, e.InventoryTypeId })
-                    .HasName("index_paragraph_id");
-
-                entity.Property(e => e.CompanyId).HasColumnName("company_id");
-
-                entity.Property(e => e.InventoryTypeId)
-                    .HasColumnName("inventory_type_id")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.ParagraphId).HasColumnName("paragraph_id");
-
-                entity.Property(e => e.QuestionId)
-                    .HasColumnName("question_id")
-                    .HasMaxLength(45);
-
-                entity.Property(e => e.QuestionText)
-                    .HasColumnName("question_text")
-                    .HasMaxLength(45);
-
-                entity.Property(e => e.SortIndex).HasColumnName("sort_index");
-
-                entity.HasOne(d => d.InventoryType)
-                    .WithMany(p => p.InventoryQuestions)
-                    .HasForeignKey(d => new { d.CompanyId, d.InventoryTypeId })
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_inventory_questions_inventory_type");
-            });
-
-            modelBuilder.Entity<InventoryReport>(entity =>
-            {
-                entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.Id })
-                    .HasName("PRIMARY");
-
-                entity.ToTable("inventory_report");
-
-                entity.HasIndex(e => new { e.CompanyId, e.ProjectId, e.BuildingTypeId })
-                    .HasName("fk_inventory_report_building_type_project1_idx");
-
-                entity.HasIndex(e => new { e.CompanyId, e.ProjectId, e.DossierId })
-                    .HasName("fk_inventory_report_dossier1_idx");
-
-                entity.HasIndex(e => new { e.WorkingCenterId, e.CompanyId, e.ProjectId })
-                    .HasName("fk_inventory_report_working_center_project1_idx");
-
-                entity.Property(e => e.CompanyId).HasColumnName("company_id");
-
-                entity.Property(e => e.ProjectId).HasColumnName("project_id");
-
-                entity.Property(e => e.DossierId).HasColumnName("dossier_id");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasMaxLength(5);
-
-                entity.Property(e => e.BuildingTypeId)
-                    .IsRequired()
-                    .HasColumnName("building_type_id")
-                    .HasMaxLength(5);
-
-                entity.Property(e => e.Comment)
-                    .HasColumnName("comment")
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.WorkingCenterId)
-                    .IsRequired()
-                    .HasColumnName("working_center_id")
-                    .HasMaxLength(5);
-
-                entity.HasOne(d => d.Dossier)
-                    .WithMany(p => p.InventoryReport)
-                    .HasForeignKey(d => new { d.CompanyId, d.ProjectId, d.DossierId })
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_inventory_report_dossier");
-
-                entity.HasOne(d => d.WorkingCenterProject)
-                    .WithMany(p => p.InventoryReport)
-                    .HasForeignKey(d => new { d.WorkingCenterId, d.CompanyId, d.ProjectId })
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_inventory_report_working_center_project");
-            });
-
-            modelBuilder.Entity<InventoryType>(entity =>
-            {
-                entity.HasKey(e => new { e.CompanyId, e.Id })
-                    .HasName("PRIMARY");
-
-                entity.ToTable("inventory_type");
-
-                entity.HasIndex(e => e.CompanyId)
-                    .HasName("fk_inventory_type_company1_idx");
-
-                entity.Property(e => e.CompanyId).HasColumnName("company_id");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name")
-                    .HasMaxLength(25);
-
-                entity.HasOne(d => d.Company)
-                    .WithMany(p => p.InventoryType)
-                    .HasForeignKey(d => d.CompanyId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_inventory_type_company");
-            });
-
             modelBuilder.Entity<Pictures>(entity =>
             {
                 entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.ReportId, e.PictureId })
                     .HasName("PRIMARY");
 
-                entity.ToTable("pictures");
+                entity.ToTable("pictures", "DocuIt");
 
                 entity.HasIndex(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.ReportId })
                     .HasName("fk_company_1_inventory_report1_idx");
@@ -505,7 +329,7 @@ namespace DocuItService.Models
                     .HasColumnName("orientation")
                     .HasColumnType("decimal(4,1)");
 
-                entity.HasOne(d => d.InventoryReport)
+                entity.HasOne(d => d.QuestionnaireReport)
                     .WithMany(p => p.Pictures)
                     .HasForeignKey(d => new { d.CompanyId, d.ProjectId, d.DossierId, d.ReportId })
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -517,7 +341,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.ProjectId, e.CompanyId })
                     .HasName("PRIMARY");
 
-                entity.ToTable("project");
+                entity.ToTable("project", "DocuIt");
 
                 entity.HasIndex(e => e.CompanyId)
                     .HasName("fk_project_company_idx");
@@ -562,7 +386,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.UserId })
                     .HasName("PRIMARY");
 
-                entity.ToTable("project_security");
+                entity.ToTable("project_security", "DocuIt");
 
                 entity.HasIndex(e => new { e.CompanyId, e.UserId })
                     .HasName("fk_project_security_user_idx");
@@ -585,9 +409,196 @@ namespace DocuItService.Models
                     .HasConstraintName("fk_project_security_user");
             });
 
+            modelBuilder.Entity<QuestionnaireParagraph>(entity =>
+            {
+                entity.HasKey(e => new { e.CompanyId, e.QuestionnaireTypeId, e.Id })
+                    .HasName("PRIMARY");
+
+                entity.ToTable("questionnaire_paragraph", "DocuIt");
+
+                entity.Property(e => e.CompanyId).HasColumnName("company_id");
+
+                entity.Property(e => e.QuestionnaireTypeId)
+                    .HasColumnName("questionnaire_type_id")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("name")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.SortIndex).HasColumnName("sort_index");
+
+                entity.HasOne(d => d.QuestionnaireType)
+                    .WithMany(p => p.QuestionnaireParagraph)
+                    .HasForeignKey(d => new { d.CompanyId, d.QuestionnaireTypeId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_inventory_paragraph_inventory_type");
+            });
+
+            modelBuilder.Entity<QuestionnaireQuestions>(entity =>
+            {
+                entity.HasKey(e => new { e.CompanyId, e.QuestionnaireTypeId, e.Id, e.QuestionId })
+                    .HasName("PRIMARY");
+
+                entity.ToTable("questionnaire_questions", "DocuIt");
+
+                entity.HasIndex(e => new { e.CompanyId, e.QuestionnaireTypeId })
+                    .HasName("fk_inventory_questions_inventory_type_idx");
+
+                entity.HasIndex(e => new { e.CompanyId, e.Id, e.QuestionnaireTypeId })
+                    .HasName("index_paragraph_id");
+
+                entity.Property(e => e.CompanyId).HasColumnName("company_id");
+
+                entity.Property(e => e.QuestionnaireTypeId)
+                    .HasColumnName("questionnaire_type_id")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.QuestionId)
+                    .HasColumnName("question_id")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.ParagraphId).HasColumnName("paragraph_id");
+
+                entity.Property(e => e.QuestionText)
+                    .HasColumnName("question_text")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.SortIndex).HasColumnName("sort_index");
+
+                entity.HasOne(d => d.QuestionnaireType)
+                    .WithMany(p => p.QuestionnaireQuestions)
+                    .HasForeignKey(d => new { d.CompanyId, d.QuestionnaireTypeId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_inventory_questions_inventory_type");
+            });
+
+            modelBuilder.Entity<QuestionnaireReport>(entity =>
+            {
+                entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.Id })
+                    .HasName("PRIMARY");
+
+                entity.ToTable("questionnaire_report", "DocuIt");
+
+                entity.HasIndex(e => new { e.CompanyId, e.ProjectId, e.BuildingTypeId })
+                    .HasName("fk_inventory_report_building_type_project1_idx");
+
+                entity.HasIndex(e => new { e.CompanyId, e.ProjectId, e.DossierId })
+                    .HasName("fk_inventory_report_dossier1_idx");
+
+                entity.HasIndex(e => new { e.WorkingCenterId, e.CompanyId, e.ProjectId })
+                    .HasName("fk_inventory_report_working_center_project1_idx");
+
+                entity.Property(e => e.CompanyId).HasColumnName("company_id");
+
+                entity.Property(e => e.ProjectId).HasColumnName("project_id");
+
+                entity.Property(e => e.DossierId).HasColumnName("dossier_id");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasMaxLength(5);
+
+                entity.Property(e => e.BuildingTypeId)
+                    .IsRequired()
+                    .HasColumnName("building_type_id")
+                    .HasMaxLength(5);
+
+                entity.Property(e => e.Comment)
+                    .HasColumnName("comment")
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.WorkingCenterId)
+                    .IsRequired()
+                    .HasColumnName("working_center_id")
+                    .HasMaxLength(5);
+
+                entity.HasOne(d => d.Dossier)
+                    .WithMany(p => p.QuestionnaireReport)
+                    .HasForeignKey(d => new { d.CompanyId, d.ProjectId, d.DossierId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_inventory_report_dossier");
+
+                entity.HasOne(d => d.WorkingCenterProject)
+                    .WithMany(p => p.QuestionnaireReport)
+                    .HasForeignKey(d => new { d.WorkingCenterId, d.CompanyId, d.ProjectId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_inventory_report_working_center_project");
+            });
+
+            modelBuilder.Entity<QuestionnaireType>(entity =>
+            {
+                entity.HasKey(e => new { e.CompanyId, e.Id })
+                    .HasName("PRIMARY");
+
+                entity.ToTable("questionnaire_type", "DocuIt");
+
+                entity.HasIndex(e => e.CompanyId)
+                    .HasName("fk_inventory_type_company1_idx");
+
+                entity.Property(e => e.CompanyId).HasColumnName("company_id");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasMaxLength(25);
+
+                entity.HasOne(d => d.Company)
+                    .WithMany(p => p.QuestionnaireType)
+                    .HasForeignKey(d => d.CompanyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_inventory_type_company");
+            });
+
+            modelBuilder.Entity<Questionnairetable>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("questionnairetable", "DocuIt");
+
+                entity.Property(e => e.CompanyId).HasColumnName("company_id");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.ParagraphName)
+                    .HasColumnName("paragraph_name")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.ParagraphSortIndex).HasColumnName("paragraph_sort_index");
+
+                entity.Property(e => e.QuestionId)
+                    .IsRequired()
+                    .HasColumnName("question_id")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.QuestionText)
+                    .HasColumnName("question_text")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.QuestionnaireSortIndex).HasColumnName("questionnaire_sort_index");
+
+                entity.Property(e => e.QuestionnaireTypeId)
+                    .IsRequired()
+                    .HasColumnName("questionnaire_type_id")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.QuestionnaireTypeName)
+                    .IsRequired()
+                    .HasColumnName("questionnaire_type_name")
+                    .HasMaxLength(25);
+            });
+
             modelBuilder.Entity<Security>(entity =>
             {
-                entity.ToTable("security");
+                entity.ToTable("security", "DocuIt");
 
                 entity.Property(e => e.SecurityId).HasColumnName("security_id");
 
@@ -599,7 +610,7 @@ namespace DocuItService.Models
 
             modelBuilder.Entity<Status>(entity =>
             {
-                entity.ToTable("status");
+                entity.ToTable("status", "DocuIt");
 
                 entity.Property(e => e.StatusId).HasColumnName("status_id");
 
@@ -614,7 +625,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.CompanyId, e.UserId })
                     .HasName("PRIMARY");
 
-                entity.ToTable("user");
+                entity.ToTable("user", "DocuIt");
 
                 entity.HasIndex(e => e.SecurityId)
                     .HasName("index_security");
@@ -686,7 +697,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.Id, e.CompanyId })
                     .HasName("PRIMARY");
 
-                entity.ToTable("working_center");
+                entity.ToTable("working_center", "DocuIt");
 
                 entity.HasIndex(e => e.CompanyId)
                     .HasName("fk_working_center_company_idx");
@@ -713,7 +724,7 @@ namespace DocuItService.Models
                 entity.HasKey(e => new { e.Id, e.CompanyId, e.ProjectId })
                     .HasName("PRIMARY");
 
-                entity.ToTable("working_center_project");
+                entity.ToTable("working_center_project", "DocuIt");
 
                 entity.HasIndex(e => new { e.CompanyId, e.ProjectId })
                     .HasName("fk_working_center_project_idx");

@@ -8,7 +8,7 @@ namespace DocuItService.Models
         public Dossier()
         {
             DossierElement = new HashSet<DossierElement>();
-            InventoryReport = new HashSet<InventoryReport>();
+            QuestionnaireReport = new HashSet<QuestionnaireReport>();
         }
 
         public int CompanyId { get; set; }
@@ -22,6 +22,6 @@ namespace DocuItService.Models
 
         public virtual ProjectSecurity ProjectSecurity { get; set; }
         public virtual ICollection<DossierElement> DossierElement { get; set; }
-        public virtual ICollection<InventoryReport> InventoryReport { get; set; }
+        public virtual ICollection<QuestionnaireReport> QuestionnaireReport { get; set; }
     }
 }

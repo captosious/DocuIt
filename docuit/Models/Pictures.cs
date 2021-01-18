@@ -18,6 +18,6 @@ namespace DocuItService.Models
         public string Description { get; set; }
         public string Comment { get; set; }
 
-        public virtual InventoryReport InventoryReport { get; set; }
+        public virtual QuestionnaireReport QuestionnaireReport { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace DocuItService.Controllers
         }
 
         [HttpGet("GetInventoryQuestionnaire")]
-        public IEnumerable<GetInventory> Get([FromBody] InventoryParams param)
+        public IEnumerable<Questionnairetable> Get([FromBody] InventoryParams param)
         {
             IEnumerable<GetInventory> questionnaire;
 
