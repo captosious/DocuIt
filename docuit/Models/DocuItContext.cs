@@ -2,19 +2,21 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
+// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
+// If you have enabled NRTs for your project, then un-comment the following line:
+// #nullable disable
+
 namespace DocuItService.Models
 {
     public partial class DocuItContext : DbContext
     {
         public DocuItContext()
         {
-
         }
 
         public DocuItContext(DbContextOptions<DocuItContext> options)
             : base(options)
         {
-
         }
 
         public virtual DbSet<BuildingType> BuildingType { get; set; }
@@ -30,8 +32,8 @@ namespace DocuItService.Models
         public virtual DbSet<QuestionnaireParagraph> QuestionnaireParagraph { get; set; }
         public virtual DbSet<QuestionnaireQuestions> QuestionnaireQuestions { get; set; }
         public virtual DbSet<QuestionnaireReport> QuestionnaireReport { get; set; }
-        public virtual DbSet<QuestionnaireType> QuestionnaireType { get; set; }
         public virtual DbSet<QuestionnaireTable> QuestionnaireTable { get; set; }
+        public virtual DbSet<QuestionnaireType> QuestionnaireType { get; set; }
         public virtual DbSet<Security> Security { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<User> User { get; set; }
@@ -42,7 +44,6 @@ namespace DocuItService.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-
             }
         }
 
@@ -531,39 +532,11 @@ namespace DocuItService.Models
                     .HasConstraintName("fk_inventory_report_working_center_project");
             });
 
-            modelBuilder.Entity<QuestionnaireType>(entity =>
-            {
-                entity.HasKey(e => new { e.CompanyId, e.Id })
-                    .HasName("PRIMARY");
-
-                entity.ToTable("questionnaire_type", "DocuIt");
-
-                entity.HasIndex(e => e.CompanyId)
-                    .HasName("fk_inventory_type_company1_idx");
-
-                entity.Property(e => e.CompanyId).HasColumnName("company_id");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name")
-                    .HasMaxLength(25);
-
-                entity.HasOne(d => d.Company)
-                    .WithMany(p => p.QuestionnaireType)
-                    .HasForeignKey(d => d.CompanyId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_inventory_type_company");
-            });
-
             modelBuilder.Entity<QuestionnaireTable>(entity =>
             {
                 entity.HasNoKey();
 
-                entity.ToView("questionnairetable", "DocuIt");
+                entity.ToView("questionnaire_table", "DocuIt");
 
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
@@ -595,6 +568,34 @@ namespace DocuItService.Models
                     .IsRequired()
                     .HasColumnName("questionnaire_type_name")
                     .HasMaxLength(25);
+            });
+
+            modelBuilder.Entity<QuestionnaireType>(entity =>
+            {
+                entity.HasKey(e => new { e.CompanyId, e.Id })
+                    .HasName("PRIMARY");
+
+                entity.ToTable("questionnaire_type", "DocuIt");
+
+                entity.HasIndex(e => e.CompanyId)
+                    .HasName("fk_inventory_type_company1_idx");
+
+                entity.Property(e => e.CompanyId).HasColumnName("company_id");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasMaxLength(25);
+
+                entity.HasOne(d => d.Company)
+                    .WithMany(p => p.QuestionnaireType)
+                    .HasForeignKey(d => d.CompanyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_inventory_type_company");
             });
 
             modelBuilder.Entity<Security>(entity =>
