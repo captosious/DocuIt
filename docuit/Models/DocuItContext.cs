@@ -31,7 +31,7 @@ namespace DocuItService.Models
         public virtual DbSet<QuestionnaireQuestions> QuestionnaireQuestions { get; set; }
         public virtual DbSet<QuestionnaireReport> QuestionnaireReport { get; set; }
         public virtual DbSet<QuestionnaireType> QuestionnaireType { get; set; }
-        public virtual DbSet<Questionnairetable> Questionnairetable { get; set; }
+        public virtual DbSet<QuestionnaireTable> QuestionnaireTable { get; set; }
         public virtual DbSet<Security> Security { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<User> User { get; set; }
@@ -559,7 +559,7 @@ namespace DocuItService.Models
                     .HasConstraintName("fk_inventory_type_company");
             });
 
-            modelBuilder.Entity<Questionnairetable>(entity =>
+            modelBuilder.Entity<QuestionnaireTable>(entity =>
             {
                 entity.HasNoKey();
 

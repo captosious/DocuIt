@@ -25,11 +25,11 @@ namespace DocuItService.Controllers
         }
 
         [HttpGet("GetInventoryQuestionnaire")]
-        public IEnumerable<QuestionnaireTable> Get([FromBody] InventoryParams param)
+        public IEnumerable<QuestionnaireTable> Get([FromBody] QuestionnaireParams param)
         {
-            IEnumerable<GetInventory> questionnaire;
+            IEnumerable<QuestionnaireTable> questionnaire;
 
-            questionnaire = (IEnumerable<QuestionnaireTable>)MyDBContext.QuestionnaireTable.Where(q => q.CompanyId == param.CompanyId && q.InventoryTypeId == param.TypeId);
+            questionnaire = (IEnumerable<QuestionnaireTable>)MyDBContext.QuestionnaireTable.Where(q => q.CompanyId == param.CompanyId && q.QuestionnaireTypeId == param.QuestionnaireTypeId);
 
             if (questionnaire != null)
             {
