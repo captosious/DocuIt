@@ -1,23 +1,53 @@
 ﻿@page "/testscoped"
-@using DocuitWeb.Models
-@using DocuitWeb.Data
-@inject TestingService testing
 
 @inject IStringLocalizer<User> Localizer
+@inject QuestionnaireService QuestionnaireService
 
-@inject UserService UserService
-@inject SecurityService SecurityService
 
+<div class="container text-left">
+    <h3 class="PageHeader">Testing d'Inventari/Questionari</h3>
+    <br />
+    <p>Tipus Questionari: @questionnaireType </p>
+    @foreach (Questionnaire question in questionnaire)
+    {
+        if (previous_paragraph != question.Id)
+        {
+            previous_paragraph = question.Id;
+            <p>@question.ParagraphName</p>
+            
+        }
+
+        <div class="row">
+            <div class="col-2">
+                @question.QuestionId
+            </div>
+            <div class="col-6">
+                @question.QuestionText
+            </div>
+            <div class="col-4">
+                <input type="text" id="@question.QuestionId" name="question.QuestionId">
+            </div>
+        </div>
+    }
+</div>
 
 @code{
-    IEnumerable<DocuitWeb.Models.QuestionnaireTable> questionnare = new List<DocuitWeb.Models.QuestionnaireTable>();
-    DocuitWeb.Models.QuestionnaireTable question { get; set; };
+    IEnumerable<DocuitWeb.Models.Questionnaire> questionnaire = new List<DocuitWeb.Models.Questionnaire>();
+    DocuitWeb.Models.Questionnaire question { get; set; }
+    string questionnaireType;
+    int previous_paragraph = -1;
 
     protected override async Task OnInitializedAsync()
     {
         myBlocker.Show();
-        securities = await SecurityService.FetchAsync();
-        user = await UserService.FetchAsync(user);
+        QuestionnaireService.parameters.CompanyId = 1;
+        QuestionnaireService.parameters.QuestionnaireTypeId = "FACAN";
+
+        questionnaire = await QuestionnaireService.FetchAsync();
+        if (questionnaire != null)
+        {
+            questionnaireType = questionnaire.First().QuestionnaireTypeName;
+        }
         myBlocker.Hide();
     }
 }

@@ -24,7 +24,6 @@
     <Folder Include="Components\" />
     <Folder Include="Resources\Components\" />
     <Folder Include="Services\" />
-    <Folder Include="ModelsParams\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\Models\SharedLocalizer.ca-ES.Designer.cs">

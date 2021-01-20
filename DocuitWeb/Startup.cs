@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using DocuitWeb.Data;
 using DocuitWeb.Models;
+using DocuitWeb.Services;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Blazored.Toast;
@@ -57,6 +58,7 @@ namespace DocuitWeb
             services.AddScoped<BuildingTypeService>();
             services.AddScoped<CustomAuthenticationStateProvider>();
             services.AddScoped<AccessService>();
+            services.AddScoped<QuestionnaireService>();
             services.AddScoped<Login>();
             
             services.AddSingleton<AppSettings>();
