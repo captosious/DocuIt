@@ -33,6 +33,7 @@ namespace DocuItService.Models
         public virtual DbSet<QuestionnaireParagraph> QuestionnaireParagraph { get; set; }
         public virtual DbSet<QuestionnaireQuestions> QuestionnaireQuestions { get; set; }
         public virtual DbSet<QuestionnaireReport> QuestionnaireReport { get; set; }
+        public virtual DbSet<QuestionnaireReportAnswers> QuestionnaireReportAnswers { get; set; }
         public virtual DbSet<QuestionnaireType> QuestionnaireType { get; set; }
         public virtual DbSet<Security> Security { get; set; }
         public virtual DbSet<Status> Status { get; set; }
@@ -44,7 +45,6 @@ namespace DocuItService.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-
             }
         }
 
@@ -431,7 +431,7 @@ namespace DocuItService.Models
                 entity.Property(e => e.QuestionId)
                     .IsRequired()
                     .HasColumnName("question_id")
-                    .HasMaxLength(45);
+                    .HasMaxLength(25);
 
                 entity.Property(e => e.QuestionText)
                     .HasColumnName("question_text")
@@ -501,7 +501,7 @@ namespace DocuItService.Models
 
                 entity.Property(e => e.QuestionId)
                     .HasColumnName("question_id")
-                    .HasMaxLength(45);
+                    .HasMaxLength(25);
 
                 entity.Property(e => e.ParagraphId).HasColumnName("paragraph_id");
 
@@ -542,7 +542,7 @@ namespace DocuItService.Models
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasMaxLength(5);
+                    .HasMaxLength(45);
 
                 entity.Property(e => e.BuildingTypeId)
                     .IsRequired()
@@ -552,6 +552,10 @@ namespace DocuItService.Models
                 entity.Property(e => e.Comment)
                     .HasColumnName("comment")
                     .HasMaxLength(255);
+
+                entity.Property(e => e.QuestionnaireTypeId)
+                    .HasColumnName("questionnaire_type_id")
+                    .HasMaxLength(25);
 
                 entity.Property(e => e.WorkingCenterId)
                     .IsRequired()
@@ -569,6 +573,41 @@ namespace DocuItService.Models
                     .HasForeignKey(d => new { d.WorkingCenterId, d.CompanyId, d.ProjectId })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_inventory_report_working_center_project");
+            });
+
+            modelBuilder.Entity<QuestionnaireReportAnswers>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("questionnaire_report_answers", "DocuIt");
+
+                entity.HasIndex(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.QuestionnaireReportId })
+                    .HasName("fk_questionnaire_report_answer_questionnaire_report1_idx");
+
+                entity.Property(e => e.Answer)
+                    .HasColumnName("answer")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.CompanyId).HasColumnName("company_id");
+
+                entity.Property(e => e.DossierId).HasColumnName("dossier_id");
+
+                entity.Property(e => e.ProjectId).HasColumnName("project_id");
+
+                entity.Property(e => e.QuestionId)
+                    .HasColumnName("question_id")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.QuestionnaireReportId)
+                    .IsRequired()
+                    .HasColumnName("questionnaire_report_id")
+                    .HasMaxLength(45);
+
+                entity.HasOne(d => d.QuestionnaireReport)
+                    .WithMany()
+                    .HasForeignKey(d => new { d.CompanyId, d.ProjectId, d.DossierId, d.QuestionnaireReportId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_questionnaire_report_answer_questionnaire_report");
             });
 
             modelBuilder.Entity<QuestionnaireType>(entity =>
