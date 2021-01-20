@@ -24,7 +24,7 @@ namespace DocuItService.Controllers
             this.MySettings = MySettings;
         }
 
-        [HttpGet("GetQuestionnaire")]
+        //[HttpGet("GetQuestionnaire")]
         public IEnumerable<Questionnaire> Get([FromBody] QuestionnaireParams param)
         {
             IEnumerable<Questionnaire> questionnaire;

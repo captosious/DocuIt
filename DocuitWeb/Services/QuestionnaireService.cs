@@ -7,37 +7,39 @@ using Newtonsoft.Json;
 using DocuitWeb.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using System.Linq;
+using DocuitWeb.ModelsParams;
+using System.Collections.Generic;
 
 namespace DocuitWeb.Services
 
 {
-    public class QuestionnaireTableService
+    public class QuestionnaireService
     {
         private AppSettings _appSettings;
         private MyHttp _myHttp;
-        private string _resource = "/user";
+        private string _resource = "/questionnaire";
 
-        public QuestionnaireTableService(AppSettings appSettings, MyHttp myHttp)
+        public QuestionnaireService(AppSettings appSettings, MyHttp myHttp)
         {
             _appSettings = appSettings;
             _myHttp = myHttp;
         }
 
-        public async Task<QuestionnaireTable> FetchAsync(User user)
+        public async Task<Questionnaire> FetchAsync(QuestionnaireParams questionnaireParams)
         {
             HttpClient httpClient = _myHttp.GetClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
-            User return_user;
+            IEnumerable<Questionnaire> questionnaire;
 
-            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/GetById");
-            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
+            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(questionnaireParams), Encoding.UTF8, "application/json");
             var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
             try
             {
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                return_user = JsonConvert.DeserializeObject<User>(responseBody);
-                return await Task.FromResult(return_user);
+                questionnaire = JsonConvert.DeserializeObject<Questionnaire>(responseBody);
+                return await Task.FromResult(questionnaire);
             }
             catch
             {
