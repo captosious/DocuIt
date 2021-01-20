@@ -78,6 +78,11 @@ body {
     margin-top: 5px;
 }
 
+.questionnaire_paragraph_name {
+    color: orange;
+    
+}
+
 .btn_general {
     font-family: "Nunito";
 }
