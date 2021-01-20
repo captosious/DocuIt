@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace DocuitWeb.Data
+namespace DocuitWeb.Service
 {
     public class AccessService
     {

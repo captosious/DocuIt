@@ -8,7 +8,7 @@ using DocuitWeb.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using System.Linq;
 
-namespace DocuitWeb.Data
+namespace DocuitWeb.Services
 {
     public class UserService
     {

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace DocuItService.Models
 {
-    public partial class QuestionnaireTable
+    public partial class Questionnaire
     {
         public int CompanyId { get; set; }
         public string QuestionnaireTypeId { get; set; }

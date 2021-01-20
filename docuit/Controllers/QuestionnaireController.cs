@@ -13,23 +13,23 @@ namespace DocuItService.Controllers
     [ApiController]
     //[Microsoft.AspNetCore.Authorization.Authorize]
 
-    public class QuestionnaireTableController : ControllerBase
+    public class QuestionnaireController : ControllerBase
     {
         private readonly DocuItContext MyDBContext;
         private readonly MyAppSettings MySettings;
 
-        public QuestionnaireTableController(DocuItContext db, MyAppSettings MySettings)
+        public QuestionnaireController(DocuItContext db, MyAppSettings MySettings)
         {
             MyDBContext = db;
             this.MySettings = MySettings;
         }
 
         [HttpGet("GetQuestionnaire")]
-        public IEnumerable<QuestionnaireTable> Get([FromBody] QuestionnaireParams param)
+        public IEnumerable<Questionnaire> Get([FromBody] QuestionnaireParams param)
         {
-            IEnumerable<QuestionnaireTable> questionnaire;
+            IEnumerable<Questionnaire> questionnaire;
             //questionnaire = (IEnumerable<QuestionnaireTable>)MyDBContext.QuestionnaireTable.Where(q => q.CompanyId == param.CompanyId && q.QuestionnaireTypeId == param.QuestionnaireTypeId);
-            questionnaire = (IEnumerable<QuestionnaireTable>)MyDBContext.QuestionnaireTable.ToList(); ;
+            questionnaire = (IEnumerable<Questionnaire>)MyDBContext.Questionnaire.ToList(); ;
             if (questionnaire != null)
             {
                 return questionnaire;

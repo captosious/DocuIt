@@ -29,10 +29,10 @@ namespace DocuItService.Models
         public virtual DbSet<Pictures> Pictures { get; set; }
         public virtual DbSet<Project> Project { get; set; }
         public virtual DbSet<ProjectSecurity> ProjectSecurity { get; set; }
+        public virtual DbSet<Questionnaire> Questionnaire { get; set; }
         public virtual DbSet<QuestionnaireParagraph> QuestionnaireParagraph { get; set; }
         public virtual DbSet<QuestionnaireQuestions> QuestionnaireQuestions { get; set; }
         public virtual DbSet<QuestionnaireReport> QuestionnaireReport { get; set; }
-        public virtual DbSet<QuestionnaireTable> QuestionnaireTable { get; set; }
         public virtual DbSet<QuestionnaireType> QuestionnaireType { get; set; }
         public virtual DbSet<Security> Security { get; set; }
         public virtual DbSet<Status> Status { get; set; }
@@ -44,6 +44,8 @@ namespace DocuItService.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=montmany;database=DocuIt");
             }
         }
 
@@ -411,6 +413,44 @@ namespace DocuItService.Models
                     .HasConstraintName("fk_project_security_user");
             });
 
+            modelBuilder.Entity<Questionnaire>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("questionnaire", "DocuIt");
+
+                entity.Property(e => e.CompanyId).HasColumnName("company_id");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.ParagraphName)
+                    .HasColumnName("paragraph_name")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.ParagraphSortIndex).HasColumnName("paragraph_sort_index");
+
+                entity.Property(e => e.QuestionId)
+                    .IsRequired()
+                    .HasColumnName("question_id")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.QuestionText)
+                    .HasColumnName("question_text")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.QuestionnaireSortIndex).HasColumnName("questionnaire_sort_index");
+
+                entity.Property(e => e.QuestionnaireTypeId)
+                    .IsRequired()
+                    .HasColumnName("questionnaire_type_id")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.QuestionnaireTypeName)
+                    .IsRequired()
+                    .HasColumnName("questionnaire_type_name")
+                    .HasMaxLength(25);
+            });
+
             modelBuilder.Entity<QuestionnaireParagraph>(entity =>
             {
                 entity.HasKey(e => new { e.CompanyId, e.QuestionnaireTypeId, e.Id })
@@ -530,44 +570,6 @@ namespace DocuItService.Models
                     .HasForeignKey(d => new { d.WorkingCenterId, d.CompanyId, d.ProjectId })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_inventory_report_working_center_project");
-            });
-
-            modelBuilder.Entity<QuestionnaireTable>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("questionnaire_table", "DocuIt");
-
-                entity.Property(e => e.CompanyId).HasColumnName("company_id");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.ParagraphName)
-                    .HasColumnName("paragraph_name")
-                    .HasMaxLength(45);
-
-                entity.Property(e => e.ParagraphSortIndex).HasColumnName("paragraph_sort_index");
-
-                entity.Property(e => e.QuestionId)
-                    .IsRequired()
-                    .HasColumnName("question_id")
-                    .HasMaxLength(45);
-
-                entity.Property(e => e.QuestionText)
-                    .HasColumnName("question_text")
-                    .HasMaxLength(45);
-
-                entity.Property(e => e.QuestionnaireSortIndex).HasColumnName("questionnaire_sort_index");
-
-                entity.Property(e => e.QuestionnaireTypeId)
-                    .IsRequired()
-                    .HasColumnName("questionnaire_type_id")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.QuestionnaireTypeName)
-                    .IsRequired()
-                    .HasColumnName("questionnaire_type_name")
-                    .HasMaxLength(25);
             });
 
             modelBuilder.Entity<QuestionnaireType>(entity =>

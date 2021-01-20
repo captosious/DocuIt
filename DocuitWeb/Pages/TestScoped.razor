@@ -9,41 +9,15 @@
 @inject SecurityService SecurityService
 
 
-
-<h1>Cookie-Info</h1>
-<p>Connected User: @ConnectedUser</p>
-<p>CompanyId: @CompanyId</p>
-@*<p>Testing Value: @testing.CommonText </p>
-<p><input type="text" @bind="testing.CommonText" /></p>*@
-<button type="submit"></button>
-
 @code{
-
-    string ConnectedUser { get; set; }
-    int CompanyId { get; set; }
+    IEnumerable<DocuitWeb.Models.QuestionnaireTable> questionnare = new List<DocuitWeb.Models.QuestionnaireTable>();
+    DocuitWeb.Models.QuestionnaireTable question { get; set; };
 
     protected override async Task OnInitializedAsync()
     {
-
-    }
-
-    protected void TimesTwo()
-    {
-        @*testing.CommonText = "Hola!!!";*@
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        Login login;
-
-        if (firstRender)
-        {
-
-            //login = await MyStorageTools.BufferGetLocalStorageAsync();
-            @*ConnectedUser = login.Name + " " + login.FamilyName;
-            CompanyId = login.CompanyId;
-            StateHasChanged();*@
-        }
-
+        myBlocker.Show();
+        securities = await SecurityService.FetchAsync();
+        user = await UserService.FetchAsync(user);
+        myBlocker.Hide();
     }
 }

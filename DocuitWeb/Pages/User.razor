@@ -63,7 +63,7 @@
 
 @code
 {
-    DocuitWeb.Models.User user = new DocuitWeb.Models.User();
+    IEnumerable<DocuitWeb.Models.QuestionnaireTable> questionnaires = new List<DocuitWeb.Models.QuestionnaireTable>();
     IEnumerable<Security> securities = new List<Security>();
 
     protected override async Task OnInitializedAsync()
