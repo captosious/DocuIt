@@ -578,7 +578,8 @@ namespace DocuItService.Models
 
             modelBuilder.Entity<QuestionnaireReportAnswers>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.QuestionnaireReportId, e.QuestionId })
+                    .HasName("PRIMARY");
 
                 entity.ToTable("questionnaire_report_answers", "DocuIt");
 
