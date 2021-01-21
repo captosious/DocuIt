@@ -28,16 +28,9 @@ namespace DocuItService.Controllers
         public IEnumerable<Questionnaire> Get([FromBody] QuestionnaireParams param)
         {
             IEnumerable<Questionnaire> questionnaire;
-            //questionnaire = (IEnumerable<QuestionnaireTable>)MyDBContext.QuestionnaireTable.Where(q => q.CompanyId == param.CompanyId && q.QuestionnaireTypeId == param.QuestionnaireTypeId);
+
             questionnaire = (IEnumerable<Questionnaire>)MyDBContext.Questionnaire.ToList(); ;
-            if (questionnaire != null)
-            {
-                return questionnaire;
-            }
-            else
-            {
-                return null;
-            }
+            return questionnaire;
         }
     }
 }
