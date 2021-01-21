@@ -245,4 +245,8 @@
   <ItemGroup>
     <None Remove="Properties\PublishProfiles\FolderProfile 12.pubxml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Properties\launchSettings.json" />
+    <Content Remove="Properties\launchSettings.json" />
+  </ItemGroup>
 </Project>
