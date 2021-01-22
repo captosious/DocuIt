@@ -23,15 +23,21 @@
                 @question.QuestionText
             </div>
             <div class="col-4">
-                <input type="text" id="@question.QuestionId" name="question.QuestionId">
+                <input type="text" id="@question.QuestionId" name="question.QuestionId" value="">
             </div>
         </div>
     }
+
+
+
 </div>
 
 @code{
     IEnumerable<DocuitWeb.Models.Questionnaire> questionnaire = new List<DocuitWeb.Models.Questionnaire>();
     DocuitWeb.Models.Questionnaire question { get; set; }
+    IEnumerable<DocuitWeb.Models.QuestionnaireReportAnswers> answers = new List<DocuitWeb.Models.QuestionnaireReportAnswers>();
+    DocuitWeb.Models.QuestionnaireReportAnswers answer { get; set; }
+
     string questionnaireType;
     int previous_paragraph = -1;
 
@@ -41,11 +47,13 @@
         QuestionnaireService.parameters.CompanyId = 1;
         QuestionnaireService.parameters.QuestionnaireTypeId = "FACAN";
 
-        questionnaire = await QuestionnaireService.FetchAsync();
+        questionnaire = await QuestionnaireService.FetchAsyncQuestionnaireQuestions();
         if (questionnaire != null)
         {
             questionnaireType = questionnaire.First().QuestionnaireTypeName;
         }
+        answers = await QuestionnaireService.FetchAsyncQuestionnaireAnswers();
+
         myBlocker.Hide();
-    }
+    }    
 }

@@ -25,12 +25,12 @@ namespace DocuItService.Controllers
             this.MySettings = MySettings;
         }
 
-        //[HttpGet("GetQuestionnaire")]
-        public IEnumerable<QuestionnaireReportAnswers> Get([FromBody] QuestionnaireParams param)
+        [HttpGet]
+        public IEnumerable<QuestionnaireReportAnswers> Get([FromBody] QuestionnaireReportAnswers param)
         {
             IEnumerable<QuestionnaireReportAnswers> questionnaire;
 
-            questionnaire = (IEnumerable<QuestionnaireReportAnswers>)MyDBContext.Questionnaire.ToList(); ;
+            questionnaire = (IEnumerable<QuestionnaireReportAnswers>)MyDBContext.QuestionnaireReportAnswers.Where(e=> e.CompanyId==param.CompanyId && e.ProjectId ==param.ProjectId && e.DossierId ==param.DossierId);
             return questionnaire;
         }
 

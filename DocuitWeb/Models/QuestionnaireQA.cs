@@ -1,7 +1,7 @@
 ﻿using System;
 namespace DocuitWeb.Models
 {
-    public partial class Questionnaire
+    public partial class QuestionnaireQA
     {
         public int CompanyId { get; set; }
         public string QuestionnaireTypeId { get; set; }
@@ -12,5 +12,6 @@ namespace DocuitWeb.Models
         public int QuestionnaireSortIndex { get; set; }
         public string QuestionId { get; set; }
         public string QuestionText { get; set; }
+        public string AnswerText { get; set; }
     }
 }
