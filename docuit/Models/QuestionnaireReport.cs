@@ -12,6 +12,7 @@ namespace DocuItService.Models
         public QuestionnaireReport()
         {
             Pictures = new HashSet<Pictures>();
+            QuestionnaireReportAnswers = new HashSet<QuestionnaireReportAnswers>();
         }
 
         public int CompanyId { get; set; }
@@ -26,5 +27,6 @@ namespace DocuItService.Models
         public virtual Dossier Dossier { get; set; }
         public virtual WorkingCenterProject WorkingCenterProject { get; set; }
         public virtual ICollection<Pictures> Pictures { get; set; }
+        public virtual ICollection<QuestionnaireReportAnswers> QuestionnaireReportAnswers { get; set; }
     }
 }

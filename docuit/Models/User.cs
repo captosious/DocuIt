@@ -22,7 +22,9 @@ namespace DocuItService.Models
         public string Name { get; set; }
         public string FamilyName { get; set; }
         public bool Locked { get; set; }
+        public DateTimeOffset CreationTime { get; set; }
         public int SecurityId { get; set; }
+        public DateTime? Usercol { get; set; }
 
         public virtual Company Company { get; set; }
         public virtual Security Security { get; set; }

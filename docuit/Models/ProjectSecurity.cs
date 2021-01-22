@@ -18,6 +18,7 @@ namespace DocuItService.Models
         public int ProjectId { get; set; }
         public int UserId { get; set; }
         public byte IsOwner { get; set; }
+        public DateTimeOffset CreationTime { get; set; }
 
         public virtual User User { get; set; }
         public virtual ICollection<Dossier> Dossier { get; set; }

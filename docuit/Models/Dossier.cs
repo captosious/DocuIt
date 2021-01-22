@@ -23,6 +23,7 @@ namespace DocuItService.Models
         public double? LocationLatitude { get; set; }
         public double? LocationLongitude { get; set; }
         public int UserId { get; set; }
+        public DateTimeOffset CreationTime { get; set; }
 
         public virtual ProjectSecurity ProjectSecurity { get; set; }
         public virtual ICollection<DossierElement> DossierElement { get; set; }
