@@ -12,6 +12,7 @@ namespace DocuItService.Models
         public int CompanyId { get; set; }
         public int ProjectId { get; set; }
         public int DossierId { get; set; }
+        public string QuestionnaireReportId { get; set; }
         public string QuestionnaireTypeId { get; set; }
         public int Id { get; set; }
         public string Name { get; set; }

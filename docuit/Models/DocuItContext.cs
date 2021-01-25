@@ -45,7 +45,7 @@ namespace DocuItService.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-         }
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -451,8 +451,7 @@ namespace DocuItService.Models
 
             modelBuilder.Entity<Questionnaire>(entity =>
             {
-                entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.QuestionId })
-                    .HasName("PRIMARY");
+                entity.HasNoKey();
 
                 entity.ToView("questionnaire", "DocuIt");
 
@@ -482,6 +481,11 @@ namespace DocuItService.Models
 
                 entity.Property(e => e.QuestionText)
                     .HasColumnName("question_text")
+                    .HasMaxLength(45)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.QuestionnaireReportId)
+                    .HasColumnName("questionnaire_report_id")
                     .HasMaxLength(45)
                     .IsUnicode(false);
 

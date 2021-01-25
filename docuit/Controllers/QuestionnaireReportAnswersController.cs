@@ -53,6 +53,41 @@ namespace DocuItService.Controllers
             transaction.Commit();
             return Ok();
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] ICollection<Questionnaire> questionnaire)
+        {
+            IDbContextTransaction transaction = MyDBContext.Database.BeginTransaction();
+            ICollection<QuestionnaireReportAnswers> questionnaireReport = new List<QuestionnaireReportAnswers>();
+            QuestionnaireReportAnswers questionnaireReportAnswersquestion;
+
+            foreach (Questionnaire question in questionnaire)
+            {
+                questionnaireReportAnswersquestion = new QuestionnaireReportAnswers();
+                questionnaireReportAnswersquestion.CompanyId = question.CompanyId;
+                questionnaireReportAnswersquestion.DossierId = question.CompanyId;
+                questionnaireReportAnswersquestion.ProjectId = question.CompanyId;
+                questionnaireReportAnswersquestion.QuestionnaireReportId = question.QuestionnaireReportId;
+                questionnaireReportAnswersquestion.QuestionId = question.QuestionId;
+                questionnaireReportAnswersquestion.Answer = question.Answer;
+
+                questionnaireReport.Add(questionnaireReportAnswersquestion);
+            }
+
+            try
+            {
+                MyDBContext.QuestionnaireReportAnswers.RemoveRange(questionnaireReport);
+                await MyDBContext.SaveChangesAsync();
+                MyDBContext.QuestionnaireReportAnswers.AddRange(questionnaireReport);
+                await MyDBContext.SaveChangesAsync();
+            }
+            catch
+            {
+                transaction.Rollback();
+            }
+            transaction.Commit();
+            return Ok();
+        }
     }
 }
 
