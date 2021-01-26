@@ -45,7 +45,8 @@ namespace DocuItService.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=montmany;database=DocuIt");
             }
         }
 
@@ -452,49 +453,41 @@ namespace DocuItService.Models
 
             modelBuilder.Entity<Questionnaire>(entity =>
             {
-                entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.QuestionnaireReportId })
+                entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.QuestionnaireReportId, e.QuestionId })
                     .HasName("PRIMARY");
 
                 entity.ToView("questionnaire", "DocuIt");
 
                 entity.Property(e => e.Answer)
-                    .HasColumnName("answer")
                     .HasMaxLength(45)
                     .IsUnicode(false);
-
-                entity.Property(e => e.CompanyId).HasColumnName("company_id");
-
-                entity.Property(e => e.DossierId).HasColumnName("dossier_id");
-
-                entity.Property(e => e.ParagraphId).HasColumnName("paragraph_id");
 
                 entity.Property(e => e.ParagraphName)
-                    .HasColumnName("paragraph_name")
                     .HasMaxLength(45)
                     .IsUnicode(false);
-
-                entity.Property(e => e.ProjectId).HasColumnName("project_id");
 
                 entity.Property(e => e.QuestionId)
                     .IsRequired()
-                    .HasColumnName("question_id")
                     .HasMaxLength(25)
                     .IsUnicode(false);
 
                 entity.Property(e => e.QuestionText)
-                    .HasColumnName("question_text")
                     .HasMaxLength(45)
                     .IsUnicode(false);
 
                 entity.Property(e => e.QuestionnaireReportId)
-                    .HasColumnName("questionnaire_report_id")
+                    .IsRequired()
                     .HasMaxLength(45)
                     .IsUnicode(false);
 
                 entity.Property(e => e.QuestionnaireTypeId)
                     .IsRequired()
-                    .HasColumnName("questionnaire_type_id")
                     .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.QuestionnaireTypeName)
+                    .IsRequired()
+                    .HasMaxLength(25)
                     .IsUnicode(false);
             });
 
