@@ -45,6 +45,7 @@ namespace DocuItService.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+
             }
         }
 
@@ -451,7 +452,8 @@ namespace DocuItService.Models
 
             modelBuilder.Entity<Questionnaire>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.QuestionnaireReportId })
+                    .HasName("PRIMARY");
 
                 entity.ToView("questionnaire", "DocuIt");
 
@@ -464,10 +466,10 @@ namespace DocuItService.Models
 
                 entity.Property(e => e.DossierId).HasColumnName("dossier_id");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.ParagraphId).HasColumnName("paragraph_id");
 
-                entity.Property(e => e.Name)
-                    .HasColumnName("name")
+                entity.Property(e => e.ParagraphName)
+                    .HasColumnName("paragraph_name")
                     .HasMaxLength(45)
                     .IsUnicode(false);
 
