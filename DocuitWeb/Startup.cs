@@ -58,7 +58,7 @@ namespace DocuitWeb
             services.AddScoped<BuildingTypeService>();
             services.AddScoped<CustomAuthenticationStateProvider>();
             services.AddScoped<AccessService>();
-            services.AddScoped<QuestionnaireService>();
+            services.AddScoped<QuestionnaireQAService>();
             services.AddScoped<Login>();
             
             services.AddSingleton<AppSettings>();

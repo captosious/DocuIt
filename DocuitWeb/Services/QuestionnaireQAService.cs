@@ -28,11 +28,11 @@ namespace DocuitWeb.Services
             //parameters.QuestionnaireTypeId = "";
         }
 
-        public async Task<IEnumerable<QuestionnaireQA>> FetchAsyncQuestionnaireQuestions()
+        public async Task<IEnumerable<Questionnaire>>FetchAsyncQuestionnaireQuestions()
         {
             HttpClient httpClient = _myHttp.GetClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
-            IEnumerable<QuestionnaireQA> questionnaire;
+            IEnumerable<Questionnaire> questionnaire;
 
             httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(parameters), Encoding.UTF8, "application/json");
@@ -41,7 +41,7 @@ namespace DocuitWeb.Services
             {
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                questionnaire = JsonConvert.DeserializeObject<List<QuestionnaireQA>>(responseBody);
+                questionnaire = JsonConvert.DeserializeObject<List<Questionnaire>>(responseBody);
                 return await Task.FromResult(questionnaire);
             }
             catch
@@ -72,13 +72,33 @@ namespace DocuitWeb.Services
             }
         }
 
+        public async Task SaveQuestionnaire(IEnumerable<QuestionnaireQA> questionnaireQAs)
+        {
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+            HttpClient httpClient = _myHttp.GetClient();
+
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
+            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(questionnaireQAs), Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await httpClient.PutAsync(httpClient.BaseAddress, httpRequestMessage.Content);
+            try
+            {
+                response.EnsureSuccessStatusCode();
+                //return Task.CompletedTask;
+            }
+            catch
+            {
+                //return Task.ok;
+            }
+        }
+
+        // Local Classes 
         public class QuestionnaireParameters
         {
             public int CompanyId { get; set; }
             public int ProjectId { get; set; }
             public int DossierId { get; set; }
             public int QuestionnaireReportId { get; set; }
-            public string QuestionnaireTypeId { get; set; }
         }
     }
 }

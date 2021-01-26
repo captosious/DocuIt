@@ -10,9 +10,9 @@
     <br />
     @foreach (Questionnaire question in questionnaire)
     {
-        if (previous_paragraph != question.Id)
+        if (previous_paragraph != question.ParagraphId)
         {
-            previous_paragraph = question.Id;
+            previous_paragraph = question.ParagraphId;
             <h5 class="questionnaire_paragraph_name">@question.ParagraphName</h5>
         }
         <div class="row">
@@ -23,37 +23,68 @@
                 @question.QuestionText
             </div>
             <div class="col-4">
-                <input type="text" id="@question.QuestionId" name="question.QuestionId" value="">
+                <input type="text" id="@question.QuestionId" name="question.QuestionId" value="@question.Answer">
             </div>
         </div>
     }
-
-
-
+    <div class="row">
+        <div class="col">
+            <button class="btn btn_general btn-success" @onclick="OnClickPutButton">@SharedLocalizer["MSG_SAVE"]</button>
+        </div>
+    </div>
 </div>
 
-@code{
-    IEnumerable<DocuitWeb.Models.Questionnaire> questionnaire = new List<DocuitWeb.Models.Questionnaire>();
-    DocuitWeb.Models.Questionnaire question { get; set; }
-    IEnumerable<DocuitWeb.Models.QuestionnaireReportAnswers> answers = new List<DocuitWeb.Models.QuestionnaireReportAnswers>();
-    DocuitWeb.Models.QuestionnaireReportAnswers answer { get; set; }
+    @code{
+        IEnumerable<DocuitWeb.Models.Questionnaire> questionnaire = new List<DocuitWeb.Models.Questionnaire>();
+        DocuitWeb.Models.Questionnaire question { get; set; }
+        IEnumerable<DocuitWeb.Models.QuestionnaireReportAnswers> answers = new List<DocuitWeb.Models.QuestionnaireReportAnswers>();
+        DocuitWeb.Models.QuestionnaireReportAnswers answer { get; set; }
 
-    string questionnaireType;
-    int previous_paragraph = -1;
+        string questionnaireType;
+        int previous_paragraph = -1;
 
-    protected override async Task OnInitializedAsync()
-    {
-        myBlocker.Show();
-        QuestionnaireService.parameters.CompanyId = 1;
-        QuestionnaireService.parameters.QuestionnaireTypeId = "FACAN";
-
-        questionnaire = await QuestionnaireService.FetchAsyncQuestionnaireQuestions();
-        if (questionnaire != null)
+        protected override async Task OnInitializedAsync()
         {
-            questionnaireType = questionnaire.First().QuestionnaireTypeName;
-        }
-        answers = await QuestionnaireService.FetchAsyncQuestionnaireAnswers();
+            myBlocker.Show();
+            QuestionnaireService.parameters.CompanyId = 1;
+            QuestionnaireService.parameters.ProjectId = 1;
+            QuestionnaireService.parameters.DossierId = 1;
+            QuestionnaireService.parameters.QuestionnaireReportId = 1;
 
-        myBlocker.Hide();
-    }    
-}
+            questionnaire = await QuestionnaireService.FetchAsyncQuestionnaireQuestions();
+            if (questionnaire != null)
+            {
+                questionnaireType = questionnaire.First().QuestionnaireTypeName;
+            }
+            //answers = await QuestionnaireService.FetchAsyncQuestionnaireAnswers();
+
+            myBlocker.Hide();
+        }
+
+        private void OnClickPutButton()
+        {
+            // We go thru all the structure creating the new one to be passed
+            // to the service.
+            // The original one is not used to avoid network traffic.
+            // So we only upload to the service a reduced object containing
+            // entity keys and the answers.
+            ICollection<QuestionnaireQA> questionnaireQAs = new List<QuestionnaireQA>();
+            QuestionnaireQA questionQA;
+
+            foreach (Questionnaire question in questionnaire)
+            {
+                questionQA = new QuestionnaireQA();
+
+                questionQA.CompanyId = question.CompanyId;
+                questionQA.ProjectId = question.ProjectId;
+                questionQA.DossierId = question.DossierId;
+                questionQA.QuestionnaireReportId = question.QuestionnaireReportId;
+                questionQA.QuestionId = question.QuestionId;
+                questionQA.Answer = question.Answer;
+
+                questionnaireQAs.Add(questionQA);
+            }
+
+            await QuestionnaireService.SaveQuestionnaire(questionnaireQAs);
+        }
+    }
