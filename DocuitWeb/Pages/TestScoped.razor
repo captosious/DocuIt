@@ -23,7 +23,7 @@
                 @question.QuestionText
             </div>
             <div class="col-4">
-                <input type="text" id="@question.QuestionId" name="question.QuestionId" value="@question.Answer">
+                <input type="text" id="@question.QuestionId" name="question.QuestionId" @bind="@question.Answer">
             </div>
         </div>
     }
@@ -68,27 +68,37 @@
             // The original one is not used to avoid network traffic.
             // So we only upload to the service a reduced object containing
             // entity keys and the answers.
-            ICollection<QuestionnaireQA> questionnaireQAs = new List<QuestionnaireQA>();
-            QuestionnaireQA questionQA;
+            ICollection<QuestionnaireReportAnswers> questionnaireReportAnswers = new List<QuestionnaireReportAnswers>();
+            QuestionnaireReportAnswers questionReportAnswer;
+            int i;
 
             myBlocker.Show();
             foreach (Questionnaire question in questionnaire)
             {
-                questionQA = new QuestionnaireQA();
+                questionReportAnswer = new QuestionnaireReportAnswers();
 
-                questionQA.CompanyId = question.CompanyId;
-                questionQA.ProjectId = question.ProjectId;
-                questionQA.DossierId = question.DossierId;
-                questionQA.QuestionnaireReportId = question.QuestionnaireReportId;
-                questionQA.QuestionId = question.QuestionId;
-                questionQA.Answer = question.Answer;
+                questionReportAnswer.CompanyId = question.CompanyId;
+                questionReportAnswer.ProjectId = question.ProjectId;
+                questionReportAnswer.DossierId = question.DossierId;
+                questionReportAnswer.QuestionnaireReportId = question.QuestionnaireReportId;
+                questionReportAnswer.QuestionId = question.QuestionId;
+                questionReportAnswer.Answer = question.Answer;
 
-                questionnaireQAs.Add(questionQA);
+                questionnaireReportAnswers.Add(questionReportAnswer);
             }
 
-            if (questionnaireQAs.Count > 0)
+            if (questionnaireReportAnswers.Count > 0)
             {
-                await QuestionnaireService.SaveQuestionnaire(questionnaireQAs);
+                i = await QuestionnaireService.SaveQuestionnaire(questionnaireReportAnswers);
+                myBlocker.Hide();
+                if (i == 0)
+                {
+                    toastService.ShowSuccess(@SharedLocalizer["OP_OK"], @SharedLocalizer["OP_OK_TITLE"]);
+                }
+                else
+                {
+                    toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]);
+                }
             }
             myBlocker.Hide();
         }

@@ -17,7 +17,7 @@ namespace DocuitWeb.Services
     {
         private AppSettings _appSettings;
         private MyHttp _myHttp;
-        private string _resource = "/questionnaire";
+        private string _resource = "questionnaire";
         public QuestionnaireParameters parameters = new QuestionnaireParameters();
 
         public QuestionnaireQAService(AppSettings appSettings, MyHttp myHttp)
@@ -34,7 +34,7 @@ namespace DocuitWeb.Services
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
             IEnumerable<Questionnaire> questionnaire;
 
-            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + "/" + _resource);
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(parameters), Encoding.UTF8, "application/json");
             var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
             try
@@ -52,11 +52,12 @@ namespace DocuitWeb.Services
 
         public async Task<IEnumerable<QuestionnaireReportAnswers>> FetchAsyncQuestionnaireAnswers()
         {
+            string resource_obj = "questionnairereportanswers";
             HttpClient httpClient = _myHttp.GetClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
             IEnumerable<QuestionnaireReportAnswers> questionnaire;
 
-            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + resource_obj);
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(parameters), Encoding.UTF8, "application/json");
             var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
             try
@@ -72,23 +73,25 @@ namespace DocuitWeb.Services
             }
         }
 
-        public async Task SaveQuestionnaire(IEnumerable<QuestionnaireQA> questionnaireQAs)
+        // Controller: QuestionnaireReportAnswers
+        public async Task<int> SaveQuestionnaire(IEnumerable<QuestionnaireReportAnswers> questionnaireQAs)
         {
+            string resource_obj = "questionnairereportanswers";
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
             HttpClient httpClient = _myHttp.GetClient();
 
-            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + "/" + resource_obj);
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(questionnaireQAs), Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await httpClient.PutAsync(httpClient.BaseAddress, httpRequestMessage.Content);
             try
             {
                 response.EnsureSuccessStatusCode();
-                //return Task.CompletedTask;
+                return 0;
             }
             catch
             {
-                //return Task.ok;
+                return 1;
             }
         }
 
