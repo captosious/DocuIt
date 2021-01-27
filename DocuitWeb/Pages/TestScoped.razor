@@ -61,7 +61,7 @@
             myBlocker.Hide();
         }
 
-        private void OnClickPutButton()
+        private async void OnClickPutButton()
         {
             // We go thru all the structure creating the new one to be passed
             // to the service.
@@ -71,6 +71,7 @@
             ICollection<QuestionnaireQA> questionnaireQAs = new List<QuestionnaireQA>();
             QuestionnaireQA questionQA;
 
+            myBlocker.Show();
             foreach (Questionnaire question in questionnaire)
             {
                 questionQA = new QuestionnaireQA();
@@ -85,6 +86,10 @@
                 questionnaireQAs.Add(questionQA);
             }
 
-            await QuestionnaireService.SaveQuestionnaire(questionnaireQAs);
+            if (questionnaireQAs.Count > 0)
+            {
+                await QuestionnaireService.SaveQuestionnaire(questionnaireQAs);
+            }
+            myBlocker.Hide();
         }
     }
