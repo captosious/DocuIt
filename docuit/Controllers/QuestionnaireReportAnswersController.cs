@@ -47,7 +47,7 @@ namespace DocuItService.Controllers
                 search = questionnaire.First();
                 try
                 {
-                    questions_to_delete = (ICollection<QuestionnaireReportAnswers>)MyDBContext.QuestionnaireReportAnswers.Where(Q => Q.CompanyId == search.CompanyId && Q.ProjectId == search.ProjectId && Q.DossierId == search.DossierId && Q.QuestionnaireReportId == search.QuestionnaireReportId);
+                    questions_to_delete = (ICollection<QuestionnaireReportAnswers>)MyDBContext.QuestionnaireReportAnswers.Where(Q => Q.CompanyId == search.CompanyId && Q.ProjectId == search.ProjectId && Q.DossierId == search.DossierId && Q.QuestionnaireReportId == search.QuestionnaireReportId).ToList();
                     MyDBContext.QuestionnaireReportAnswers.RemoveRange(questions_to_delete);
                     await MyDBContext.SaveChangesAsync();
                     MyDBContext.QuestionnaireReportAnswers.AddRange(questionnaire);
