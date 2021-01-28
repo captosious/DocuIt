@@ -34,7 +34,6 @@
     <None Remove="Properties\PublishProfiles\FolderProfile 12.pubxml" />
     <None Remove="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Remove="Properties\PublishProfiles\FolderProfile 16.pubxml" />
-    <None Remove="Properties\PublishProfiles\FolderProfile 20.pubxml" />
     <None Remove="Properties\PublishProfiles\FolderProfile 4.pubxml" />
     <None Remove="Properties\PublishProfiles\FolderProfile 8.pubxml" />
     <None Remove="Properties\PublishProfiles\FolderProfile 32.pubxml" />
