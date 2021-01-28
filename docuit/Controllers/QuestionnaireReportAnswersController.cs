@@ -35,23 +35,33 @@ namespace DocuItService.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put ([FromBody] IEnumerable<QuestionnaireReportAnswers> questionnaire)
+        public async Task<IActionResult> Put ([FromBody] ICollection<QuestionnaireReportAnswers> questionnaire)
         {
-            IDbContextTransaction transaction = MyDBContext.Database.BeginTransaction();
+            IDbContextTransaction transaction;
+            QuestionnaireReportAnswers search = new QuestionnaireReportAnswers();
+            ICollection<QuestionnaireReportAnswers> questions_to_delete;
 
-            try
+            if (questionnaire.Count > 0)
             {
-                MyDBContext.QuestionnaireReportAnswers.RemoveRange(questionnaire);
-                await MyDBContext.SaveChangesAsync();
-                MyDBContext.QuestionnaireReportAnswers.AddRange(questionnaire);
-                await MyDBContext.SaveChangesAsync();
+                transaction = MyDBContext.Database.BeginTransaction();
+                search = questionnaire.First();
+                try
+                {
+                    questions_to_delete = (ICollection<QuestionnaireReportAnswers>)MyDBContext.QuestionnaireReportAnswers.Where(Q => Q.CompanyId == search.CompanyId && Q.ProjectId == search.ProjectId && Q.DossierId == search.DossierId && Q.QuestionnaireReportId == search.QuestionnaireReportId);
+                    MyDBContext.QuestionnaireReportAnswers.RemoveRange(questions_to_delete);
+                    await MyDBContext.SaveChangesAsync();
+                    MyDBContext.QuestionnaireReportAnswers.AddRange(questionnaire);
+                    await MyDBContext.SaveChangesAsync();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    return null;
+                }
+                transaction.Commit();
+                return Ok();
             }
-            catch
-            {
-                transaction.Rollback();
-            }
-            transaction.Commit();
-            return Ok();
+            return null;
         }
 
         //[HttpPut]
