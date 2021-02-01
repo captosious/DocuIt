@@ -779,8 +779,6 @@ namespace DocuItService.Models
                     .HasColumnName("security_id")
                     .HasDefaultValueSql("'3'");
 
-                entity.Property(e => e.Usercol).HasColumnName("usercol");
-
                 entity.Property(e => e.Username)
                     .IsRequired()
                     .HasColumnName("username")

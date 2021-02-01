@@ -1,8 +1,10 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using DocuItService.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +14,7 @@ namespace DocuItService.Controllers
     [Route("[controller]")]
     [Produces("application/json")]
     [ApiController]
-    [Microsoft.AspNetCore.Authorization.Authorize]
+    //[Microsoft.AspNetCore.Authorization.Authorize]
 
     public class UserController : ControllerBase 
     {
@@ -97,6 +99,32 @@ namespace DocuItService.Controllers
             }
             return Ok();
         }
+
+        // PUT api/values/5 (FULL UPDATE)
+        [HttpPut("{StoreImage}")]
+        public async Task<IActionResult> Put([FromBody] IFormFile image)
+        {
+            MemoryStream memoryStream = new MemoryStream();
+
+            image.CopyTo(memoryStream);
+
+            User user = new User();
+
+            user = MyDBContext.User.Find(1, 1);
+
+            user.Image = memoryStream.ToArray();
+
+            if (ModelState.IsValid)
+            {
+                await MyDBContext.SaveChangesAsync();
+            }
+            else
+            {
+                return BadRequest();
+            }
+            return Ok();
+        }
+
 
         // PATCH api/values (PARTIAL UPDATE)
         [HttpPatch]
