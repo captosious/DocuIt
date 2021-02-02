@@ -10,9 +10,9 @@
     <table class="table table-hover table-condensed table-list-general table-sm">
         <thead class="" style="">
             <tr>
-                <th>Type</th>
-                <th>Name</th>
-                <th>Projecte</th>
+                <th>Tipus</th>
+                <th>Nom</th>
+                <th>Data</th>
                 <th>Descripció</th>
             </tr>
         </thead>
@@ -23,10 +23,10 @@
                     foreach (Models.DossierElement dossierElement in dossierElements)
                     {
                         <tr class="table-active" role="button" @onclick="@(() => RowClicking(dossierElement))">
-                            <td>@dossierElement.CreationTime.ToString("d")</td>
+                            <td>@dossierElement.ElementTypeId</td>
                             <td>@dossierElement.Name</td>
-                            <td>CLC.08036.20</td>
-                            <td>FMB Barcelona</td>
+                            <td>@dossierElement.CreationTime.ToString("d")</td>
+                            <td>@dossierElement.Comment</td>
                         </tr>
                     }
                 }

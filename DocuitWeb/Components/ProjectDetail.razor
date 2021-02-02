@@ -6,89 +6,93 @@
 @inject BuildingTypeProjectService BuildingTypeProjectServiceService
 @inject StatusService StatusService
 
-<h3 class="PageHeader">@Localizer["MSG001"]</h3>
-<br>
-<input type="hidden" name="CompanyId" @bind="@myProject.CompanyId" />
-<div class="row">
-    <div class="col-4" style="text-align:right"><b>@Localizer["ReferenceID"]</b></div>
-    <div class="col-8"><input type="text" name="ReferenceId" @bind="@myProject.ReferenceId" /></div>
-</div>
-<div class="row">
-    <div class="col-4" style="text-align:right"><b>@Localizer["Name"]</b></div>
-    <div class="col-8"><input type="text" name="Name" @bind="@myProject.Name" /></div>
-</div>
-<div class="row">
-    <div class="col-4" style="text-align:right"><b>@Localizer["CreationDate"]</b></div>
-    <div class="col-8"><DateEdit TValue="DateTimeOffset" @bind-Date="@myProject.CreationTime" /></div>
-</div>
-<div class="row">
-    <div class="col-4" style="text-align:right"><b>@Localizer["Status"]</b></div>
-    <div class="col-8">
-        <select id="status_select" name="status_select" @bind="@myProject.StatusId">
-            @foreach (Status status in statuses)
+
+    <AuthorizeView>
+        <Authorized>
+            <h3 class="PageHeader">@Localizer["MSG001"]</h3>
+            <br>
+            <input type="hidden" name="CompanyId" @bind="@myProject.CompanyId" />
+            <div class="row">
+                <div class="col-4" style="text-align:right"><b>@Localizer["ReferenceID"]</b></div>
+                <div class="col-8"><input type="text" name="ReferenceId" @bind="@myProject.ReferenceId" /></div>
+            </div>
+            <div class="row">
+                <div class="col-4" style="text-align:right"><b>@Localizer["Name"]</b></div>
+                <div class="col-8"><input type="text" name="Name" @bind="@myProject.Name" /></div>
+            </div>
+            <div class="row">
+                <div class="col-4" style="text-align:right"><b>@Localizer["CreationDate"]</b></div>
+                <div class="col-8"><DateEdit TValue="DateTimeOffset" @bind-Date="@myProject.CreationTime" /></div>
+            </div>
+            <div class="row">
+                <div class="col-4" style="text-align:right"><b>@Localizer["Status"]</b></div>
+                <div class="col-8">
+                    <select id="status_select" name="status_select" @bind="@myProject.StatusId">
+                        @foreach (Status status in statuses)
+                        {
+                            <option value="@status.StatusId">@status.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            @*<h3 class="PageHeader">@Localizer["MSG001"]</h3>
+            <br>
+            <DataGrid TItem="DocuitWeb.Models.BuildingTypeProject" Editable="false"
+                      Data="@buildingTypeProjects" @bind-SelectedRow="@obj"
+                      Filterable="true" Sortable="true"
+                      ShowPager="true" PageSize="5" Narrow="true" Hoverable="true">
+                <DataGridCommandColumn TItem="DocuitWeb.Models.BuildingTypeProject" />
+                <DataGridColumn Width="100px" Readonly="true" TItem="DocuitWeb.Models.BuildingTypeProject" Field="@nameof(DocuitWeb.Models.BuildingTypeProject.Id)" Caption="@Localizer["id"]" TextAlignment="TextAlignment.Left" />
+                <DataGridColumn TItem="DocuitWeb.Models.BuildingTypeProject" Field="@nameof(DocuitWeb.Models.BuildingTypeProject)" Caption="@Localizer["description"]" TextAlignment="TextAlignment.Justified" />
+            </DataGrid>
+
+            <div class="row">
+                <div class="col-4" style="text-align:right"></div>
+                <div class="col-8"><button class="btn btn_general btn-success" @onclick="OnClickSaveButton">@SharedLocalizer["MSG_SAVE"]</button></div>
+            </div>*@
+        </Authorized>
+    </AuthorizeView>
+    @code {
+
+        IEnumerable<DocuitWeb.Models.Status> statuses = new List<DocuitWeb.Models.Status>();
+        IEnumerable<DocuitWeb.Models.BuildingTypeProject> buildingTypeProjects = new List<DocuitWeb.Models.BuildingTypeProject>();
+
+        DocuitWeb.Models.BuildingTypeProject obj = new BuildingTypeProject();
+
+        [Parameter]
+        public Project myProject { get; set; }
+        [Parameter]
+        public EventCallback<Project> OnUserSaveButton { get; set; }
+
+        protected override async Task OnInitializedAsync()
+        {
+            myBlocker.Show();
+            statuses = await StatusService.FetchGetAllAsync();
+            buildingTypeProjects = await BuildingTypeProjectServiceService.FetchGetAllAsync();
+            myBlocker.Hide();
+        }
+
+        private async void OnClickSaveButton()
+        {
+            myBlocker.Show();
+            myProject = await ProjectService.PutAsync(myProject);
+            myBlocker.Hide();
+
+            if (myProject == null)
             {
-                <option value="@status.StatusId">@status.Name</option>
+                toastService.ShowError(@SharedLocalizer["OP_FAIL"]);
             }
-        </select>
-    </div>
-</div>
-
-<h3 class="PageHeader">@Localizer["MSG001"]</h3>
-<br>
-<DataGrid TItem="DocuitWeb.Models.BuildingTypeProject" Editable="false"
-          Data="@buildingTypeProjects" @bind-SelectedRow="@obj"
-          Filterable="true" Sortable="true"
-          ShowPager="true" PageSize="5" Narrow="true" Hoverable="true">
-    <DataGridCommandColumn TItem="DocuitWeb.Models.BuildingTypeProject" />
-    <DataGridColumn Width="100px" Readonly="true" TItem="DocuitWeb.Models.BuildingTypeProject" Field="@nameof(DocuitWeb.Models.BuildingTypeProject.Id)" Caption="@Localizer["id"]" TextAlignment="TextAlignment.Left" />
-    <DataGridColumn TItem="DocuitWeb.Models.BuildingTypeProject" Field="@nameof(DocuitWeb.Models.BuildingTypeProject)" Caption="@Localizer["description"]" TextAlignment="TextAlignment.Justified" />
-</DataGrid>
-
-<div class="row">
-    <div class="col-4" style="text-align:right"></div>
-    <div class="col-8"><button class="btn btn_general btn-success" @onclick="OnClickSaveButton">@SharedLocalizer["MSG_SAVE"]</button></div>
-</div>
-
-@code {
-
-    IEnumerable<DocuitWeb.Models.Status> statuses = new List<DocuitWeb.Models.Status>();
-    IEnumerable<DocuitWeb.Models.BuildingTypeProject> buildingTypeProjects = new List<DocuitWeb.Models.BuildingTypeProject>();
-
-    DocuitWeb.Models.BuildingTypeProject obj = new BuildingTypeProject();
-
-    [Parameter]
-    public Project myProject { get; set; }
-    [Parameter]
-    public EventCallback<Project> OnUserSaveButton { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        myBlocker.Show();
-        statuses = await StatusService.FetchGetAllAsync();
-        buildingTypeProjects = await BuildingTypeProjectServiceService.FetchGetAllAsync();
-        myBlocker.Hide();
-    }
-
-    private async void OnClickSaveButton()
-    {
-        myBlocker.Show();
-        myProject = await ProjectService.PutAsync(myProject);
-        myBlocker.Hide();
-
-        if (myProject == null)
-        {
-            toastService.ShowError(@SharedLocalizer["OP_FAIL"]);
+            else
+            {
+                toastService.ShowSuccess(@SharedLocalizer["OP_OK"]);
+                await OnUserSaveButton.InvokeAsync(myProject);
+            }
         }
-        else
+
+        string GetStatusName(int id)
         {
-            toastService.ShowSuccess(@SharedLocalizer["OP_OK"]);
-            await OnUserSaveButton.InvokeAsync(myProject);
+
+            return statuses.FirstOrDefault(x => x.StatusId == id).Name;
         }
     }
-
-    string GetStatusName(int id)
-    {
-
-        return statuses.FirstOrDefault(x => x.StatusId == id).Name;
-    }
-}

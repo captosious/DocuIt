@@ -348,6 +348,10 @@ namespace DocuItService.Models
                     .HasColumnName("height")
                     .HasComment("In Centimeters");
 
+                entity.Property(e => e.Image)
+                    .HasColumnName("image")
+                    .HasColumnType("blob");
+
                 entity.Property(e => e.Latitude)
                     .HasColumnName("latitude")
                     .HasColumnType("decimal(10,7)");
@@ -456,6 +460,12 @@ namespace DocuItService.Models
                     .HasName("PRIMARY");
 
                 entity.ToView("questionnaire", "DocuIt");
+
+                entity.Property(e => e.CompanyId);
+
+                entity.Property(e => e.ProjectId);
+
+                entity.Property(e => e.DossierId);
 
                 entity.Property(e => e.Answer)
                     .HasMaxLength(45)
@@ -757,6 +767,10 @@ namespace DocuItService.Models
                     .HasColumnName("family_name")
                     .HasMaxLength(45)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Image)
+                    .HasColumnName("image")
+                    .HasColumnType("blob");
 
                 entity.Property(e => e.Locked)
                     .HasColumnName("locked")

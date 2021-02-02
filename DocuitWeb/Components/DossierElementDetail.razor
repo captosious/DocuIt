@@ -15,9 +15,17 @@
         <div class="col-8">@dossierElement.Name</div>
     </div>
     
+    @switch (dossierElement.ElementTypeId)
+    {
+        case 1:
+            <DocuitWeb.Pages.TestScoped></DocuitWeb.Pages.TestScoped>
+            break;
+        case 2:
+            break;
+    }
 
-@code
+    @code
 {
-    [CascadingParameter]
-    public DossierElement dossierElement { get; set; }
-}
+        [CascadingParameter]
+        public DossierElement dossierElement { get; set; }
+    }

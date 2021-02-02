@@ -102,9 +102,11 @@ namespace DocuItService.Controllers
 
         // PUT api/values/5 (FULL UPDATE)
         [HttpPut("{StoreImage}")]
-        public async Task<IActionResult> Put([FromBody] IFormFile image)
+        public async Task<IActionResult> Put(IFormFile image)
         {
             MemoryStream memoryStream = new MemoryStream();
+
+            await FileUpload.FormFile.CopyToAsync(memoryStream);
 
             image.CopyTo(memoryStream);
 

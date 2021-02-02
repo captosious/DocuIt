@@ -21,6 +21,7 @@ namespace DocuItService.Models
         public int? Height { get; set; }
         public string Description { get; set; }
         public string Comment { get; set; }
+        public byte[] Image { get; set; }
 
         public virtual QuestionnaireReport QuestionnaireReport { get; set; }
     }

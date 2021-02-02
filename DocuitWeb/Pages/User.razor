@@ -16,10 +16,11 @@
         <div class="col-4" style="text-align:right"><b>@Localizer["UserID"]</b></div>
         <div class="col-8"><input type="text" name="FiscalId" @bind="@user.UserId" size="15" /></div>
     </div>-->
+        <img src="@String.Format("data:image/jpg;base64", user.Image)">
         <div class="row">
-            <div class="col-4" style="text-align:right"><b>@Localizer["Name"]</b></div>
-            <div class="col-8"><input type="text" name="FiscalId" @bind="@user.Name" size="15" /></div>
-        </div>
+        <div class="col-4" style="text-align:right"><b>@Localizer["Name"]</b></div>
+        <div class="col-8"><input type="text" name="FiscalId" @bind="@user.Name" size="15" /></div>
+    </div>
         <div class="row">
             <div class="col-4" style="text-align:right"><b>@Localizer["FamilyName"]</b></div>
             <div class="col-8"><input type="text" name="Name" @bind="@user.FamilyName" size="25" /></div>

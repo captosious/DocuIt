@@ -19,6 +19,7 @@ namespace DocuitWeb.Models
         public string FamilyName { get; set; }
         public int SecurityId { get; set; }
         public bool Locked { get; set; }
+        public byte[] Image { get; set; }
         public DateTimeOffset CreationTime { get; set; }
 
         public virtual Company Company { get; set; }
