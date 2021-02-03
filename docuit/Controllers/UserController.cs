@@ -101,18 +101,18 @@ namespace DocuItService.Controllers
         }
 
         // PUT api/values/5 (FULL UPDATE)
-        [HttpPut("{StoreImage}")]
-        public async Task<IActionResult> Put(IFormFile image)
+        [HttpPost("{StoreImage}")]
+        public async Task<IActionResult> Post([FromForm] int CompanyId, int UserId, IFormFile image)
         {
             MemoryStream memoryStream = new MemoryStream();
 
-            await FileUpload.FormFile.CopyToAsync(memoryStream);
+            //await FileUpload.FormFile.CopyToAsync(memoryStream);
 
             image.CopyTo(memoryStream);
 
             User user = new User();
 
-            user = MyDBContext.User.Find(1, 1);
+            user = MyDBContext.User.Find(CompanyId, UserId);
 
             user.Image = memoryStream.ToArray();
 

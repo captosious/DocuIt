@@ -456,16 +456,9 @@ namespace DocuItService.Models
 
             modelBuilder.Entity<Questionnaire>(entity =>
             {
-                entity.HasKey(e => new { e.CompanyId, e.ProjectId, e.DossierId, e.QuestionnaireReportId, e.QuestionId })
-                    .HasName("PRIMARY");
+                entity.HasNoKey();
 
                 entity.ToView("questionnaire", "DocuIt");
-
-                entity.Property(e => e.CompanyId);
-
-                entity.Property(e => e.ProjectId);
-
-                entity.Property(e => e.DossierId);
 
                 entity.Property(e => e.Answer)
                     .HasMaxLength(45)

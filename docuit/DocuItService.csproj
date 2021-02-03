@@ -45,7 +45,6 @@
     <None Remove="Properties\PublishProfiles\FolderProfile 11.pubxml" />
     <None Remove="Properties\PublishProfiles\FolderProfile 27.pubxml" />
     <None Remove="Properties\PublishProfiles\FolderProfile 3.pubxml" />
-    <None Remove="Properties\PublishProfiles\FolderProfile 39.pubxml" />
     <None Remove="Properties\PublishProfiles\FolderProfile 35.pubxml" />
     <None Remove="Properties\PublishProfiles\FolderProfile 13.pubxml" />
     <None Remove="Properties\PublishProfiles\FolderProfile 29.pubxml" />
@@ -62,5 +61,9 @@
     <None Remove="Properties\PublishProfiles\FolderProfile 7.pubxml" />
     <None Remove="Properties\PublishProfiles\FolderProfile 15.pubxml" />
     <None Remove="Properties\PublishProfiles\FolderProfile 19.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="appsettings.json" />
+    <Content Remove="appsettings.Development.json" />
   </ItemGroup>
 </Project>
