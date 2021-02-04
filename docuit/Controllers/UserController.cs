@@ -64,6 +64,18 @@ namespace DocuItService.Controllers
             return user;
         }
 
+        [HttpGet("GetAvatarByUserId")]
+        public string GetAvatar([FromBody] User UserParameters)
+        {
+            User user = (User)MyDBContext.User.FirstOrDefault(u => u.CompanyId == UserParameters.CompanyId && u.UserId == UserParameters.UserId);
+
+            if (user == null)
+            {
+                return null;
+            }
+            return "";
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] User UserParameters)
         {
@@ -98,11 +110,11 @@ namespace DocuItService.Controllers
                 return BadRequest();
             }
             return Ok();
-        }
+        } 
 
         // PUT api/values/5 (FULL UPDATE)
         [HttpPost("{StoreImage}")]
-        public async Task<IActionResult> Post([FromForm] int CompanyId, int UserId, IFormFile image)
+        public async Task<IActionResult> Post([FromForm] IFormFile image, int CompanyId, int UserId)
         {
             MemoryStream memoryStream = new MemoryStream();
 
@@ -113,6 +125,11 @@ namespace DocuItService.Controllers
             User user = new User();
 
             user = MyDBContext.User.Find(CompanyId, UserId);
+
+            if (user == null)
+            {
+                return BadRequest();
+            }
 
             user.Image = memoryStream.ToArray();
 
