@@ -13,6 +13,7 @@ namespace DocuItService.Controllers
 {
     [Route("[controller]")]
     [Produces("application/json")]
+    [Consumes("application/json")]
     [ApiController]
     //[Microsoft.AspNetCore.Authorization.Authorize]
 
@@ -113,17 +114,16 @@ namespace DocuItService.Controllers
         } 
 
         // PUT api/values/5 (FULL UPDATE)
-        [HttpPost("{StoreImage}")]
-        public async Task<IActionResult> Post([FromForm] IFormFile image, int CompanyId, int UserId)
+        [HttpPost("{StorePhoto}")]
+        public async Task<IActionResult> SetPhoto([FromForm] IFormFile image)
         {
             MemoryStream memoryStream = new MemoryStream();
-
-            //await FileUpload.FormFile.CopyToAsync(memoryStream);
+            User user = new User();
+            int CompanyId, UserId;
 
             image.CopyTo(memoryStream);
-
-            User user = new User();
-
+            CompanyId = int.Parse(Request.Form["CompanyId"]);
+            UserId = int.Parse(Request.Form["UserId"]);
             user = MyDBContext.User.Find(CompanyId, UserId);
 
             if (user == null)
@@ -144,6 +144,36 @@ namespace DocuItService.Controllers
             return Ok();
         }
 
+        // PUT api/values/5 (FULL UPDATE)
+        [HttpPost("{SetAvatar}")]
+        public async Task<IActionResult> SetAvatar([FromForm] IFormFile image)
+        {
+            MemoryStream memoryStream = new MemoryStream();
+            User user = new User();
+            int CompanyId, UserId;
+
+            image.CopyTo(memoryStream);
+            CompanyId = int.Parse(Request.Form["CompanyId"]);
+            UserId = int.Parse(Request.Form["UserId"]);
+            user = MyDBContext.User.Find(CompanyId, UserId);
+
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            user.Image = memoryStream.ToArray();
+
+            if (ModelState.IsValid)
+            {
+                await MyDBContext.SaveChangesAsync();
+            }
+            else
+            {
+                return BadRequest();
+            }
+            return Ok();
+        }
 
         // PATCH api/values (PARTIAL UPDATE)
         [HttpPatch]
