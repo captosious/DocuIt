@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using DocuitWeb.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace DocuitWeb.Services
 {
@@ -90,5 +91,29 @@ namespace DocuitWeb.Services
                 return null;
             }
         }
+
+        public async Task<int> SetPhotoAsync(MultipartFormDataContent form)
+        {
+            //user.CompanyId = _appSettings.CompanyId;
+            HttpClient httpClient = _myHttp.GetClient();
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/SetPhoto");
+            //httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = form;
+            HttpResponseMessage response = await httpClient.PostAsync(httpClient.BaseAddress, httpRequestMessage.Content);
+            try
+            {
+                response.EnsureSuccessStatusCode();
+                httpClient.Dispose();
+                return await Task.FromResult(0);
+            }
+            catch
+            {
+                httpClient.Dispose();
+                return 1;
+            }
+        }
+
     }
 }

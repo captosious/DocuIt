@@ -5,12 +5,20 @@
 @inject IStringLocalizer<Profile> Localizer
 @inject UserService UserService
 
-
 <br>
 <div class="container text-left">
     <h3 class="PageHeader">@Localizer["Title"]</h3>
     <br>
     <input type="hidden" name="CompanyId" @bind="@user.CompanyId" />
+    <img src="@imagesrc" style="border-radius: 50%; width:100px; height:100px;" />
+    <form id="pepe" name="pepe" enctype="multipart/form-data" method="post" onsubmit="OnClickPostPicture">
+        <input asp-for="FileUpload.FormFile" type="file" name="image">
+        <br />
+        <input type="text" value="@user.CompanyId" name="CompanyId" hidden="hidden" />
+        <input type="text" value="@user.UserId" name="UserId"  hidden="hidden" />
+
+        <input asp-page-handler="Upload" class="btn" type="submit" value="Upload" />
+    </form>
     <div class="row">
         <div class="col-4" style="text-align:right"><b>@Localizer["Name"]</b></div>
         <div class="col-8"><input type="text" name="FiscalId" @bind="@user.Name" size="15" /></div>
@@ -52,6 +60,7 @@
     </div>
     <div class="row" style="margin-top: 15px;text-align: center">
         <div class="col" style="text-align:center">
+            <button class="btn btn_general btn-success" @onclick="OnClickPostPicture">Guarda Pic</button>
             <button class="btn btn_general btn-success" @onclick="OnClickPutButton">@SharedLocalizer["MSG_SAVE"]</button>
         </div>
     </div>
@@ -62,6 +71,8 @@
     DocuitWeb.Models.User user = new DocuitWeb.Models.User();
     IEnumerable<Security> securities = new List<Security>();
     string newPassword;
+    string base64String;
+    string imagesrc;
 
     protected override async Task OnInitializedAsync()
     {
@@ -71,6 +82,9 @@
         user.UserId = accessService.MyLogin.UserId;
 
         user = await UserService.FetchAsync(user);
+
+        base64String = Convert.ToBase64String(user.Image, 0, user.Image.Length);
+        imagesrc = "data:image/png;base64," + base64String;
         myBlocker.Hide();
     }
 
@@ -80,6 +94,23 @@
 
         myBlocker.Show();
         result = await UserService.PutAsync(user);
+        myBlocker.Hide();
+        if (result != 0)
+        {
+            toastService.ShowError(@SharedLocalizer["OP_FAIL"]);
+        }
+        else
+        {
+            toastService.ShowSuccess(@SharedLocalizer["OP_OK"]);
+        }
+    }
+
+    private async void OnClickPostPicture()
+    {
+        int result=0;
+
+        myBlocker.Show();
+        //result = await UserService.SetPhotoAsync(pepe);
         myBlocker.Hide();
         if (result != 0)
         {
