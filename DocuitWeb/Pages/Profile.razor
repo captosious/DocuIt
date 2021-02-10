@@ -1,6 +1,9 @@
 ﻿@page "/Profile"
 @using DocuitWeb.Models
 @using DocuitWeb.Data
+@using System;
+@using System.Collections.Generic;
+@using System.IO;
 
 @inject IStringLocalizer<Profile> Localizer
 @inject UserService UserService
@@ -15,7 +18,7 @@
         <input asp-for="FileUpload.FormFile" type="file" name="image">
         <br />
         <input type="text" value="@user.CompanyId" name="CompanyId" hidden="hidden" />
-        <input type="text" value="@user.UserId" name="UserId"  hidden="hidden" />
+        <input type="text" value="@user.UserId" name="UserId" hidden="hidden" />
 
         <input asp-page-handler="Upload" class="btn" type="submit" value="Upload" />
     </form>
@@ -66,8 +69,7 @@
     </div>
 </div>
 
-@code
-{
+@code{
     DocuitWeb.Models.User user = new DocuitWeb.Models.User();
     IEnumerable<Security> securities = new List<Security>();
     string newPassword;
@@ -84,7 +86,7 @@
         user = await UserService.FetchAsync(user);
 
         base64String = Convert.ToBase64String(user.Image, 0, user.Image.Length);
-        imagesrc = "data:image/png;base64," + base64String;
+        imagesrc = "data:image/jpg;base64," + base64String;
         myBlocker.Hide();
     }
 
@@ -107,10 +109,19 @@
 
     private async void OnClickPostPicture()
     {
-        int result=0;
+        int result = 0;
+        string filePath = "";
+        string fileGUID = Guid.NewGuid().ToString();
+        MultipartFormDataContent multipartForm = new MultipartFormDataContent();
+        FileStream fileStream = new FileStream(filePath, FileMode.Open);
 
         myBlocker.Show();
-        //result = await UserService.SetPhotoAsync(pepe);
+        
+        multipartForm.Add(new StringContent(user.CompanyId.ToString()), "CompanyId");
+        multipartForm.Add(new StringContent(user.UserId.ToString()), "UserId");
+        multipartForm.Add(new StreamContent(fileStream, (int)fileStream.Length));
+
+        result = await UserService.SetPhotoAsync(multipartForm);
         myBlocker.Hide();
         if (result != 0)
         {
@@ -119,14 +130,6 @@
         else
         {
             toastService.ShowSuccess(@SharedLocalizer["OP_OK"]);
-        }
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            //StateHasChanged();
         }
     }
 }
