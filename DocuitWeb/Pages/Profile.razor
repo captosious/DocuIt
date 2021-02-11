@@ -110,7 +110,7 @@
     private async void OnClickPostPicture()
     {
         int result = 0;
-        string filePath = "";
+        string filePath = "/Users/pedrorio/Pictures/kong_avatar.jpg";
         string fileGUID = Guid.NewGuid().ToString();
         MultipartFormDataContent multipartForm = new MultipartFormDataContent();
         FileStream fileStream = new FileStream(filePath, FileMode.Open);
