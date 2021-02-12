@@ -62,8 +62,4 @@
     <None Remove="Properties\PublishProfiles\FolderProfile 15.pubxml" />
     <None Remove="Properties\PublishProfiles\FolderProfile 19.pubxml" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Remove="appsettings.json" />
-    <Content Remove="appsettings.Development.json" />
-  </ItemGroup>
 </Project>

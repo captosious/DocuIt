@@ -41,7 +41,8 @@
                 <div class="navbar-nav ml-auto action-buttons">
                     <div class="nav-item dropdown">
                         <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle mr-4">
-                            <i class="fa fa-user-circle" aria-hidden="true" style="margin-right: 3px;"></i>@CompleteUserName
+                            <img src="@AccessService.MyLogin.Image" ></img>
+                            @CompleteUserName
                         </a>
                         <div class="dropdown-menu action-form" style="text-align:center">
                             <a href="Profile" class="dropdown-item">@SharedLocalizer["LOGIN_PROFILE"]</a>
@@ -84,6 +85,7 @@
     private string Password { get; set; }
     private string UserName { get; set; }
     private string CompleteUserName { get; set; }
+    private string UserPhoto { get; set; }
 
     private void ToggleNavMenu()
     {
@@ -93,6 +95,7 @@
     private async void LogInMe()
     {
         int return_code;
+
         myBlocker.Show();
         Task<int> loginTask = AccessService.LogInAsync(UserName, Password);
 
@@ -101,12 +104,15 @@
         {
             case 0:
                 CompleteUserName = AccessService.MyLogin.Name + " " + AccessService.MyLogin.FamilyName;
+                UserPhoto = "data:image/jpg;base64," + Convert.ToBase64String(AccessService.MyLogin.Image, 0, AccessService.MyLogin.Image.Length);
                 toastService.ShowSuccess(SharedLocalizer["LOGIN_SUCCESS"], SharedLocalizer["LOGIN_TITLE"]);
                 break;
             case 1:
+                CompleteUserName = "";
                 toastService.ShowError(SharedLocalizer["LOGIN_CREDENTIALS_ERROR"], SharedLocalizer["LOGIN_TITLE_ERROR"]);
                 break;
             case 2:
+                CompleteUserName = "";
                 toastService.ShowError(SharedLocalizer["CONNECTION_ERROR"], SharedLocalizer["TITLE_CONNECTION_ERROR"]);
                 break;
         }

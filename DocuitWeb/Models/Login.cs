@@ -19,5 +19,6 @@
         public bool Locked { get; set; }
         public bool LoggedIn { get; set; }
         public string Token { get; set; }
+        public byte[] Image { get; set; }
     }
 }

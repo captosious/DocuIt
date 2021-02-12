@@ -249,6 +249,5 @@
   <ItemGroup>
     <Content Remove="Properties\launchSettings.json" />
     <Content Remove="Properties\launchSettings.json" />
-    <Content Remove="appsettings.json" />
   </ItemGroup>
 </Project>
