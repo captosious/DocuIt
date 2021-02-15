@@ -54,8 +54,9 @@ namespace DocuItService.Models
                 FamilyName = user.FamilyName;
                 SecurityId = user.SecurityId;
                 Locked = user.Locked;
-                LoggedIn = true;
+                LoggedIn = true; 
                 Token = GetToken();
+                Image = user.Image;
             }
             return true;
         }

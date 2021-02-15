@@ -22,6 +22,7 @@
 
         <input asp-page-handler="Upload" class="btn" type="submit" value="Upload" />
     </form>
+    <input type="file" id="fileElem" multiple style="display:none">
     <div class="row">
         <div class="col-4" style="text-align:right"><b>@Localizer["Name"]</b></div>
         <div class="col-8"><input type="text" name="FiscalId" @bind="@user.Name" size="15" /></div>
