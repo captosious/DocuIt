@@ -5,6 +5,8 @@
 @using System.Collections.Generic;
 @using System.IO;
 
+@using Microsoft.AspNetCore.Components.Forms
+
 @inject IStringLocalizer<Profile> Localizer
 @inject UserService UserService
 
@@ -13,16 +15,26 @@
     <h3 class="PageHeader">@Localizer["Title"]</h3>
     <br>
     <input type="hidden" name="CompanyId" @bind="@user.CompanyId" />
-    <img src="@imagesrc" style="border-radius: 50%; width:100px; height:100px;" />
-    <form id="pepe" name="pepe" enctype="multipart/form-data" method="post" onsubmit="OnClickPostPicture">
-        <input asp-for="FileUpload.FormFile" type="file" name="image">
-        <br />
-        <input type="text" value="@user.CompanyId" name="CompanyId" hidden="hidden" />
-        <input type="text" value="@user.UserId" name="UserId" hidden="hidden" />
+    if (imagesrc=!null)
+    {
+        <img src="@imagesrc" style="border-radius: 50%; width:100px; height:100px;" />
+    }
+    else
+    {
+        <img src="/img/null_avatar.jpg" style="border-radius: 50%; width:100px; height:100px;" />
+    }
+    
+    <InputFile OnChange="@OnInputFileChange" id="input-image" />
+    
+    @*<form id="pepe" name="pepe" enctype="multipart/form-data" method="post" onsubmit="OnClickPostPicture">
+            <input asp-for="FileUpload.FormFile" type="file" name="image">
+            <br />
+            <input type="text" value="@user.CompanyId" name="CompanyId" hidden="hidden" />
+            <input type="text" value="@user.UserId" name="UserId" hidden="hidden" />
 
-        <input asp-page-handler="Upload" class="btn" type="submit" value="Upload" />
-    </form>
-    <input type="file" id="fileElem" multiple style="display:none">
+            <input asp-page-handler="Upload" class="btn" type="submit" value="Upload" />
+        </form>*@
+
     <div class="row">
         <div class="col-4" style="text-align:right"><b>@Localizer["Name"]</b></div>
         <div class="col-8"><input type="text" name="FiscalId" @bind="@user.Name" size="15" /></div>
@@ -71,11 +83,18 @@
 </div>
 
 @code{
-    DocuitWeb.Models.User user = new DocuitWeb.Models.User();
-    IEnumerable<Security> securities = new List<Security>();
-    string newPassword;
-    string base64String;
-    string imagesrc;
+        DocuitWeb.Models.User user = new DocuitWeb.Models.User();
+        IEnumerable<Security> securities = new List<Security>();
+        string newPassword;
+        string base64String;
+        string imagesrc;
+
+        
+
+        private async Task OnInputFileChange(InputFileChangeEventArgs e)
+        {
+
+        }
 
     protected override async Task OnInitializedAsync()
     {
@@ -117,7 +136,7 @@
         FileStream fileStream = new FileStream(filePath, FileMode.Open);
 
         myBlocker.Show();
-        
+
         multipartForm.Add(new StringContent(user.CompanyId.ToString()), "CompanyId");
         multipartForm.Add(new StringContent(user.UserId.ToString()), "UserId");
         multipartForm.Add(new StreamContent(fileStream, (int)fileStream.Length));
