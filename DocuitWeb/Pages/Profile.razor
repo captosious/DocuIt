@@ -15,7 +15,7 @@
     <h3 class="PageHeader">@Localizer["Title"]</h3>
     <br>
     <input type="hidden" name="CompanyId" @bind="@user.CompanyId" />
-    if (imagesrc=!null)
+    @if (imagesrc=!"")
     {
         <img src="@imagesrc" style="border-radius: 50%; width:100px; height:100px;" />
     }
