@@ -41,7 +41,10 @@
                 <div class="navbar-nav ml-auto action-buttons">
                     <div class="nav-item dropdown">
                         <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle mr-4">
-                            <img src="@UserPhoto" style="border-radius: 50%; width:40px; height:40px;">
+                            @if (string.IsNullOrEmpty(UserPhoto))
+                            {<i class="fa fa-sign-out-alt" aria-hidden="true" style="margin-right: 3px;"></i>}
+                            else
+                            {<img src="@UserPhoto" style="border-radius: 50%; width:40px; height:40px;">}
                             @CompleteUserName
                         </a>
                         <div class="dropdown-menu action-form" style="text-align:center">
@@ -104,7 +107,15 @@
         {
             case 0:
                 CompleteUserName = AccessService.MyLogin.Name + " " + AccessService.MyLogin.FamilyName;
-                UserPhoto = "data:image/jpg;base64," + Convert.ToBase64String(AccessService.MyLogin.Image, 0, AccessService.MyLogin.Image.Length);
+
+                if (AccessService.MyLogin.Image is null)
+                {
+                    UserPhoto = "";
+                }
+                else
+                {
+                    UserPhoto = "data:image/jpg;base64," + Convert.ToBase64String(AccessService.MyLogin.Image, 0, AccessService.MyLogin.Image.Length);
+                }
                 toastService.ShowSuccess(SharedLocalizer["LOGIN_SUCCESS"], SharedLocalizer["LOGIN_TITLE"]);
                 break;
             case 1:
