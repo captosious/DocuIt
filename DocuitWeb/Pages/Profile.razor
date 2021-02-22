@@ -17,11 +17,11 @@
     <input type="hidden" name="CompanyId" @bind="@user.CompanyId" />
     @if (string.IsNullOrEmpty(imagesrc))
     {
-        <img src="/img/null_avatar.jpg" style="border-radius: 50%; width:100px; height:100px;" />
+        <img class="avatar_top_nav" src="/img/null_avatar.jpg" />
     }
     else
     {
-        <img src="@imagesrc" style="border-radius: 50%; width:100px; height:100px;" />
+        <img class="avatar_top_nav" src="@imagesrc" />
     }
 
     <InputFile OnChange="@OnInputFileChange" id="input-image" />

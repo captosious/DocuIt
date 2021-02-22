@@ -1,6 +1,11 @@
 ﻿@charset "UTF-8";
 /* CSS Document */
 
+.avatar_top_nav {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px
+}
 
 .page-link {
     padding: 0px;
