@@ -17,11 +17,11 @@
     <input type="hidden" name="CompanyId" @bind="@user.CompanyId" />
     @if (string.IsNullOrEmpty(imagesrc))
     {
-        <img class="avatar_top_nav" src="/img/null_avatar.jpg" />
+        <img class="avatar_profile" src="/img/null_avatar.jpg" />
     }
     else
     {
-        <img class="avatar_top_nav" src="@imagesrc" />
+        <img class="avatar_profile" src="@imagesrc" />
     }
 
     <InputFile OnChange="@OnInputFileChange" id="input-image" />
@@ -83,73 +83,81 @@
 </div>
 
 @code{
-        DocuitWeb.Models.User user = new DocuitWeb.Models.User();
-        IEnumerable<Security> securities = new List<Security>();
-        string newPassword;
-        string base64String;
-        string imagesrc;
+    DocuitWeb.Models.User user = new DocuitWeb.Models.User();
+    IEnumerable<Security> securities = new List<Security>();
+    string newPassword = "";
+    string base64String = "";
+    string imagesrc = "";
 
-        
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
 
-        private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        myBlocker.Show();
+
+        user.CompanyId = accessService.MyLogin.CompanyId;
+        user.UserId = accessService.MyLogin.UserId;
+
+        user = await UserService.FetchAsync(user);
+
+        if (user.Image!=null)
         {
-
-        }
-
-        protected override async Task OnInitializedAsync()
-        {
-            myBlocker.Show();
-
-            user.CompanyId = accessService.MyLogin.CompanyId;
-            user.UserId = accessService.MyLogin.UserId;
-
-            user = await UserService.FetchAsync(user);
-
             base64String = Convert.ToBase64String(user.Image, 0, user.Image.Length);
             imagesrc = "data:image/jpg;base64," + base64String;
-            myBlocker.Hide();
         }
-
-        private async void OnClickPutButton()
+        else
         {
-            int result;
-
-            myBlocker.Show();
-            result = await UserService.PutAsync(user);
-            myBlocker.Hide();
-            if (result != 0)
-            {
-                toastService.ShowError(@SharedLocalizer["OP_FAIL"]);
-            }
-            else
-            {
-                toastService.ShowSuccess(@SharedLocalizer["OP_OK"]);
-            }
+            base64String = "";
+            imagesrc = "";
         }
 
-        private async void OnClickPostPicture()
+
+        myBlocker.Hide();
+    }
+
+    private async void OnClickPutButton()
+    {
+        int result;
+
+        myBlocker.Show();
+        result = await UserService.PutAsync(user);
+        myBlocker.Hide();
+        if (result != 0)
         {
-            int result = 0;
-            string filePath = "/Users/pedrorio/Pictures/kong_avatar.jpg";
-            string fileGUID = Guid.NewGuid().ToString();
-            MultipartFormDataContent multipartForm = new MultipartFormDataContent();
-            FileStream fileStream = new FileStream(filePath, FileMode.Open);
-
-            myBlocker.Show();
-
-            multipartForm.Add(new StringContent(user.CompanyId.ToString()), "CompanyId");
-            multipartForm.Add(new StringContent(user.UserId.ToString()), "UserId");
-            multipartForm.Add(new StreamContent(fileStream, (int)fileStream.Length));
-
-            result = await UserService.SetPhotoAsync(multipartForm);
-            myBlocker.Hide();
-            if (result != 0)
-            {
-                toastService.ShowError(@SharedLocalizer["OP_FAIL"]);
-            }
-            else
-            {
-                toastService.ShowSuccess(@SharedLocalizer["OP_OK"]);
-            }
+            toastService.ShowError(@SharedLocalizer["OP_FAIL"]);
         }
+        else
+        {
+            toastService.ShowSuccess(@SharedLocalizer["OP_OK"]);
+        }
+    }
+
+    private async void OnClickPostPicture()
+    {
+        int result = 0;
+        string filePath = "/Users/pedrorio/Pictures/kong_avatar.jpg";
+        string fileGUID = Guid.NewGuid().ToString();
+        MultipartFormDataContent multipartForm = new MultipartFormDataContent();
+        FileStream fileStream = new FileStream(filePath, FileMode.Open);
+
+        myBlocker.Show();
+
+        multipartForm.Add(new StringContent(user.CompanyId.ToString()), "CompanyId");
+        multipartForm.Add(new StringContent(user.UserId.ToString()), "UserId");
+        multipartForm.Add(new StreamContent(fileStream, (int)fileStream.Length), "image");
+
+        result = await UserService.SetPhotoAsync(multipartForm);
+        myBlocker.Hide();
+        if (result != 0)
+        {
+            toastService.ShowError(@SharedLocalizer["OP_FAIL"]);
+        }
+        else
+        {
+            toastService.ShowSuccess(@SharedLocalizer["OP_OK"]);
+        }
+    }
 }
