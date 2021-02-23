@@ -115,15 +115,17 @@ namespace DocuItService.Controllers
 
         // PUT api/values/5 (FULL UPDATE)
         [HttpPost("{StorePhoto}")]
-        public async Task<IActionResult> SetPhoto([FromForm] IFormFile image)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> SetPhoto([FromForm] IFormFile image, [FromForm] int UserId, [FromForm] int CompanyId)
         {
             MemoryStream memoryStream = new MemoryStream();
             User user = new User();
-            int CompanyId, UserId;
+            //int CompanyId, UserId;
 
             image.CopyTo(memoryStream);
-            CompanyId = int.Parse(Request.Form["CompanyId"]);
-            UserId = int.Parse(Request.Form["UserId"]);
+            //CompanyId = int.Parse(Request.Form["CompanyId"]);
+            //UserId = int.Parse(Request.Form["UserId"]);
+            
             user = MyDBContext.User.Find(CompanyId, UserId);
 
             if (user == null)
