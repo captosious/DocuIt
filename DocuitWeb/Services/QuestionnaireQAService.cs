@@ -83,10 +83,10 @@ namespace DocuitWeb.Services
             httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + "/" + resource_obj);
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(questionnaireQAs), Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await httpClient.SendAsync(httpClient.BaseAddress, httpRequestMessage.Content);
+            //HttpResponseMessage response = await httpClient.SendAsync(httpClient.BaseAddress, httpRequestMessage.Content);
             try
             {
-                response.EnsureSuccessStatusCode();
+                //response.EnsureSuccessStatusCode();
                 return 0;
             }
             catch

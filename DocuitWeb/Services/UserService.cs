@@ -98,12 +98,14 @@ namespace DocuitWeb.Services
             HttpClient httpClient = _myHttp.GetClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/setphoto");
             //httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
-            
+
             httpRequestMessage.Content = form;
-            HttpResponseMessage response = await httpClient.PostAsync(httpClient.BaseAddress, httpRequestMessage.Content);
+            
             try
             {
+                HttpResponseMessage response = await httpClient.SendAsync(httpRequestMessage);
                 response.EnsureSuccessStatusCode();
                 httpClient.Dispose();
                 return await Task.FromResult(0);

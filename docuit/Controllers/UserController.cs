@@ -114,7 +114,7 @@ namespace DocuItService.Controllers
         } 
 
         // PUT api/values/5 (FULL UPDATE)
-        [HttpPost("{StorePhoto}")]
+        [HttpGet("{StorePhoto}")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> SetPhoto([FromForm] IFormFile image, [FromForm] int UserId, [FromForm] int CompanyId)
         {
