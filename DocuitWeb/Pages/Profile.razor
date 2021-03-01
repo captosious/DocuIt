@@ -103,7 +103,7 @@
 
         user = await UserService.FetchAsync(user);
 
-        if (user.Image!=null)
+        if (user.Image != null)
         {
             base64String = Convert.ToBase64String(user.Image, 0, user.Image.Length);
             imagesrc = "data:image/jpg;base64," + base64String;
@@ -145,9 +145,9 @@
 
         myBlocker.Show();
 
-        multipartForm.Add(new StringContent(user.CompanyId.ToString()), "CompanyId");
-        multipartForm.Add(new StringContent(user.UserId.ToString()), "UserId");
-        multipartForm.Add(new StreamContent(fileStream, (int)fileStream.Length), "image");
+        //multipartForm.Add(new StringContent(user.CompanyId.ToString()), "CompanyId");
+        //multipartForm.Add(new StringContent(user.UserId.ToString()), "UserId");
+        //multipartForm.Add(new StreamContent(fileStream, (int)fileStream.Length), "image");
 
         result = await UserService.SetPhotoAsync(multipartForm);
         myBlocker.Hide();
@@ -160,4 +160,16 @@
             toastService.ShowSuccess(@SharedLocalizer["OP_OK"]);
         }
     }
+
+    private async void OnClickPicture()
+    {
+        int result = 0;
+        string filePath = "/Users/pedrorio/Pictures/pere_avatar.jpg";
+        FileStream fileStream = new FileStream(filePath, FileMode.Open);
+        byte[] buffer = new byte[fileStream.Length];
+
+
+        fileStream.byte
+    }
 }
+        
