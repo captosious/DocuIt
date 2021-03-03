@@ -1,46 +1,29 @@
 ﻿@page "/test"
 @using DocuitWeb.Models
 @using DocuitWeb.Data
-@inject TestingService testing 
+@using System;
+@using System.Collections.Generic;
+@using System.IO;
 
-@inject IStringLocalizer<User> Localizer
-
-@inject UserService UserService
-@inject SecurityService SecurityService
-
-<h1>Cookie-Info</h1>
-<p>Connected User: @ConnectedUser</p>
-<p>CompanyId: @CompanyId</p>
-@*<p>Testing Value: @testing.CommonText </p>*@
-@*<p><input type="text" @bind="testing.CommonText" /></p>*@
-<button type="submit" ></button>
+<img src="@imagesrc" />
+<InputFile OnChange="OnInputFileChange" />
 
 @code{
+    private string imagesrc = "";
 
-    string ConnectedUser { get; set; }
-    int CompanyId { get; set; }
-
-    protected override async Task OnInitializedAsync()
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
     {
+        int result = 0;
 
-    }
+        Stream fileStream = e.File.OpenReadStream();
 
-    protected void TimesTwo()
-    {
-        @*testing.CommonText = "Hola!!!";*@
-    }
+        //string filePath = "/Users/pedrorio/Pictures/pere_avatar.jpg";
+        //FileStream fileStream = new FileStream(filePath, FileMode.Open);
+        MemoryStream memoryStream = new MemoryStream();
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        Login login;
+        fileStream.CopyTo(memoryStream);
 
-        if (firstRender) {
-
-            @*login = await MyStorageTools.BufferGetLocalStorageAsync();
-            ConnectedUser = login.Name + " " + login.FamilyName;
-            CompanyId = login.CompanyId;
-            StateHasChanged();*@
-        }
-
+        imagesrc = "data:image/jpg;base64," + Convert.ToBase64String(memoryStream.ToArray());
+        StateHasChanged();
     }
 }
