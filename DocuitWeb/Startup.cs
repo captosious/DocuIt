@@ -122,7 +122,7 @@ namespace DocuitWeb
            
             app.UseRouting();
 
-            app.ApplicationServices.UseBootstrapProviders();
+            //app.ApplicationServices.UseBootstrapProviders();
 
             // Globalization Init
             IList<CultureInfo> supportedCultures = new List<CultureInfo>
