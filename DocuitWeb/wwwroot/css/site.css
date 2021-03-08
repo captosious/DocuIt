@@ -4,14 +4,15 @@
 .drag-drop-zone {
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
     .drag-drop-zone:hover {
-        background-color: #f5f5f5;
+        /*        background-color: #f5f5f5;*/
+        cursor: pointer;
     }
 
     .drag-drop-zone input[type=file] {
-        
         width: 100%;
         height: 100%;
         opacity: 0;
