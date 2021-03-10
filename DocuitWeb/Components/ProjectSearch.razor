@@ -8,9 +8,9 @@
 
 <h3 class="PageHeader">@Localizer["MSG001"]</h3>
 
-<DataGrid TItem="DocuitWeb.Models.Project" Editable="false" Data="@projects" @bind-SelectedRow="@project"
-          Filterable="true" Sortable="true" RowClicked="@RowClicking"
-          ShowPager="true" PageSize="5" Narrow="true" Hoverable="true">
+<DataGrid TItem="DocuitWeb.Models.Project" Editable="false" Data="@projects" 
+          Filterable="true" Sortable="true" SelectedRow="@project" RowClicked="@RowClicking" SelectedRowStyling="@OnSelectedRowStyling"
+          ShowPager="true" PageSize="5" Narrow="true" Hoverable="true" SelectionMode="DataGridSelectionMode.Single">
     <DataGridCommandColumn TItem="DocuitWeb.Models.Project" />
     <DataGridColumn TItem="DocuitWeb.Models.Project" Field="@nameof(DocuitWeb.Models.Project.ReferenceId)" Caption="@Localizer["MSG004"]" TextAlignment="TextAlignment.Left" />
     <DataGridColumn TItem="DocuitWeb.Models.Project" Field="@nameof(DocuitWeb.Models.Project.Name)" Caption="@Localizer["MSG005"]" TextAlignment="TextAlignment.Justified" />
@@ -42,8 +42,25 @@
         return statuses.FirstOrDefault(x => x.StatusId == id).Name;
     }
 
-    void RowClicking()
+    void RowClicking(EventCallback<DataGridRowMouseEventArgs<Project>> e)
     {
         OnUserClickTable.InvokeAsync(project);
     }
+
+    void OnRowStyling(Project project, DataGridRowStyling styling)
+    {
+        @*if (!project.IsActive)*@
+        styling.Style = "color: red;";
+    }
+
+    void OnSelectedRowStyling(Project project, DataGridRowStyling styling)
+    {
+        
+        styling.Background = Background.Info;
+    }
+
+    void RowDetail(Project project, bool pepe)
+        {
+            
+        }
 }

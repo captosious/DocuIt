@@ -45,8 +45,7 @@ namespace DocuitWeb
             services.AddBlazoredToast();
             //services.AddProtectedLocalStore(new EncryptionService(
             //    new KeyInfo("45BLO2yoJkvBwz99kBEMlNkxvL40vUSGaqr/WBu3+Vg=", "Ou3fn+I9SVicGWMLkFEgZQ==")));
-            
-
+           
             services.AddScoped<CompanyService>();
             services.AddScoped<UserService>();
             services.AddScoped<SecurityService>();
