@@ -9,7 +9,9 @@
 <h3 class="PageHeader">@Localizer["MSG001"]</h3>
 
 <DataGrid TItem="DocuitWeb.Models.Project" Editable="false" Data="@projects" 
-          Filterable="true" Sortable="true" SelectedRow="@project" RowClicked="@RowClicking" SelectedRowStyling="@OnSelectedRowStyling"
+          Filterable="true" Sortable="true" SelectedRow="@project" RowClicked="@RowClick"
+          SelectedRowStyling="@OnSelectedRowStyling"
+          
           ShowPager="true" PageSize="5" Narrow="true" Hoverable="true" SelectionMode="DataGridSelectionMode.Single">
     <DataGridCommandColumn TItem="DocuitWeb.Models.Project" />
     <DataGridColumn TItem="DocuitWeb.Models.Project" Field="@nameof(DocuitWeb.Models.Project.ReferenceId)" Caption="@Localizer["MSG004"]" TextAlignment="TextAlignment.Left" />
@@ -42,25 +44,20 @@
         return statuses.FirstOrDefault(x => x.StatusId == id).Name;
     }
 
-    void RowClicking(EventCallback<DataGridRowMouseEventArgs<Project>> e)
-    {
-        OnUserClickTable.InvokeAsync(project);
-    }
-
-    void OnRowStyling(Project project, DataGridRowStyling styling)
-    {
-        @*if (!project.IsActive)*@
-        styling.Style = "color: red;";
-    }
-
     void OnSelectedRowStyling(Project project, DataGridRowStyling styling)
     {
-        
-        styling.Background = Background.Info;
+        styling.Background = Background.Dark;
+        styling.Color = Color.Danger;
+        StateHasChanged();
     }
 
-    void RowDetail(Project project, bool pepe)
-        {
-            
-        }
+    void RowClick(DataGridRowMouseEventArgs<Project> e)
+    {
+        OnUserClickTable.InvokeAsync(e.Item);
+    }
+
+    void HeaderRow()
+    {
+        //return null;
+    }
 }
