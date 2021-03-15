@@ -23,7 +23,7 @@
     IEnumerable<DocuitWeb.Models.Project> projects = new List<DocuitWeb.Models.Project>();
     IEnumerable<DocuitWeb.Models.Status> statuses = new List<DocuitWeb.Models.Status>();
 
-    [Parameter]
+    [Parameter] 
     public Project project { get; set; }
     [Parameter]
     public EventCallback<Project> OnUserClickTable { get; set; }
