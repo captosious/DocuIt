@@ -24,6 +24,8 @@ using System.Net.Http;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 using System.Net.Http.Headers;
+using Plk.Blazor.DragDrop;
+
 
 namespace DocuitWeb
 {
@@ -70,7 +72,9 @@ namespace DocuitWeb
               })
               .AddBootstrapProviders()
               .AddFontAwesomeIcons();
-                
+            // Drag an Drop
+            services.AddBlazorDragDrop();
+
             // Add LocalLanguages.
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
