@@ -15,8 +15,10 @@ namespace DocuItService.Models
         public int StatusId { get; set; }
         public string Name { get; set; }
         public DateTimeOffset CreationTime { get; set; }
+        public int OwnerId { get; set; }
 
         public virtual Company Company { get; set; }
         public virtual Status Status { get; set; }
+        public virtual User User { get; set; }
     }
 }

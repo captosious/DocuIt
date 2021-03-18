@@ -11,6 +11,7 @@ namespace DocuItService.Models
     {
         public User()
         {
+            Project = new HashSet<Project>();
             ProjectSecurity = new HashSet<ProjectSecurity>();
         }
 
@@ -28,6 +29,7 @@ namespace DocuItService.Models
 
         public virtual Company Company { get; set; }
         public virtual Security Security { get; set; }
+        public virtual ICollection<Project> Project { get; set; }
         public virtual ICollection<ProjectSecurity> ProjectSecurity { get; set; }
     }
 }

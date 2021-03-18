@@ -13,7 +13,7 @@ namespace DocuItService.Controllers
     [Route("[controller]")]
     [Produces("application/json")]
     [ApiController]
-    [Microsoft.AspNetCore.Authorization.Authorize]
+    //[Microsoft.AspNetCore.Authorization.Authorize]
 
     public class ProjectSecurityController : ControllerBase
     {
@@ -50,6 +50,18 @@ namespace DocuItService.Controllers
                 return null;
             }
             return ProjectSecurity;
+        }
+
+        [HttpGet("{GetAll}")]
+        public IEnumerable<ProjectSecurity> GetAll([FromBody] ProjectSecurity ProjectSecurityParameters)
+        {
+            IEnumerable <ProjectSecurity> projectSecurityList = MyDBContext.ProjectSecurity.Where(d => d.CompanyId == ProjectSecurityParameters.CompanyId && d.ProjectId == ProjectSecurityParameters.ProjectId && d.ProjectId == ProjectSecurityParameters.ProjectId);
+
+            if (projectSecurityList == null)
+            {
+                return null;
+            }
+            return projectSecurityList;
         }
 
         [HttpPost]

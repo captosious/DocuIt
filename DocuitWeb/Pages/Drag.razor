@@ -3,18 +3,21 @@
 
 <div class="row">
     <div class="col">
-        <Dropzone Items="MyItems" MaxItems="5">
+        <Dropzone Items="MyItems" MaxItems="5" InstantReplace="true">
             <div>@context.Name</div>
         </Dropzone>
     </div>
     <div class="col">
-
+        <Dropzone Items="MyItems2" MaxItems="5" InstantReplace="true">
+            <div>@context.Name</div>
+        </Dropzone>
     </div>
 </div>
 
 @code
 {
     List<Login> MyItems = new List<Login>();
+    List<Login> MyItems2 = new List<Login>();
     Login userino = new Login();
 
     protected override async Task OnInitializedAsync()

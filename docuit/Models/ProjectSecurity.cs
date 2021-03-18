@@ -17,7 +17,6 @@ namespace DocuItService.Models
         public int CompanyId { get; set; }
         public int ProjectId { get; set; }
         public int UserId { get; set; }
-        public byte IsOwner { get; set; }
         public DateTimeOffset CreationTime { get; set; }
 
         public virtual User User { get; set; }

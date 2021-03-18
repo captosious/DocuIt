@@ -45,7 +45,6 @@ namespace DocuItService.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-
             }
         }
 
@@ -384,6 +383,9 @@ namespace DocuItService.Models
                 entity.HasIndex(e => e.StatusId)
                     .HasName("status_index");
 
+                entity.HasIndex(e => new { e.CompanyId, e.OwnerId })
+                    .HasName("fk_project_user1_idx");
+
                 entity.HasIndex(e => new { e.CompanyId, e.ProjectId })
                     .HasName("project_index");
 
@@ -401,6 +403,8 @@ namespace DocuItService.Models
                     .HasColumnName("name")
                     .HasMaxLength(45)
                     .IsUnicode(false);
+
+                entity.Property(e => e.OwnerId).HasColumnName("owner_id");
 
                 entity.Property(e => e.ReferenceId)
                     .HasColumnName("reference_id")
@@ -420,6 +424,12 @@ namespace DocuItService.Models
                     .HasForeignKey(d => d.StatusId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_project_status");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Project)
+                    .HasForeignKey(d => new { d.CompanyId, d.OwnerId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_project_user");
             });
 
             modelBuilder.Entity<ProjectSecurity>(entity =>
@@ -441,11 +451,6 @@ namespace DocuItService.Models
                 entity.Property(e => e.CreationTime)
                     .HasColumnName("creation_time")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                entity.Property(e => e.IsOwner)
-                    .HasColumnName("is_owner")
-                    .HasComment(@"Boolean meaning the user is the creator of the project.
-");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.ProjectSecurity)
@@ -763,7 +768,7 @@ namespace DocuItService.Models
 
                 entity.Property(e => e.Image)
                     .HasColumnName("image")
-                    .HasColumnType("blob");
+                    .HasColumnType("longblob");
 
                 entity.Property(e => e.Locked)
                     .HasColumnName("locked")
