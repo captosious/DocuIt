@@ -383,7 +383,7 @@ namespace DocuItService.Models
                 entity.HasIndex(e => e.StatusId)
                     .HasName("status_index");
 
-                entity.HasIndex(e => new { e.CompanyId, e.OwnerId })
+                entity.HasIndex(e => new { e.CompanyId, e.OwnerUserId })
                     .HasName("fk_project_user1_idx");
 
                 entity.HasIndex(e => new { e.CompanyId, e.ProjectId })
@@ -404,7 +404,7 @@ namespace DocuItService.Models
                     .HasMaxLength(45)
                     .IsUnicode(false);
 
-                entity.Property(e => e.OwnerId).HasColumnName("owner_id");
+                entity.Property(e => e.OwnerUserId).HasColumnName("owner_user_id");
 
                 entity.Property(e => e.ReferenceId)
                     .HasColumnName("reference_id")
@@ -427,7 +427,7 @@ namespace DocuItService.Models
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Project)
-                    .HasForeignKey(d => new { d.CompanyId, d.OwnerId })
+                    .HasForeignKey(d => new { d.CompanyId, d.OwnerUserId })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_project_user");
             });
