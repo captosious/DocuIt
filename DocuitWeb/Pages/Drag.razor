@@ -8,17 +8,17 @@
         </Dropzone>
     </div>
     <div class="col" style="border:double; background-color:lightgray">
-        <Dropzone Items="MyItems2" TItem="Login">
+        <Dropzone Items="selectedUsersList" TItem="Login">
             <div>@context.Name @context.FamilyName</div>
         </Dropzone>
     </div>
 </div>
 <button class="btn btn_general btn-success" @onclick="ButtonClick">HOLA</button>
-
+    
 @code
 {
     List<Login> usersList = new List<Login>();
-    List<Login> MyItems2 = new List<Login>();
+    List<Login> selectedUsersList = new List<Login>();
     Login userino = new Login();
     Login user2 = new Login();
 
@@ -66,6 +66,6 @@
 
     void ButtonClick(EventArgs e)
     {
-        var i = MyItems.Count;
+        var i = usersList.Count;
     }
 }
