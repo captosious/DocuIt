@@ -1,9 +1,11 @@
 ﻿@page "/drag"
 @using DocuitWeb.Models
 
+@inject UserService UserService
+
 <div class="row">
     <div class="col" style="border:dotted">
-        <Dropzone Items="usersList" TItem="Login" >
+        <Dropzone Items="usersList" TItem="Login">
             <div style="margin:2px;border:1px;background-color:green">@context.Name @context.FamilyName</div>
         </Dropzone>
     </div>
@@ -14,13 +16,13 @@
     </div>
 </div>
 <button class="btn btn_general btn-success" @onclick="ButtonClick">Check Debug</button>
-    
+
 @code
 {
     List<Login> usersList = new List<Login>();
     List<Login> selectedUsersList = new List<Login>();
-    Login userino = new Login();
-    Login user2 = new Login();
+    User companyUser = new User();
+    User user2 = new User();
 
     protected override async Task OnInitializedAsync()
     {
