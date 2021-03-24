@@ -13,7 +13,7 @@
         </Dropzone>
     </div>
 </div>
-<button class="btn btn_general btn-success" @onclick="ButtonClick">HOLA</button>
+<button class="btn btn_general btn-success" @onclick="ButtonClick">Check Debug</button>
     
 @code
 {
@@ -24,7 +24,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-
         userino = new Login();
         userino.FamilyName = "Río";
         userino.Name = "Roc";
@@ -45,23 +44,22 @@
         userino.Name = "Belinda";
         usersList.Add(userino);
 
-
         user2 = new Login();
         user2.FamilyName = "Gutiérrez";
         user2.Name = "Aurelio";
-        MyItems2.Add(user2);
+        selectedUsersList.Add(user2);
         user2 = new Login();
         user2.FamilyName = "Sánchez";
         user2.Name = "Luís";
-        MyItems2.Add(user2);
+        selectedUsersList.Add(user2);
         user2 = new Login();
         user2.FamilyName = "Argelaguer";
         user2.Name = "Joan";
-        MyItems2.Add(user2);
+        selectedUsersList.Add(user2);
         user2 = new Login();
         user2.FamilyName = "Prats";
         user2.Name = "Albert";
-        MyItems2.Add(user2);
+        selectedUsersList.Add(user2);
     }
 
     void ButtonClick(EventArgs e)
