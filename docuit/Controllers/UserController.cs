@@ -29,9 +29,9 @@ namespace DocuItService.Controllers
 
         // GET: api/values
         [HttpGet("GetAll")]
-        public IEnumerable<User> Get()
+        public IEnumerable<User> GetAll([FromBody] User UserParameters)
         {
-            IEnumerable<User> users = MyDBContext.User;
+            IEnumerable<User> users = MyDBContext.User.Where<User>(x=> x.CompanyId == UserParameters.CompanyId);
 
             if (users == null)
             {

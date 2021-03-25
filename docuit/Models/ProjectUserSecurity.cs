@@ -7,20 +7,13 @@ using System.Collections.Generic;
 
 namespace DocuItService.Models
 {
-    public partial class ProjectSecurity
+    public partial class ProjectUserSecurity
     {
-        public ProjectSecurity()
-        {
-            Dossier = new HashSet<Dossier>();
-        }
-
         public int CompanyId { get; set; }
         public int ProjectId { get; set; }
         public int UserId { get; set; }
-        public DateTimeOffset CreationTime { get; set; }
+        public string Name { get; set; }
+        public string FamilyName { get; set; }
         public int Rights { get; set; }
-
-        public virtual User User { get; set; }
-        public virtual ICollection<Dossier> Dossier { get; set; }
     }
 }

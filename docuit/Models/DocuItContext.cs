@@ -29,6 +29,7 @@ namespace DocuItService.Models
         public virtual DbSet<Pictures> Pictures { get; set; }
         public virtual DbSet<Project> Project { get; set; }
         public virtual DbSet<ProjectSecurity> ProjectSecurity { get; set; }
+        public virtual DbSet<ProjectUserSecurity> ProjectUserSecurity { get; set; }
         public virtual DbSet<Questionnaire> Questionnaire { get; set; }
         public virtual DbSet<QuestionnaireParagraph> QuestionnaireParagraph { get; set; }
         public virtual DbSet<QuestionnaireQuestions> QuestionnaireQuestions { get; set; }
@@ -45,6 +46,7 @@ namespace DocuItService.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+                optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=montmany;database=DocuIt");
             }
         }
 
@@ -452,11 +454,32 @@ namespace DocuItService.Models
                     .HasColumnName("creation_time")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+                entity.Property(e => e.Rights).HasColumnName("rights");
+
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.ProjectSecurity)
                     .HasForeignKey(d => new { d.CompanyId, d.UserId })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_project_security_user");
+            });
+
+            modelBuilder.Entity<ProjectUserSecurity>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("project_user_security", "DocuIt");
+
+                entity.Property(e => e.FamilyName)
+                    .IsRequired()
+                    .HasMaxLength(45)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(45)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Rights).HasColumnName("rights");
             });
 
             modelBuilder.Entity<Questionnaire>(entity =>
