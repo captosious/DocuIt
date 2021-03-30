@@ -27,17 +27,30 @@ namespace DocuItService.Controllers
         }
 
         // GET: api/values
-        [HttpGet]
-        public IEnumerable<ProjectSecurity> Get()
+        [HttpGet("GetProjectUserSecurity")]
+        public IEnumerable<ProjectUserSecurity> GetProjectUserSecurity([FromBody] ProjectUserSecurity parProjectUserSecurity)
         {
-            IEnumerable<ProjectSecurity> project = MyDBContext.ProjectSecurity ;
+            IEnumerable<ProjectUserSecurity> projectUserSecurity = MyDBContext.ProjectUserSecurity.Where(x=> x.CompanyId == parProjectUserSecurity.CompanyId && x.ProjectId == parProjectUserSecurity.ProjectId);
 
-            if (project == null)
+            if (projectUserSecurity == null)
             {
                 return null;
             }
-            return project;
+            return projectUserSecurity;
         }
+
+        //// GET: api/values
+        //[HttpGet]
+        //public IEnumerable<ProjectSecurity> Get()
+        //{
+        //    IEnumerable<ProjectSecurity> project = MyDBContext.ProjectSecurity ;
+
+        //    if (project == null)
+        //    {
+        //        return null;
+        //    }
+        //    return project;
+        //}
 
         // GET api/values/5
         [HttpGet]
@@ -52,7 +65,7 @@ namespace DocuItService.Controllers
             return ProjectSecurity;
         }
 
-        [HttpGet("{GetAll}")]
+        [HttpGet("GetAll")]
         public IEnumerable<ProjectSecurity> GetAll([FromBody] ProjectSecurity ProjectSecurityParameters)
         {
             IEnumerable <ProjectSecurity> projectSecurityList = MyDBContext.ProjectSecurity.Where(d => d.CompanyId == ProjectSecurityParameters.CompanyId && d.ProjectId == ProjectSecurityParameters.ProjectId && d.ProjectId == ProjectSecurityParameters.ProjectId);
