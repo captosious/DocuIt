@@ -45,6 +45,9 @@ namespace DocuitWeb.Services
             }
         }
 
+
+
+
         public async Task<int> PutAsync(User user)
         {
             user.CompanyId = _appSettings.CompanyId;
@@ -91,30 +94,6 @@ namespace DocuitWeb.Services
                 return null;
             }
         }
-
-        public async Task FetchProjectUserSecurity()
-        {
-            HttpClient httpClient = _myHttp.GetClient();
-            HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
-            User return_user;
-
-            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/GetById");
-            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
-            var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
-            try
-            {
-                response.EnsureSuccessStatusCode();
-                var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                return_user = JsonConvert.DeserializeObject<User>(responseBody);
-                return await Task.FromResult(return_user);
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-
 
         public async Task<int> SetPhotoAsync(MultipartFormDataContent form)
         {

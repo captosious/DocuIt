@@ -1,17 +1,18 @@
 ﻿@page "/drag"
 @using DocuitWeb.Models
 
-@inject UserService UserService
+@inject UserService userService
+@inject ProjectService project
 
 <div class="row">
     <div class="col" style="border:dotted">
-        <Dropzone Items="usersList" TItem="Login">
+        <Dropzone Items="companyCompanyUserList" TItem="ProjectUserSecurity">
             <div style="margin:2px;border:1px;background-color:green">@context.Name @context.FamilyName</div>
         </Dropzone>
     </div>
     <div class="col" style="border:double; background-color:lightgray">
-        <Dropzone Items="selectedUsersList" TItem="Login">
-            <div>@context.Name @context.FamilyName</div>
+        <Dropzone Items="selectedUsersList" TItem="ProjectUserSecurity">
+             <div>@context.Name @context.FamilyName</div>
         </Dropzone>
     </div>
 </div>
@@ -19,53 +20,23 @@
 
 @code
 {
-    List<U> usersList = new List<Login>();
-    List<Login> selectedUsersList = new List<Login>();
-    User companyUser = new User();
-    User user2 = new User();
+    //List<U> usersList = new List<Login>();
+    List<ProjectUserSecurity> companyCompanyUserList = new List<ProjectUserSecurity>();
+    List<ProjectUserSecurity> selectedUsersList = new List<ProjectUserSecurity>();
+    ProjectUserSecurity companyUser = new ProjectUserSecurity();
+    ProjectUserSecurity selectedUser = new ProjectUserSecurity();
 
     protected override async Task OnInitializedAsync()
     {
-        userino = new Login();
-        userino.FamilyName = "Río";
-        userino.Name = "Roc";
-        //MyItems.ad
-        usersList.Add(userino);
-        userino = new Login();
-        userino.FamilyName = "Zapata";
-        userino.Name = "Pere";
-        usersList.Add(userino);
+        IEnumerable<ProjectUserSecurity> returnList = new List<ProjectUserSecurity>;
 
-        userino = new Login();
-        userino.FamilyName = "Jackson";
-        userino.Name = "Michael";
-        usersList.Add(userino);
+        returnList = (IEnumerable<ProjectUserSecurity>)project.FetchProjectUserSecurity(1, 1);
 
-        userino = new Login();
-        userino.FamilyName = "Carlisle";
-        userino.Name = "Belinda";
-        usersList.Add(userino);
-
-        user2 = new Login();
-        user2.FamilyName = "Gutiérrez";
-        user2.Name = "Aurelio";
-        selectedUsersList.Add(user2);
-        user2 = new Login();
-        user2.FamilyName = "Sánchez";
-        user2.Name = "Luís";
-        selectedUsersList.Add(user2);
-        user2 = new Login();
-        user2.FamilyName = "Argelaguer";
-        user2.Name = "Joan";
-        selectedUsersList.Add(user2);
-        user2 = new Login();
-        user2.FamilyName = "Prats";
-        user2.Name = "Albert";
-        selectedUsersList.Add(user2);
+        var i = 1;
     }
 
     void ButtonClick(EventArgs e)
     {
-        var i = usersList.Count;
+
     }
 }

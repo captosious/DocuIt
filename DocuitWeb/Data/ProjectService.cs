@@ -48,7 +48,35 @@ namespace DocuitWeb.Data
             }
         }
 
-        public async Task<Project> PutAsync(Project project)
+        public async Task<IEnumerable<ProjectUserSecurity>> FetchProjectUserSecurity(int CompanyId, int ProjectId)
+        {
+            List<ProjectUserSecurity> projects = new List<ProjectUserSecurity>();
+            ProjectUserSecurity project = new ProjectUserSecurity();
+            HttpClient httpClient = _myHttp.GetClient();
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+
+            project.CompanyId = CompanyId;
+            project.ProjectId = ProjectId;
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + "/projectsecurity/GetProjectUserSecurity");
+            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(project), Encoding.UTF8, "application/json");
+
+            var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
+
+            try
+            {
+                response.EnsureSuccessStatusCode();
+                var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                projects = JsonConvert.DeserializeObject<List<ProjectUserSecurity>>(responseBody);
+                return await Task.FromResult(projects);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
+            public async Task<Project> PutAsync(Project project)
         {
             project.CompanyId = _appSettings.CompanyId;
             HttpClient httpClient = _myHttp.GetClient();
