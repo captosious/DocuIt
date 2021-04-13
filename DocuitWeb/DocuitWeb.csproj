@@ -8,12 +8,12 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Blazored.Toast" Version="3.1.2" />
-    <PackageReference Include="Blazorise.Bootstrap" Version="0.9.3.3" />
-    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.3.3" />
-    <PackageReference Include="Blazorise.DataGrid" Version="0.9.3.3" />
+    <PackageReference Include="Blazorise.Bootstrap" Version="0.9.3.4" />
+    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.3.4" />
+    <PackageReference Include="Blazorise.DataGrid" Version="0.9.3.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="5.0.4" />
-    <PackageReference Include="blazor-dragdrop" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="5.0.5" />
+    <PackageReference Include="blazor-dragdrop" Version="2.3.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

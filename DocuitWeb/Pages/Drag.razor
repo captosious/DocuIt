@@ -31,11 +31,8 @@
         IEnumerable<ProjectUserSecurity> returnList = new List<ProjectUserSecurity>();
 
         returnList = await project.FetchProjectUserSecurity(1, 1);
-        foreach (ProjectUserSecurity userProject in returnList)
-        {
-            if (userProjecvet)
-            { }
-        }
+        selectedUsersList = (List<ProjectUserSecurity>)returnList;
+        
         var i = 1;
     }
 
