@@ -31,9 +31,20 @@
         IEnumerable<ProjectUserSecurity> returnList = new List<ProjectUserSecurity>();
 
         returnList = await project.FetchProjectUserSecurity(1, 1);
-        selectedUsersList = (List<ProjectUserSecurity>)returnList;
-        
-        var i = 1;
+
+        foreach (ProjectUserSecurity projectUserSecurity in returnList)
+        {
+            if (projectUserSecurity.ProjectId == -1)
+            {
+                //User is available to select
+                companyCompanyUserList.Add(projectUserSecurity);
+            }
+            else
+            {
+                // User is selected in the project
+                selectedUsersList.Add(projectUserSecurity);
+            }
+        }
     }
 
     void ButtonClick(EventArgs e)
