@@ -39,6 +39,39 @@ namespace DocuItService.Controllers
             return projectUserSecurity;
         }
 
+        [HttpGet("GetProjectUsers")]
+        public IEnumerable<ProjectUserSecurity> GetProjectUsers([FromBody] ProjectUserSecurity parProjectUserSecurity)
+        {
+            IEnumerable<User> users = MyDBContext.User.Where(x => x.CompanyId == parProjectUserSecurity.CompanyId);
+            IEnumerable<ProjectUserSecurity> projectUserSecurityGrantedList = MyDBContext.ProjectUserSecurity.Where(x => x.CompanyId == parProjectUserSecurity.CompanyId && x.ProjectId == parProjectUserSecurity.ProjectId);
+
+            List<ProjectUserSecurity> projectUserSecurities = new List<ProjectUserSecurity>();
+            ProjectUserSecurity projectUserSecurity;
+
+            if (users == null)
+            {
+                return null;
+            }
+            foreach (User user in users)
+            {
+                projectUserSecurity = new ProjectUserSecurity();
+
+                projectUserSecurity.CompanyId = user.CompanyId;
+                projectUserSecurity.FamilyName = user.FamilyName;
+                projectUserSecurity.Name = user.Name;
+                projectUserSecurity.ProjectId = parProjectUserSecurity.ProjectId;
+                projectUserSecurity.Rights = 0;
+
+                foreach (ProjectUserSecurity projectUser in projectUserSecurityGrantedList)
+                {
+                    if (projectUser.UserId != projectUserSecurity.UserId)
+                    {
+                        projectUserSecurities.Add(projectUserSecurity);
+                    }
+                }
+            }
+            return projectUserSecurities;
+        }
         //// GET: api/values
         //[HttpGet]
         //public IEnumerable<ProjectSecurity> Get()

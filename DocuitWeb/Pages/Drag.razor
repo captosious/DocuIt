@@ -10,7 +10,7 @@
             <div style="margin:2px;border:1px;background-color:green">@context.Name @context.FamilyName</div>
         </Dropzone>
     </div>
-    <div class="col" style="border:double; background-color:lightgray">
+    <div class="col" style="border:double; background-color:lightgreen">
         <Dropzone Items="selectedUsersList" TItem="ProjectUserSecurity">
              <div>@context.Name @context.FamilyName</div>
         </Dropzone>
@@ -20,7 +20,6 @@
 
 @code
 {
-    //List<U> usersList = new List<Login>();
     List<ProjectUserSecurity> companyCompanyUserList = new List<ProjectUserSecurity>();
     List<ProjectUserSecurity> selectedUsersList = new List<ProjectUserSecurity>();
     ProjectUserSecurity companyUser = new ProjectUserSecurity();
