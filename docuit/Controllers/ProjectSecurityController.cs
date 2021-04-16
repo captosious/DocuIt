@@ -43,7 +43,7 @@ namespace DocuItService.Controllers
         public IEnumerable<ProjectUserSecurity> GetProjectUsers([FromBody] ProjectUserSecurity parProjectUserSecurity)
         {
             IEnumerable<User> users = MyDBContext.User.Where(x => x.CompanyId == parProjectUserSecurity.CompanyId);
-            IEnumerable<ProjectUserSecurity> projectUserSecurityGrantedList = MyDBContext.ProjectUserSecurity.Where(x => x.CompanyId == parProjectUserSecurity.CompanyId && x.ProjectId == parProjectUserSecurity.ProjectId);
+            IEnumerable<ProjectUserSecurity> projectUserSecurityGrantedList = MyDBContext.ProjectUserSecurity.Where(x => x.CompanyId == parProjectUserSecurity.CompanyId && x.ProjectId == parProjectUserSecurity.ProjectId).ToList<ProjectUserSecurity>();
 
             List<ProjectUserSecurity> projectUserSecurities = new List<ProjectUserSecurity>();
             ProjectUserSecurity projectUserSecurity;
@@ -54,20 +54,27 @@ namespace DocuItService.Controllers
             }
             foreach (User user in users)
             {
-                projectUserSecurity = new ProjectUserSecurity();
-
-                projectUserSecurity.CompanyId = user.CompanyId;
-                projectUserSecurity.FamilyName = user.FamilyName;
-                projectUserSecurity.Name = user.Name;
-                projectUserSecurity.ProjectId = parProjectUserSecurity.ProjectId;
-                projectUserSecurity.Rights = 0;
+                bool found = false;
 
                 foreach (ProjectUserSecurity projectUser in projectUserSecurityGrantedList)
                 {
-                    if (projectUser.UserId != projectUserSecurity.UserId)
+                    if (projectUser.UserId == user.UserId)
                     {
-                        projectUserSecurities.Add(projectUserSecurity);
+                        found = true;   
+                        break;
                     }
+                }
+                if (!found)
+                {
+                    projectUserSecurity = new ProjectUserSecurity();
+
+                    projectUserSecurity.CompanyId = user.CompanyId;
+                    projectUserSecurity.UserId = user.UserId;
+                    projectUserSecurity.FamilyName = user.FamilyName;
+                    projectUserSecurity.Name = user.Name;
+                    projectUserSecurity.ProjectId = parProjectUserSecurity.ProjectId;
+                    projectUserSecurity.Rights = 0;
+                    projectUserSecurities.Add(projectUserSecurity);
                 }
             }
             return projectUserSecurities;

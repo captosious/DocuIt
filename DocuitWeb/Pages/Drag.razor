@@ -4,7 +4,19 @@
 @inject UserService userService
 @inject ProjectService project
 
-<div class="row">
+<hr/>
+<div class="bg-light">First Dropzone:</div>
+<Dropzone Items="companyCompanyUserList" TItem="ProjectUserSecurity">
+    <div style="margin:2px;border:1px;background-color:green">@context.Name @context.FamilyName</div>
+</Dropzone>
+<hr />
+<div class="bg-light">Second Dropzone: (only accepts items containing the word 'fun')</div>
+<Dropzone Items="selectedUsersList" TItem="ProjectUserSecurity">
+    <div>@context.Name @context.FamilyName</div>
+</Dropzone>
+<hr />
+
+@*<div class="row">
     <div class="col" style="border:dotted">
         <Dropzone Items="companyCompanyUserList" TItem="ProjectUserSecurity">
             <div style="margin:2px;border:1px;background-color:green">@context.Name @context.FamilyName</div>
@@ -12,10 +24,10 @@
     </div>
     <div class="col" style="border:double; background-color:lightgreen">
         <Dropzone Items="selectedUsersList" TItem="ProjectUserSecurity">
-             <div>@context.Name @context.FamilyName</div>
+            <div>@context.Name @context.FamilyName</div>
         </Dropzone>
     </div>
-</div>
+</div>*@
 <button class="btn btn_general btn-success" @onclick="ButtonClick">Check Debug</button>
 
 @code
@@ -29,21 +41,9 @@
     {
         IEnumerable<ProjectUserSecurity> returnList = new List<ProjectUserSecurity>();
 
-        returnList = await project.FetchProjectUserSecurity(1, 1);
+        companyCompanyUserList = await project.FetchProjectUser(1, 1);
+        selectedUsersList = await project.FetchProjectUserSecurity(1, 1);
 
-        foreach (ProjectUserSecurity projectUserSecurity in returnList)
-        {
-            if (projectUserSecurity.ProjectId == -1)
-            {
-                //User is available to select
-                companyCompanyUserList.Add(projectUserSecurity);
-            }
-            else
-            {
-                // User is selected in the project
-                selectedUsersList.Add(projectUserSecurity);
-            }
-        }
     }
 
     void ButtonClick(EventArgs e)

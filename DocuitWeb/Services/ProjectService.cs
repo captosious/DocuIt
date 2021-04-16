@@ -48,7 +48,33 @@ namespace DocuitWeb.Data
             }
         }
 
-        public async Task<IEnumerable<ProjectUserSecurity>> FetchProjectUserSecurity(int CompanyId, int ProjectId)
+        public async Task<List<ProjectUserSecurity>> FetchProjectUser(int CompanyId, int ProjectId)
+        {
+            IEnumerable<ProjectUserSecurity> projects = new List<ProjectUserSecurity>();
+            ProjectUserSecurity project = new ProjectUserSecurity();
+            HttpClient httpClient = _myHttp.GetClient();
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+
+            project.CompanyId = CompanyId;
+            project.ProjectId = ProjectId;
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + "/projectsecurity/GetProjectUsers");
+            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(project), Encoding.UTF8, "application/json");
+
+            var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
+            try
+            {
+                response.EnsureSuccessStatusCode();
+                var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                projects = JsonConvert.DeserializeObject<IEnumerable<ProjectUserSecurity>>(responseBody);
+                return await Task.FromResult((List<ProjectUserSecurity>)projects);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<List<ProjectUserSecurity>> FetchProjectUserSecurity(int CompanyId, int ProjectId)
         {
             IEnumerable<ProjectUserSecurity> projects = new List<ProjectUserSecurity>();
             ProjectUserSecurity project = new ProjectUserSecurity();
@@ -66,7 +92,7 @@ namespace DocuitWeb.Data
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 projects = JsonConvert.DeserializeObject<IEnumerable<ProjectUserSecurity>>(responseBody);
-                return await Task.FromResult(projects);
+                return await Task.FromResult((List<ProjectUserSecurity>)projects);
             }
             catch
             {

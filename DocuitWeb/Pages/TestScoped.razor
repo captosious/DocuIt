@@ -34,72 +34,72 @@
     </div>
 </div>
 
-    @code{
-        IEnumerable<DocuitWeb.Models.Questionnaire> questionnaire = new List<DocuitWeb.Models.Questionnaire>();
-        DocuitWeb.Models.Questionnaire question { get; set; }
-        IEnumerable<DocuitWeb.Models.QuestionnaireReportAnswers> answers = new List<DocuitWeb.Models.QuestionnaireReportAnswers>();
-        DocuitWeb.Models.QuestionnaireReportAnswers answer { get; set; }
+@code{
+    IEnumerable<DocuitWeb.Models.Questionnaire> questionnaire = new List<DocuitWeb.Models.Questionnaire>();
+    DocuitWeb.Models.Questionnaire question { get; set; }
+    IEnumerable<DocuitWeb.Models.QuestionnaireReportAnswers> answers = new List<DocuitWeb.Models.QuestionnaireReportAnswers>();
+    DocuitWeb.Models.QuestionnaireReportAnswers answer { get; set; }
 
-        string questionnaireType;
-        int previous_paragraph = -1;
+    string questionnaireType;
+    int previous_paragraph = -1;
 
-        protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
+    {
+        myBlocker.Show();
+        QuestionnaireService.parameters.CompanyId = 1;
+        QuestionnaireService.parameters.ProjectId = 1;
+        QuestionnaireService.parameters.DossierId = 1;
+        QuestionnaireService.parameters.QuestionnaireReportId = 1;
+
+        questionnaire = await QuestionnaireService.FetchAsyncQuestionnaireQuestions();
+        if (questionnaire != null)
         {
-            myBlocker.Show();
-            QuestionnaireService.parameters.CompanyId = 1;
-            QuestionnaireService.parameters.ProjectId = 1;
-            QuestionnaireService.parameters.DossierId = 1;
-            QuestionnaireService.parameters.QuestionnaireReportId = 1;
-
-            questionnaire = await QuestionnaireService.FetchAsyncQuestionnaireQuestions();
-            if (questionnaire != null)
-            {
-                questionnaireType = questionnaire.First().QuestionnaireTypeName;
-            }
-            //answers = await QuestionnaireService.FetchAsyncQuestionnaireAnswers();
-
-            myBlocker.Hide();
+            questionnaireType = questionnaire.First().QuestionnaireTypeName;
         }
+        //answers = await QuestionnaireService.FetchAsyncQuestionnaireAnswers();
 
-        private async void OnClickPutButton()
-        {
-            // We go thru all the structure creating the new one to be passed
-            // to the service.
-            // The original one is not used to avoid network traffic.
-            // So we only upload to the service a reduced object containing
-            // entity keys and the answers.
-            ICollection<QuestionnaireReportAnswers> questionnaireReportAnswers = new List<QuestionnaireReportAnswers>();
-            QuestionnaireReportAnswers questionReportAnswer;
-            int i;
-
-            myBlocker.Show();
-            foreach (Questionnaire question in questionnaire)
-            {
-                questionReportAnswer = new QuestionnaireReportAnswers();
-
-                questionReportAnswer.CompanyId = question.CompanyId;
-                questionReportAnswer.ProjectId = question.ProjectId;
-                questionReportAnswer.DossierId = question.DossierId;
-                questionReportAnswer.QuestionnaireReportId = question.QuestionnaireReportId;
-                questionReportAnswer.QuestionId = question.QuestionId;
-                questionReportAnswer.Answer = question.Answer;
-
-                questionnaireReportAnswers.Add(questionReportAnswer);
-            }
-
-            if (questionnaireReportAnswers.Count > 0)
-            {
-                i = await QuestionnaireService.SaveQuestionnaire(questionnaireReportAnswers);
-                myBlocker.Hide();
-                if (i == 0)
-                {
-                    toastService.ShowSuccess(@SharedLocalizer["OP_OK"], @SharedLocalizer["OP_OK_TITLE"]);
-                }
-                else
-                {
-                    toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]);
-                }
-            }
-            myBlocker.Hide();
-        }
+        myBlocker.Hide();
     }
+
+    private async void OnClickPutButton()
+    {
+        // We go thru all the structure creating the new one to be passed
+        // to the service.
+        // The original one is not used to avoid network traffic.
+        // So we only upload to the service a reduced object containing
+        // entity keys and the answers.
+        ICollection<QuestionnaireReportAnswers> questionnaireReportAnswers = new List<QuestionnaireReportAnswers>();
+        QuestionnaireReportAnswers questionReportAnswer;
+        int i;
+
+        myBlocker.Show();
+        foreach (Questionnaire question in questionnaire)
+        {
+            questionReportAnswer = new QuestionnaireReportAnswers();
+
+            questionReportAnswer.CompanyId = question.CompanyId;
+            questionReportAnswer.ProjectId = question.ProjectId;
+            questionReportAnswer.DossierId = question.DossierId;
+            questionReportAnswer.QuestionnaireReportId = question.QuestionnaireReportId;
+            questionReportAnswer.QuestionId = question.QuestionId;
+            questionReportAnswer.Answer = question.Answer;
+
+            questionnaireReportAnswers.Add(questionReportAnswer);
+        }
+
+        if (questionnaireReportAnswers.Count > 0)
+        {
+            i = await QuestionnaireService.SaveQuestionnaire(questionnaireReportAnswers);
+            myBlocker.Hide();
+            if (i == 0)
+            {
+                toastService.ShowSuccess(@SharedLocalizer["OP_OK"], @SharedLocalizer["OP_OK_TITLE"]);
+            }
+            else
+            {
+                toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]);
+            }
+        }
+        myBlocker.Hide();
+    }
+}
