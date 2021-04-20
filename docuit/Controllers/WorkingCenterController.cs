@@ -78,7 +78,7 @@ namespace DocuItService.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] WorkingCenter objParams)
         {
-            MyDBContext.Update(objParams);
+            MyDBContext.WorkingCenter.Update(objParams);
             if (ModelState.IsValid)
             {
                 await MyDBContext.SaveChangesAsync();

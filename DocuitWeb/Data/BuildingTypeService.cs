@@ -47,7 +47,7 @@ namespace DocuitWeb.Data
             }
         }
 
-        public async Task<BuildingType> PutAsync(BuildingType obj)
+        public async Task<BuildingType> UpdateAsync(BuildingType obj)
         {
             obj.CompanyId = _appSettings.CompanyId;
             HttpClient httpClient = new HttpClient(); 

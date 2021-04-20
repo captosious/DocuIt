@@ -4,14 +4,12 @@
 @inject IStringLocalizer<WorkingCenter> Localizer
 @inject WorkingCenterService WorkingCenterService
 
-
 <h3 class="PageHeader">@Localizer["title"]</h3>
 
 <DataGrid TItem="DocuitWeb.Models.WorkingCenter" Editable="false" Data="@objList2" @bind-SelectedRow="@obj" RowClicked="@Edit"
           Filterable="true" Sortable="true"
-          ShowPager="true" PageSize="5" Narrow="true" Hoverable="true"
-          >
-    <DataGridCommandColumn TItem="DocuitWeb.Models.WorkingCenter" />
+          ShowPager="true" PageSize="5" Narrow="true" Hoverable="true">
+    <DataGridCommandColumn TItem="DocuitWeb.Models.WorkingCenter"/>
     <DataGridColumn Width="100px" Readonly="true" TItem="DocuitWeb.Models.WorkingCenter" Field="@nameof(DocuitWeb.Models.WorkingCenter.Id)" Caption="@Localizer["id"]" TextAlignment="TextAlignment.Left" />
     <DataGridColumn TItem="DocuitWeb.Models.WorkingCenter" Field="@nameof(DocuitWeb.Models.WorkingCenter.Name)" Caption="@Localizer["description"]" TextAlignment="TextAlignment.Justified" />
 </DataGrid>
@@ -21,7 +19,6 @@
 </div>
 
 <Modal @ref="modalWindow" Closing="@OnClosing">
-    <ModalBackdrop />
     <ModalContent Size="ModalSize.Default" Centered="true">
         <ModalHeader>
             <i class="fas fa-edit fa-2x"></i>
@@ -51,6 +48,7 @@
         </ModalFooter>
     </ModalContent>
 </Modal>
+
 @code
 {
     IEnumerable<DocuitWeb.Models.WorkingCenter> objList2 = new List<DocuitWeb.Models.WorkingCenter>();

@@ -77,7 +77,7 @@
     private async void Save()
     {
         myBlocker.Show();
-        obj = await BuildingTypeService.PutAsync(objEdit);
+        obj = await BuildingTypeService.UpdateAsync(objEdit);
         myBlocker.Hide();
 
         if (obj == null)

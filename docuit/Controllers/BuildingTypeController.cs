@@ -45,7 +45,7 @@ namespace DocuItService.Controllers
             {
                 return BadRequest();
             }
-            objReturn = await MyDBContext.BuildingType.FindAsync(objParams);
+            objReturn = await MyDBContext.BuildingType.FindAsync(objParams.CompanyId, objParams.Id);
             if (objReturn == null)
             {
                 return NotFound();
@@ -75,9 +75,9 @@ namespace DocuItService.Controllers
 
         // PUT api/values/5 (FULL UPDATE)
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] WorkingCenter objParams)
+        public async Task<IActionResult> Put([FromBody] BuildingType objParams)
         {
-            MyDBContext.Update(objParams);
+            MyDBContext.BuildingType.Update(objParams);
             if (ModelState.IsValid)
             {
                 await MyDBContext.SaveChangesAsync();
