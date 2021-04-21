@@ -5,10 +5,10 @@
 @inject BuildingTypeService BuildingTypeService
 
 <h3 class="PageHeader">@Localizer["title"]</h3>
-<DataGrid TItem="DocuitWeb.Models.BuildingType" Editable="false" Data="@objList" @bind-SelectedRow="@obj"  
+<DataGrid TItem="DocuitWeb.Models.BuildingType" Editable="false" Data="@objList" SelectedRow="@obj"  
           Filterable="true" Sortable="true" 
           ShowPager="true" PageSize="5" Narrow="true" Hoverable="true" 
-          SelectedRowStyling="@OnSelectedRowStyling" RowDoubleClicked="@Edit">
+          SelectedRowStyling="@OnSelectedRowStyling" RowClicked="@Edit">
     <DataGridCommandColumn TItem="DocuitWeb.Models.BuildingType"  />
     <DataGridColumn Width="100px" Readonly="true" TItem="DocuitWeb.Models.BuildingType" Field="@nameof(DocuitWeb.Models.BuildingType.Id)" Caption="@Localizer["id"]" TextAlignment="TextAlignment.Left" />
     <DataGridColumn TItem="DocuitWeb.Models.BuildingType" Field="@nameof(DocuitWeb.Models.BuildingType.Name)" Caption="@Localizer["description"]" TextAlignment="TextAlignment.Justified" />
@@ -68,10 +68,10 @@
         myBlocker.Hide();
     }
 
-    private void Edit()
+    private void Edit(DataGridRowMouseEventArgs<DocuitWeb.Models.BuildingType> e)
     {
 
-        objEdit = (DocuitWeb.Models.BuildingType)obj.Clone();
+        objEdit = (DocuitWeb.Models.BuildingType)e.Item.Clone();
         //objEdit = (DocuitWeb.Models.BuildingType)eventArgs.Item.obj.Clone();
         modalWindow.Show();
     }
@@ -122,7 +122,7 @@
 
     void OnSelectedRowStyling(DocuitWeb.Models.BuildingType obj, DataGridRowStyling styling)
     {
-        styling.Background = Background.Dark;
+        styling.Background = Background.White;
     }
 
     void OnSelectedRow(DocuitWeb.Models.BuildingType obj)
