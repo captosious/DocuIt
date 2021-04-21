@@ -19,7 +19,7 @@
 </div>
 
 <Modal @ref="modalWindow" Closing="@OnClosing">
-    <ModalBackdrop />
+    
     <ModalContent Size="ModalSize.Default" Centered="true">
         <ModalHeader>
             <i class="fas fa-edit fa-2x"></i>
@@ -78,7 +78,6 @@
     {
         myBlocker.Show();
         obj = await BuildingTypeService.UpdateAsync(objEdit);
-        myBlocker.Hide();
 
         if (obj == null)
         {
@@ -88,6 +87,8 @@
         {
             toastService.ShowSuccess(@SharedLocalizer["OP_OK"], @SharedLocalizer["OP_OK_TITLE"]);
         }
+        myBlocker.Hide();
+        CloseModal();
     }
 
     private void Add()
