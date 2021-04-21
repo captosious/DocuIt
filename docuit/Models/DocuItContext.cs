@@ -46,7 +46,7 @@ namespace DocuItService.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=montmany;database=DocuIt");
+
             }
         }
 
@@ -479,7 +479,9 @@ namespace DocuItService.Models
                     .HasMaxLength(45)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Rights).HasColumnName("rights");
+                entity.Property(e => e.Rights)
+                    .HasColumnName("rights")
+                    .HasDefaultValueSql("'0'");
             });
 
             modelBuilder.Entity<Questionnaire>(entity =>
