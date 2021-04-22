@@ -53,8 +53,8 @@
 @code
 {
     IEnumerable<DocuitWeb.Models.BuildingType> objList = new List<DocuitWeb.Models.BuildingType>();
-    DocuitWeb.Models.BuildingType obj = new DocuitWeb.Models.BuildingType();
     DocuitWeb.Models.BuildingType objEdit = new DocuitWeb.Models.BuildingType();
+    DocuitWeb.Models.BuildingType obj { get; set; }
 
     //Modal
     private Modal modalWindow;
@@ -68,10 +68,10 @@
         myBlocker.Hide();
     }
 
-    private void Edit(DataGridRowMouseEventArgs<DocuitWeb.Models.BuildingType> e)
+    private void Edit(DataGridRowMouseEventArgs<DocuitWeb.Models.BuildingType> eventArgs)
     {
-
-        objEdit = (DocuitWeb.Models.BuildingType)e.Item.Clone();
+        //obj = (DocuitWeb.Models.BuildingType)eventArgs.Item.Clone();
+        objEdit = (DocuitWeb.Models.BuildingType)eventArgs.Item.Clone();
         //objEdit = (DocuitWeb.Models.BuildingType)eventArgs.Item.obj.Clone();
         modalWindow.Show();
     }
@@ -79,6 +79,7 @@
     private async void Save()
     {
         myBlocker.Show();
+        
         obj = await BuildingTypeService.UpdateAsync(objEdit);
 
         if (obj == null)
@@ -123,6 +124,7 @@
     void OnSelectedRowStyling(DocuitWeb.Models.BuildingType obj, DataGridRowStyling styling)
     {
         styling.Background = Background.White;
+        StateHasChanged();
     }
 
     void OnSelectedRow(DocuitWeb.Models.BuildingType obj)

@@ -9,8 +9,7 @@
 
 <DataGrid TItem="DocuitWeb.Models.Project" Editable="false" Data="@projects" 
           Filterable="true" Sortable="true" SelectedRow="@project" RowClicked="@RowClick"
-          SelectedRowStyling="@OnSelectedRowStyling"
-          
+          SelectedRowStyling="@OnSelectedRowStyling" 
           ShowPager="true" PageSize="5" Narrow="true" Hoverable="true" SelectionMode="DataGridSelectionMode.Single">
     <DataGridCommandColumn TItem="DocuitWeb.Models.Project" />
     <DataGridColumn TItem="DocuitWeb.Models.Project" Field="@nameof(DocuitWeb.Models.Project.ReferenceId)" Caption="@Localizer["MSG004"]" TextAlignment="TextAlignment.Left" />
