@@ -6,7 +6,6 @@
 @inject StatusService StatusService
 
 <h3 class="PageHeader">@Localizer["MSG001"]</h3>
-
 <DataGrid TItem="DocuitWeb.Models.Project" Editable="false" Data="@projects" 
           Filterable="true" Sortable="true" SelectedRow="@project" RowClicked="@RowClick"
           SelectedRowStyling="@OnSelectedRowStyling" 
