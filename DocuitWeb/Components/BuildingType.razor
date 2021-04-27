@@ -69,7 +69,7 @@
 
     private void Edit(DataGridRowMouseEventArgs<DocuitWeb.Models.BuildingType> eventArgs)
     {
-        //obj = (DocuitWeb.Models.BuildingType)eventArgs.Item.Clone();
+        obj = (DocuitWeb.Models.BuildingType)eventArgs.Item;
         objEdit = (DocuitWeb.Models.BuildingType)eventArgs.Item.Clone();
         //objEdit = (DocuitWeb.Models.BuildingType)eventArgs.Item.obj.Clone();
         modalWindow.Show();
@@ -78,7 +78,7 @@
     private async void Save()
     {
         myBlocker.Show();
-        
+
         obj = await BuildingTypeService.UpdateAsync(objEdit);
 
         if (obj == null)
