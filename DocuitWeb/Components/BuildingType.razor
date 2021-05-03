@@ -69,9 +69,10 @@
 
     private void Edit(DataGridRowMouseEventArgs<DocuitWeb.Models.BuildingType> eventArgs)
     {
-        //obj = (DocuitWeb.Models.BuildingType)eventArgs.Item;
-        //objEdit = (DocuitWeb.Models.BuildingType)obj.Clone();
-        objEdit = (DocuitWeb.Models.BuildingType)eventArgs.Item.Clone();
+        //obj = eventArgs.Item;
+        //objEdit = (DocuitWeb.Models.BuildingType)eventArgs.Item;
+        //objEdit = eventArgs.Item.Clone();
+        // objEdit = (DocuitWeb.Models.BuildingType)eventArgs.Item.Clone();
         modalWindow.Show();
     }
 
