@@ -69,5 +69,28 @@ namespace DocuitWeb.Data
                 return null;
             }
         }
+
+        public async Task<BuildingType> AddAsync(BuildingType obj)
+        {
+            obj.CompanyId = _appSettings.CompanyId;
+            HttpClient httpClient = new HttpClient();
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+
+            httpClient = _myHttp.GetClient();
+
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
+            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await httpClient.PostAsync(httpClient.BaseAddress, httpRequestMessage.Content);
+            try
+            {
+                response.EnsureSuccessStatusCode();
+                return await Task.FromResult(obj);
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }
