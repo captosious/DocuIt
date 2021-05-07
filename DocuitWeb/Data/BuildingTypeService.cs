@@ -72,7 +72,7 @@ namespace DocuitWeb.Data
 
         public async Task<BuildingType> AddAsync(BuildingType obj)
         {
-            obj.CompanyId = _appSettings.CompanyId;
+            //obj.CompanyId = _appSettings.CompanyId;
             HttpClient httpClient = new HttpClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
