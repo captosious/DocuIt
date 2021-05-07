@@ -31,7 +31,7 @@
                     <AddonLabel Class="addonlabel_style">@Localizer["id"]</AddonLabel>
                 </Addon>
                 <Addon AddonType="AddonType.Body">
-                    <TextEdit @bind-Text="@objEdit.Id" Disabled="true" />
+                    <TextEdit @bind-Text="@objEdit.Id" Disabled="@(!IsNew)" />
                 </Addon>
             </Addons>
             <Addons>
@@ -93,7 +93,14 @@
         else
         {
             toastService.ShowSuccess(@SharedLocalizer["OP_OK"], @SharedLocalizer["OP_OK_TITLE"]);
-            buldingTypeRow.Name = objEdit.Name;
+            if (IsNew)
+            {
+                objList.Append(objEdit);
+            }
+            else
+            {
+                buldingTypeRow.Name = objEdit.Name;
+            }
         }
         myBlocker.Hide();
         CloseModal();
@@ -120,13 +127,6 @@
 
     private void OnClosing(CancelEventArgs e)
     {
-        //WorkingCenterService.Detach(obj);
-        e.Cancel = false;
-        if (IsNew)
-        {
-            objList.Append(objEdit);
-        }
-        IsNew = false;
         StateHasChanged();
     }
 
