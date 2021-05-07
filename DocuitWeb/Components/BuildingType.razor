@@ -31,7 +31,7 @@
                     <AddonLabel Class="addonlabel_style">@Localizer["id"]</AddonLabel>
                 </Addon>
                 <Addon AddonType="AddonType.Body">
-                    <TextEdit @bind-Text="@objEdit.Id" />
+                    <TextEdit @bind-Text="@objEdit.Id" Disabled="true" />
                 </Addon>
             </Addons>
             <Addons>
@@ -82,9 +82,9 @@
         DocuitWeb.Models.BuildingType returning_obj;
 
         if (IsNew)
-        { returning_obj = await BuildingTypeService.UpdateAsync(objEdit); }
-        else
         { returning_obj = await BuildingTypeService.AddAsync(objEdit); }
+        else
+        { returning_obj = await BuildingTypeService.UpdateAsync(objEdit); }
 
         if (returning_obj == null)
         {
@@ -122,6 +122,10 @@
     {
         //WorkingCenterService.Detach(obj);
         e.Cancel = false;
+        if (IsNew)
+        {
+            objList.Append(objEdit);
+        }
         IsNew = false;
         StateHasChanged();
     }
