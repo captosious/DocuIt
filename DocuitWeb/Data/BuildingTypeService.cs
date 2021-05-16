@@ -15,7 +15,7 @@ namespace DocuitWeb.Data
         private MyHttp _myHttp;
         private string _resource = "/buildingtype";
 
-        public BuildingTypeService(AppSettings appSettings ,MyHttp myHttp)
+        public BuildingTypeService(AppSettings appSettings, MyHttp myHttp)
         {
             _appSettings = appSettings;
             _myHttp = myHttp;
@@ -50,7 +50,7 @@ namespace DocuitWeb.Data
         public async Task<BuildingType> UpdateAsync(BuildingType obj)
         {
             obj.CompanyId = _appSettings.CompanyId;
-            HttpClient httpClient = new HttpClient(); 
+            HttpClient httpClient = new HttpClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
             httpClient = _myHttp.GetClient();
@@ -92,5 +92,27 @@ namespace DocuitWeb.Data
                 return null;
             }
         }
+
+        public async Task<int> DeleteAsync(BuildingType obj)
+        {
+            //obj.CompanyId = _appSettings.CompanyId;
+            HttpClient httpClient = new HttpClient();
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+
+            httpClient = _myHttp.GetClient();
+
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/delete");
+            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+            var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
+            try
+            {
+                response.EnsureSuccessStatusCode();
+                return await Task.FromResult(0);
+            }
+            catch
+            {
+                return 1;
+            }
+        }
     }
-}
+ }

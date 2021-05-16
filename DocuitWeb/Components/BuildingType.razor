@@ -12,6 +12,7 @@
     <DataGridCommandColumn TItem="DocuitWeb.Models.BuildingType"  />
     <DataGridColumn Width="100px" Readonly="true" TItem="DocuitWeb.Models.BuildingType" Field="@nameof(DocuitWeb.Models.BuildingType.Id)" Caption="@Localizer["id"]" TextAlignment="TextAlignment.Left" />
     <DataGridColumn TItem="DocuitWeb.Models.BuildingType" Field="@nameof(DocuitWeb.Models.BuildingType.Name)" Caption="@Localizer["description"]" TextAlignment="TextAlignment.Justified" />
+
 </DataGrid>
 
 <div class="d-flex justify-content-center">
@@ -44,6 +45,7 @@
             </Addons>
         </ModalBody>
         <ModalFooter>
+            <button class="btn btn_general btn-success" @onclick="Delete">@SharedLocalizer["MSG_DELETE"]</button>
             <button class="btn btn_general btn-success" @onclick="Save">@SharedLocalizer["MSG_SAVE"]</button>
         </ModalFooter>
     </ModalContent>
@@ -74,6 +76,23 @@
         buldingTypeRow = eventArgs.Item;
         objEdit = (DocuitWeb.Models.BuildingType)eventArgs.Item.Clone();
         modalWindow.Show();
+    }
+
+    private async void Delete()
+    {
+        myBlocker.Show();
+        int return_code = await BuildingTypeService.DeleteAsync(objEdit);
+        if (return_code == 0)
+        {
+            toastService.ShowSuccess(@SharedLocalizer["OP_OK"], @SharedLocalizer["OP_OK_TITLE"]);
+            objList = await BuildingTypeService.FetchGetAllAsync();
+        }
+        else
+        {
+            toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]);
+        }
+        myBlocker.Hide();
+        CloseModal();
     }
 
     private async void Save()

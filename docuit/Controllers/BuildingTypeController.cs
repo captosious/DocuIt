@@ -53,6 +53,28 @@ namespace DocuItService.Controllers
             return Ok(objReturn);
         }
 
+        [HttpGet("Delete")]
+        public async Task<IActionResult> Delete([FromBody] BuildingType objParams)
+        {
+            BuildingType objReturn;
+
+            if (objParams == null)
+            {
+                return BadRequest();
+            }
+            objReturn = await MyDBContext.BuildingType.FindAsync(objParams.CompanyId, objParams.Id);
+            if (objReturn == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                MyDBContext.BuildingType.Remove(objReturn);
+                await MyDBContext.SaveChangesAsync();
+                return Ok();
+            }
+        }
+
         // POST api/values (ADD)
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] BuildingType objParams)
