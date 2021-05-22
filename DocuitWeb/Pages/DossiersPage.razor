@@ -23,11 +23,46 @@
     }
 </div>
 
+<Modal @ref="modalWindow" Closing="@OnClosing">
+    <ModalContent Size="ModalSize.Default" Centered="true">
+        <ModalHeader>
+            <i class="fas fa-edit fa-2x"></i>
+            <ModalTitle>@Localizer["edit"]</ModalTitle>
+            <CloseButton Clicked="@CloseModal" />
+        </ModalHeader>s
+        <ModalBody>
+            <Addons>
+                <Addon AddonType="AddonType.Start">
+                    <AddonLabel Class="addonlabel_style">@Localizer["id"]</AddonLabel>
+                </Addon>
+                <Addon AddonType="AddonType.Body">
+                    <TextEdit @bind-Text="@objEdit.Id" Disabled="@(!IsNew)" />
+                </Addon>
+            </Addons>
+            <Addons>
+                <Addon AddonType="AddonType.Start">
+                    <AddonLabel Class="addonlabel_style">@Localizer["description"]</AddonLabel>
+                </Addon>
+                <Addon AddonType="AddonType.Body">
+                    <TextEdit @bind-Text="@objEdit.Name" />
+                </Addon>
+            </Addons>
+        </ModalBody>
+        <ModalFooter>
+            <button class="btn btn_general btn-success" @onclick="Delete">@SharedLocalizer["MSG_DELETE"]</button>
+            <button class="btn btn_general btn-" @onclick="Save">@SharedLocalizer["MSG_SAVE"]</button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
     @code
 {
         Project myProject = new Project();
         public IEnumerable<Dossier> dossiers = new List<Dossier>();
         bool showDossierDetail = false;
+        //Modal
+        private Modal modalWindow;
+        private bool IsNew = false;
 
         public async void UserProjectSelection(Project project)
         {
@@ -59,4 +94,7 @@
 
             }
         }
+
+
+        
     }

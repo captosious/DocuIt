@@ -48,6 +48,52 @@ namespace DocuitWeb.Data
             }
         }
 
+        public async Task<WorkingCenter> UpdateAsync(WorkingCenter obj)
+        {
+            obj.CompanyId = _appSettings.CompanyId;
+            HttpClient httpClient = new HttpClient();
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+
+            httpClient = _myHttp.GetClient();
+
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
+            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await httpClient.PutAsync(httpClient.BaseAddress, httpRequestMessage.Content);
+            try
+            {
+                response.EnsureSuccessStatusCode();
+                return await Task.FromResult(obj);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<WorkingCenter> AddAsync(WorkingCenter obj)
+        {
+            //obj.CompanyId = _appSettings.CompanyId;
+            HttpClient httpClient = new HttpClient();
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+
+            httpClient = _myHttp.GetClient();
+
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
+            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await httpClient.PostAsync(httpClient.BaseAddress, httpRequestMessage.Content);
+            try
+            {
+                response.EnsureSuccessStatusCode();
+                return await Task.FromResult(obj);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public async Task<WorkingCenter> PutAsync(WorkingCenter obj)
         {
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
@@ -65,6 +111,28 @@ namespace DocuitWeb.Data
             catch
             {
                 return null;
+            }
+        }
+
+        public async Task<int> DeleteAsync(WorkingCenter obj)
+        {
+            //obj.CompanyId = _appSettings.CompanyId;
+            HttpClient httpClient = new HttpClient();
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+
+            httpClient = _myHttp.GetClient();
+
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/delete");
+            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+            var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
+            try
+            {
+                response.EnsureSuccessStatusCode();
+                return await Task.FromResult(0);
+            }
+            catch
+            {
+                return 1;
             }
         }
     }

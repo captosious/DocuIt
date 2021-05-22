@@ -6,7 +6,7 @@
 
 <h3 class="PageHeader">@Localizer["title"]</h3>
 
-<DataGrid TItem="DocuitWeb.Models.WorkingCenter" Editable="false" Data="@objList2" @bind-SelectedRow="@obj" RowClicked="@Edit"
+<DataGrid TItem="DocuitWeb.Models.WorkingCenter" Editable="false" Data="@objList" @bind-SelectedRow="@obj" RowClicked="@Edit"
           Filterable="true" Sortable="true"
           ShowPager="true" PageSize="5" Narrow="true" Hoverable="true">
     <DataGridCommandColumn TItem="DocuitWeb.Models.WorkingCenter"/>
@@ -51,9 +51,10 @@
 
 @code
 {
-    IEnumerable<DocuitWeb.Models.WorkingCenter> objList2 = new List<DocuitWeb.Models.WorkingCenter>();
-    DocuitWeb.Models.WorkingCenter obj = new DocuitWeb.Models.WorkingCenter();
+    IEnumerable<DocuitWeb.Models.WorkingCenter> objList = new List<DocuitWeb.Models.WorkingCenter>();
     DocuitWeb.Models.WorkingCenter objEdit = new DocuitWeb.Models.WorkingCenter();
+    DocuitWeb.Models.WorkingCenter obj { get; set; }
+    DocuitWeb.Models.WorkingCenter buldingTypeRow { get; set; }
 
     //Modal
     private Modal modalWindow;
@@ -61,39 +62,72 @@
 
     protected override async Task OnInitializedAsync()
     {
-        //myBlocker.Show();
-        objList2 = await WorkingCenterService.FetchGetAllAsync();
-        if (objList2 == null) { toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]); }
-        //myBlocker.Hide();
+        myBlocker.Show();
+        objList = await WorkingCenterService.FetchGetAllAsync();
+        if (objList == null) { toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]); }
+        myBlocker.Hide();
     }
 
-    private void Edit()
+    private void Edit(DataGridRowMouseEventArgs<DocuitWeb.Models.WorkingCenter> eventArgs)
     {
-        objEdit = (DocuitWeb.Models.WorkingCenter)obj.Clone();
+        IsNew = false;
+        buldingTypeRow = eventArgs.Item;
+        objEdit = (DocuitWeb.Models.WorkingCenter)eventArgs.Item.Clone();
         modalWindow.Show();
+    }
+
+    private async void Delete()
+    {
+        myBlocker.Show();
+        int return_code = await WorkingCenterService.DeleteAsync(objEdit);
+        if (return_code == 0)
+        {
+            toastService.ShowSuccess(@SharedLocalizer["OP_OK"], @SharedLocalizer["OP_OK_TITLE"]);
+            objList = await WorkingCenterService.FetchGetAllAsync();
+        }
+        else
+        {
+            toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]);
+        }
+        myBlocker.Hide();
+        CloseModal();
     }
 
     private async void Save()
     {
         myBlocker.Show();
-        obj = await WorkingCenterService.PutAsync(objEdit);
-        myBlocker.Hide();
+        DocuitWeb.Models.WorkingCenter returning_obj;
 
-        if (obj == null)
+        if (IsNew)
+        { returning_obj = await WorkingCenterService.AddAsync(objEdit); }
+        else
+        { returning_obj = await WorkingCenterService.UpdateAsync(objEdit); }
+
+        if (returning_obj == null)
         {
             toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]);
         }
         else
         {
             toastService.ShowSuccess(@SharedLocalizer["OP_OK"], @SharedLocalizer["OP_OK_TITLE"]);
+            if (IsNew)
+            {
+                objList.Append(returning_obj);
+            }
+            else
+            {
+                buldingTypeRow.Name = objEdit.Name;
+            }
         }
+        myBlocker.Hide();
+        CloseModal();
     }
 
     private void Add()
     {
         IsNew = true;
-        obj = new Models.WorkingCenter();
-        obj.CompanyId = 1;
+        objEdit = new Models.WorkingCenter();
+        objEdit.CompanyId = 1;
         OpenModal();
     }
 
@@ -110,14 +144,12 @@
 
     private void OnClosing(CancelEventArgs e)
     {
-        //WorkingCenterService.Detach(obj);
-        e.Cancel = false;
-        IsNew = false;
         StateHasChanged();
     }
 
-    private void OnSelectedRowStyling(DocuitWeb.Models.BuildingType obj, DataGridRowStyling styling)
+    void OnSelectedRowStyling(DocuitWeb.Models.WorkingCenter obj, DataGridRowStyling styling)
     {
-        styling.Background = Background.Info;
+        styling.Background = Background.White;
+        StateHasChanged();
     }
 }

@@ -54,6 +54,27 @@ namespace DocuItService.Controllers
             return Ok(objReturn);
         }
 
+        [HttpGet("Delete")]
+        public async Task<IActionResult> Delete([FromBody] WorkingCenter objParams)
+        {
+            WorkingCenter objReturn;
+
+            if (objParams == null)
+            {
+                return BadRequest();
+            }
+            objReturn = await MyDBContext.WorkingCenter.FindAsync(objParams.CompanyId, objParams.Id);
+            if (objReturn == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                MyDBContext.WorkingCenter.Remove(objReturn);
+                await MyDBContext.SaveChangesAsync();
+                return Ok();
+            }
+        }
         // POST api/values (ADD)
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] WorkingCenter objParams)
