@@ -33,5 +33,18 @@
     <data name="ProjectText" xml:space="preserve">
         <value>Corresponents al projecte</value>
     </data>
-    
+
+    <!-- Missatges Detall Dossiers-->
+     <data name="DateDetall" xml:space="preserve">
+        <value>Fecha</value>
+    </data>
+    <data name="NameDetail" xml:space="preserve">
+        <value>Nombre</value>
+    </data>
+    <data name="ReferenceIDDetail" xml:space="preserve">
+        <value>Num. Referencia</value>
+    </data>
+    <data name="DescriptionDetail" xml:space="preserve">
+        <value>Descripción</value>
+    </data>
 </root>

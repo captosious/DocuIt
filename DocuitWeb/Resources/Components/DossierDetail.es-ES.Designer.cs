@@ -82,5 +82,29 @@ namespace DocuitWeb.Resources.Components {
                 return ResourceManager.GetString("ProjectText", resourceCulture);
             }
         }
+        
+        internal static string DateDetall {
+            get {
+                return ResourceManager.GetString("DateDetall", resourceCulture);
+            }
+        }
+        
+        internal static string NameDetail {
+            get {
+                return ResourceManager.GetString("NameDetail", resourceCulture);
+            }
+        }
+        
+        internal static string ReferenceIDDetail {
+            get {
+                return ResourceManager.GetString("ReferenceIDDetail", resourceCulture);
+            }
+        }
+        
+        internal static string DescriptionDetail {
+            get {
+                return ResourceManager.GetString("DescriptionDetail", resourceCulture);
+            }
+        }
     }
 }

@@ -13,7 +13,7 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     
-    <!-- Missatges -->
+    <!-- Missatges Detall Dossiers-->
     <data name="MSG001" xml:space="preserve">
         <value>Dossieres</value>
     </data>
@@ -37,4 +37,19 @@
     <data name="ProjectText" xml:space="preserve">
         <value>Correspondientes al proyecto</value>
     </data>
+
+     <!-- Missatges Detall Dossiers-->
+     <data name="DateDetall" xml:space="preserve">
+        <value>Data</value>
+    </data>
+    <data name="NameDetail" xml:space="preserve">
+        <value>Nom</value>
+    </data>
+    <data name="ReferenceIDDetail" xml:space="preserve">
+        <value>Num. Referència</value>
+    </data>
+    <data name="DescriptionDetail" xml:space="preserve">
+        <value>Descripció</value>
+    </data>
+    
 </root>

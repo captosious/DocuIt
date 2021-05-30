@@ -2,50 +2,57 @@
 @using DocuitWeb.Data
 
 @inject IStringLocalizer<DossierDetail> Localizer
+
 @inject ProjectService ProjectService
 @inject DossierService DossierService
 @inject DossierElementService DossierElementService
 
 
-    <h3 class="">@Localizer["MSG001"]</h3>
-    <div>
-        @Localizer["ProjectText"] &nbsp;
-        <b>@Localizer["ReferenceID"]</b>&nbsp;@myProject.ReferenceId &nbsp; @Localizer["Name"]: &nbsp; @myProject.Name
-    </div>
-    <table class="table table-hover table-condensed table-list-general table-sm">
-        <thead class="" style="">
-            <tr>
-                <th>Data</th>
-                <th>Name</th>
-                <th>ReferenceId</th>
-                <th>Descripció</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                if (dossiers != null)
+<h3 class="">@Localizer["MSG001"]</h3>
+<div>
+    @Localizer["ProjectText"] &nbsp;
+    <b>@Localizer["ReferenceID"]</b>&nbsp;@myProject.ReferenceId &nbsp; @Localizer["Name"]: &nbsp; @myProject.Name
+</div>
+<table class="table table-hover table-condensed table-list-general table-sm">
+    <thead class="" style="">
+        <tr>
+            <th>@Localizer["DateDetall"]</th>
+            <th>@Localizer["NameDetail"]</th>
+            <th>@Localizer["ReferenceIDDetail"]</th>
+            <th>@Localizer["DescriptionDetail"]</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (dossiers != null)
+            {
+                foreach (Dossier dossier in dossiers)
                 {
-                    foreach (Dossier dossier in dossiers)
-                    {
-                        <tr class="clickable-row" role="button" @onclick="@(() => RowClicking(dossier))">
-                            <td>@dossier.CreationTime.ToString("d")</td>
-                            <td>@dossier.Name</td>
-                            <td>@dossier.ReferenceId</td>
-                            <td>@dossier.Name</td>
-                        </tr>
-                    }
+                    <tr class="clickable-row" role="button" @onclick="@(() => RowClicking(dossier))">
+                        <td>@dossier.CreationTime.ToString("d")</td>
+                        <td>@dossier.Name</td>
+                        <td>@dossier.ReferenceId</td>
+                        <td>@dossier.Name</td>
+                    </tr>
                 }
             }
-        </tbody>
-    </table>
-    <br />
+        }
+    </tbody>
+</table>
+@{
+    if (dossiers!=null)
+    {
+        <button class="btn btn_general btn-primary" @onclick="New">@SharedLocalizer["MSG_ADD"]</button>
+    }
+}
+<br />
 
 @{
     if (showDossierElementDetail)
     {
         <div class="row">
-                <div class="col-4">Referencia</div>
-                <div class="col-8">@dossier.ReferenceId</div>
+            <div class="col-4">Referencia</div>
+            <div class="col-8">@dossier.ReferenceId</div>
         </div>
 
         <CascadingValue Value="dossier">
@@ -54,52 +61,89 @@
     }
 }
 
+<Modal @ref="modalWindow" Closing="@OnClosing">
+    <ModalContent Size="ModalSize.Default" Centered="true">
+        <ModalHeader>
+            <i class="fas fa-edit fa-2x"></i>
+            <ModalTitle>@Localizer["edit"]</ModalTitle>
+            <CloseButton Clicked="@CloseModal" />
+        </ModalHeader>
+        <ModalBody>
+            <Addons>
+                <Addon AddonType="AddonType.Start">
+                    <AddonLabel Class="addonlabel_style">@Localizer["ReferenceID"]</AddonLabel>
+                </Addon>
+                <Addon AddonType="AddonType.Body">
+                    <TextEdit @bind-Text="@objEdit.ReferenceId" />
+                </Addon>
+            </Addons>
+            <Addons>
+                <Addon AddonType="AddonType.Start">
+                    <AddonLabel Class="addonlabel_style">@Localizer["Name"]</AddonLabel>
+                </Addon>
+                <Addon AddonType="AddonType.Body">
+                    <TextEdit @bind-Text="@objEdit.Name" />
+                </Addon>
+            </Addons>
+            <Addons>
+                <Addon AddonType="AddonType.Start">
+                    <AddonLabel Class="addonlabel_style">@Localizer["Status"]</AddonLabel>
+                </Addon>
+                <Addon AddonType="AddonType.Body">
+                    <TextEdit @bind-Text="@objEdit." />
+                </Addon>
+            </Addons>
+        </ModalBody>
+        <ModalFooter>
+            <button class="btn btn_general btn-success" @onclick="Delete">@SharedLocalizer["MSG_DELETE"]</button>
+            <button class="btn btn_general btn-" @onclick="Save">@SharedLocalizer["MSG_SAVE"]</button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
 @code
-    {
-    [CascadingParameter]
-    public Project myProject { get; set; }
-    [CascadingParameter]
-    public IEnumerable<Dossier> dossiers { get; set; }
+{
+        [CascadingParameter]
+        public Project myProject { get; set; }
+        [CascadingParameter]
+        public IEnumerable<Dossier> dossiers { get; set; }
 
-    private Dossier dossier { get; set; }
-    private bool showDossierElementDetail = false;
 
-    protected override async Task OnParametersSetAsync()
-    {
-        @*myBlocker.Show();
-            dossiers = await DossierService.FetchGetAllAsync(myProject);
-            if (dossiers == null) { toastService.ShowError(@SharedLocalizer["OP_FAIL"]); }
+        private Dossier dossier { get; set; }
+        private bool showDossierElementDetail = false;
 
-            myBlocker.Hide();*@
-    }
 
-    protected override async Task OnInitializedAsync()
-    {
+        //Modal
+        private Modal modalWindow;
+        private bool IsNew = false;
 
-    }
+        DocuitWeb.Models.Dossier objEdit = new DocuitWeb.Models.Dossier();
 
-    void RowClicking(Dossier dossier)
-    {
-        this.dossier = dossier;
-        showDossierElementDetail = true;
-        //OnUserClickTable.InvokeAsync(project);
-
-    }
-
-    private async void OnClickSaveButton()
-    {
-        myBlocker.Show();
-        myProject = await ProjectService.PutAsync(myProject);
-        myBlocker.Hide();
-
-        if (myProject == null)
+        void RowClicking(Dossier dossier)
         {
-            toastService.ShowError(@SharedLocalizer["OP_FAIL"]);
+            this.dossier = dossier;
+            showDossierElementDetail = true;
         }
-        else
+
+        private async void OnClickSaveButton()
         {
-            toastService.ShowSuccess(@SharedLocalizer["OP_OK"]);
+            myBlocker.Show();
+            myProject = await ProjectService.PutAsync(myProject);
+            myBlocker.Hide();
+
+            if (myProject == null)
+            {
+                toastService.ShowError(@SharedLocalizer["OP_FAIL"]);
+            }
+            else
+            {
+                toastService.ShowSuccess(@SharedLocalizer["OP_OK"]);
+            }
         }
-    }
+
+        //DOSSIER RECORD
+
+
+
 }
 
