@@ -28,9 +28,9 @@ namespace DocuItService.Controllers
 
         // GET: api/values
         [HttpGet("{GetAll}")]
-        public IEnumerable<Dossier> Get([FromBody] Project projectParameters)
+        public IEnumerable<Dossier> GetAll([FromBody] Dossier objParameters)
         {
-            IEnumerable<Dossier> dossiers = MyDBContext.Dossier.Where(x => x.CompanyId == projectParameters.CompanyId && x.ProjectId == projectParameters.ProjectId);
+            IEnumerable<Dossier> dossiers = MyDBContext.Dossier.Where(x => x.CompanyId == objParameters.CompanyId && x.ProjectId == objParameters.ProjectId);
 
             if (dossiers == null)
             {
@@ -50,6 +50,28 @@ namespace DocuItService.Controllers
                 return null;
             }
             return dossier;
+        }
+
+        [HttpGet("Delete")]
+        public async Task<IActionResult> Delete([FromBody] Dossier objParams)
+        {
+            Dossier objReturn;
+
+            if (objParams == null)
+            {
+                return BadRequest();
+            }
+            objReturn = await MyDBContext.Dossier.FindAsync(objParams.CompanyId, objParams.DossierId);
+            if (objReturn == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                MyDBContext.Dossier.Remove(objReturn);
+                await MyDBContext.SaveChangesAsync();
+                return Ok();
+            }
         }
 
         [HttpPost]

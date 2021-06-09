@@ -21,7 +21,7 @@ namespace DocuitWeb.Data
             _myHttp = myHttp;
         }
 
-        public async Task<IEnumerable<Dossier>> FetchGetAllAsync(Project project)
+        public async Task<IEnumerable<Dossier>> FetchGetAllAsync(Dossier obj)
         {
             List<Dossier> dossiers = new List<Dossier>();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
@@ -29,7 +29,7 @@ namespace DocuitWeb.Data
             
             httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/getall");
 
-            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(project), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
             var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
             try
             {
@@ -43,6 +43,28 @@ namespace DocuitWeb.Data
             {
                 httpClient.Dispose();
                 return null;
+            }
+        }
+
+        public async Task<int> DeleteAsync(Dossier obj)
+        {
+            //obj.CompanyId = _appSettings.CompanyId;
+            HttpClient httpClient = new HttpClient();
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+
+            httpClient = _myHttp.GetClient();
+
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/delete");
+            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+            var response = await httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
+            try
+            {
+                response.EnsureSuccessStatusCode();
+                return await Task.FromResult(0);
+            }
+            catch
+            {
+                return 1;
             }
         }
 

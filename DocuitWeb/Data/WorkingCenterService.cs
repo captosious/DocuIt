@@ -22,9 +22,8 @@ namespace DocuitWeb.Data
             _myHttp = myHttp;
         }
 
-        public async Task<IEnumerable<WorkingCenter>> FetchGetAllAsync()
+        public async Task<IEnumerable<WorkingCenter>> FetchGetAllAsync(WorkingCenter obj)
         {
-            WorkingCenter obj = new WorkingCenter();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
             HttpClient httpClient = _myHttp.GetClient();
 
@@ -43,7 +42,6 @@ namespace DocuitWeb.Data
             }
             catch
             {
-                
                 return null;
             }
         }

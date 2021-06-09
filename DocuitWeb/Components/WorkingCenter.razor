@@ -55,6 +55,7 @@
     DocuitWeb.Models.WorkingCenter objEdit = new DocuitWeb.Models.WorkingCenter();
     DocuitWeb.Models.WorkingCenter obj { get; set; }
     DocuitWeb.Models.WorkingCenter buldingTypeRow { get; set; }
+    DocuitWeb.Models.WorkingCenter workingCenterParameters;
 
     //Modal
     private Modal modalWindow;
@@ -62,8 +63,11 @@
 
     protected override async Task OnInitializedAsync()
     {
+
+        workingCenterParameters.CompanyId = accessService.MyLogin.CompanyId;
+
         myBlocker.Show();
-        objList = await WorkingCenterService.FetchGetAllAsync();
+        objList = await WorkingCenterService.FetchGetAllAsync(workingCenterParameters);
         if (objList == null) { toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]); }
         myBlocker.Hide();
     }
@@ -83,7 +87,7 @@
         if (return_code == 0)
         {
             toastService.ShowSuccess(@SharedLocalizer["OP_OK"], @SharedLocalizer["OP_OK_TITLE"]);
-            objList = await WorkingCenterService.FetchGetAllAsync();
+            objList = await WorkingCenterService.FetchGetAllAsync(workingCenterParameters);
         }
         else
         {

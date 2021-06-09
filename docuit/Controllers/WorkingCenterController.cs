@@ -170,26 +170,26 @@ namespace DocuItService.Controllers
         //}
 
         // DELETE api/values/5
-        [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody] Company CompanyParams)
-        {
-            Company company;
+        //[HttpDelete]
+        //public async Task<IActionResult> Delete([FromBody] Company CompanyParams)
+        //{
+        //    Company company;
 
-            if (CompanyParams == null)
-            {
-                return BadRequest("Parameters Object not valid.");
-            }
-            company = await MyDBContext.Company.FindAsync(CompanyParams.CompanyId);
-            try
-            {
-                MyDBContext.Company.Remove(company);
-                await MyDBContext.SaveChangesAsync();
-            }
-            catch (Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException)
-            {
-                return BadRequest("CompanyID not valid.");
-            }
-            return Ok();
-        }
+        //    if (CompanyParams == null)
+        //    {
+        //        return BadRequest("Parameters Object not valid.");
+        //    }
+        //    company = await MyDBContext.Company.FindAsync(CompanyParams.CompanyId);
+        //    try
+        //    {
+        //        MyDBContext.Company.Remove(company);
+        //        await MyDBContext.SaveChangesAsync();
+        //    }
+        //    catch (Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException)
+        //    {
+        //        return BadRequest("CompanyID not valid.");
+        //    }
+        //    return Ok();
+        //}
     }
 }
