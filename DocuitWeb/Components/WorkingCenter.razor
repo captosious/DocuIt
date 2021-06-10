@@ -66,10 +66,10 @@
 
         workingCenterParameters.CompanyId = accessService.MyLogin.CompanyId;
 
-        myBlocker.Show();
+        //myBlocker.Show();
         objList2 = await WorkingCenterService.FetchGetAllAsync(workingCenterParameters);
         if (objList2 == null) { toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]); }
-        myBlocker.Hide();
+        //myBlocker.Hide();
     }
 
     private void Edit(DataGridRowMouseEventArgs<DocuitWeb.Models.WorkingCenter> eventArgs)
