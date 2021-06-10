@@ -68,6 +68,51 @@ namespace DocuitWeb.Data
             }
         }
 
+        public async Task<Dossier> UpdateAsync(Dossier obj)
+        {
+            obj.CompanyId = _appSettings.CompanyId;
+            HttpClient httpClient = new HttpClient();
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+
+            httpClient = _myHttp.GetClient();
+
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
+            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await httpClient.PutAsync(httpClient.BaseAddress, httpRequestMessage.Content);
+            try
+            {
+                response.EnsureSuccessStatusCode();
+                return await Task.FromResult(obj);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<Dossier> AddAsync(Dossier obj)
+        {
+            //obj.CompanyId = _appSettings.CompanyId;
+            HttpClient httpClient = new HttpClient();
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+
+            httpClient = _myHttp.GetClient();
+
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource);
+            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await httpClient.PostAsync(httpClient.BaseAddress, httpRequestMessage.Content);
+            try
+            {
+                response.EnsureSuccessStatusCode();
+                return await Task.FromResult(obj);
+            }
+            catch
+            {
+                return null;
+            }
+        }
         public async Task<Dossier> PutAsync(Dossier dossier)
         {
             dossier.CompanyId = _appSettings.CompanyId;

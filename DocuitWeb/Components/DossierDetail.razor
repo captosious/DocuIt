@@ -90,7 +90,7 @@
                     <AddonLabel Class="addonlabel_style">@Localizer["Status"]</AddonLabel>
                 </Addon>
                 <Addon AddonType="AddonType.Body">
-                    <TextEdit @bind-Text="@objEdit.CreationTime.ToString()" />
+                    <TextEdit @bind="@objEdit.CreationTime" />
                 </Addon>
             </Addons>
         </ModalBody>
@@ -171,7 +171,7 @@
         if (return_code == 0)
         {
             toastService.ShowSuccess(@SharedLocalizer["OP_OK"], @SharedLocalizer["OP_OK_TITLE"]);
-            dossiers = await DossierService.FetchGetAllAsync();
+            dossiers = await DossierService.FetchGetAllAsync(myProject);
         }
         else
         {
@@ -184,7 +184,7 @@
     private async void Save()
     {
         myBlocker.Show();
-        DocuitWeb.Models.WorkingCenter returning_obj;
+        DocuitWeb.Models.Dossier returning_obj;
 
         if (IsNew)
         { returning_obj = await DossierService.AddAsync(objEdit); }
@@ -200,11 +200,11 @@
             toastService.ShowSuccess(@SharedLocalizer["OP_OK"], @SharedLocalizer["OP_OK_TITLE"]);
             if (IsNew)
             {
-                objList.Append(returning_obj);
+                //objList.Append(returning_obj);
             }
             else
             {
-                buldingTypeRow.Name = objEdit.Name;
+                //buldingTypeRow.Name = objEdit.Name;
             }
         }
         myBlocker.Hide();

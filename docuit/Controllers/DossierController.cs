@@ -28,7 +28,7 @@ namespace DocuItService.Controllers
 
         // GET: api/values
         [HttpGet("{GetAll}")]
-        public IEnumerable<Dossier> GetAll([FromBody] Project objParameters)
+        public IEnumerable<Dossier> GetAll([FromBody] Dossier objParameters)
         {
             IEnumerable<Dossier> dossiers = MyDBContext.Dossier.Where(x => x.CompanyId == objParameters.CompanyId && x.ProjectId == objParameters.ProjectId);
 
@@ -90,7 +90,7 @@ namespace DocuItService.Controllers
             {
                 return BadRequest("Client Object Not Valid.");
             }
-            return Ok(dossierParameters.DossierId );
+            return Ok(dossierParameters.DossierId);
         }
 
         // PUT api/values/5 (FULL UPDATE)
@@ -136,27 +136,29 @@ namespace DocuItService.Controllers
             return Ok();
         }
 
-        // DELETE api/values/5
-        [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody] Dossier dossierToDelete)
-        {
-            Dossier dossier;
-
-            if (dossierToDelete == null)
-            {
-                return BadRequest("Parameters Object not valid.");
-            }
-            dossier = MyDBContext.Dossier.FirstOrDefault(d => d.CompanyId == dossierToDelete.CompanyId && d.ProjectId == dossierToDelete.ProjectId && d.DossierId == dossierToDelete.DossierId);
-            try
-            {
-                MyDBContext.Dossier.Remove(dossier);
-                await MyDBContext.SaveChangesAsync();
-            }
-            catch (Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException)
-            {
-                return BadRequest("UserId not valid.");
-            }
-            return Ok();
-        }
     }
-} 
+}
+        // DELETE api/values/5
+    //    [HttpDelete]
+    //    public async Task<IActionResult> Delete([FromBody] Dossier dossierToDelete)
+    //    {
+    //        Dossier dossier;
+
+    //        if (dossierToDelete == null)
+    //        {
+    //            return BadRequest("Parameters Object not valid.");
+    //        }
+    //        dossier = MyDBContext.Dossier.FirstOrDefault(d => d.CompanyId == dossierToDelete.CompanyId && d.ProjectId == dossierToDelete.ProjectId && d.DossierId == dossierToDelete.DossierId);
+    //        try
+    //        {
+    //            MyDBContext.Dossier.Remove(dossier);
+    //            await MyDBContext.SaveChangesAsync();
+    //        }
+    //        catch (Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException)
+    //        {
+    //            return BadRequest("UserId not valid.");
+    //        }
+    //        return Ok();
+    //    }
+    //}
+//} 

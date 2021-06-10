@@ -27,8 +27,6 @@ namespace DocuitWeb.Data
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
             HttpClient httpClient = _myHttp.GetClient();
 
-            obj.CompanyId = _appSettings.CompanyId;
-
             httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/GetAll");
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
 
