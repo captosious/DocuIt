@@ -28,7 +28,7 @@ namespace DocuItService.Controllers
 
         // GET: api/values
         [HttpGet("{GetAll}")]
-        public IEnumerable<Dossier> GetAll([FromBody] Dossier objParameters)
+        public IEnumerable<Dossier> GetAll([FromBody] Project objParameters)
         {
             IEnumerable<Dossier> dossiers = MyDBContext.Dossier.Where(x => x.CompanyId == objParameters.CompanyId && x.ProjectId == objParameters.ProjectId);
 

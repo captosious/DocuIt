@@ -21,7 +21,7 @@ namespace DocuitWeb.Data
             _myHttp = myHttp;
         }
 
-        public async Task<IEnumerable<Dossier>> FetchGetAllAsync(Dossier obj)
+        public async Task<IEnumerable<Dossier>> FetchGetAllAsync(Project obj)
         {
             List<Dossier> dossiers = new List<Dossier>();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
