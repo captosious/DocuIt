@@ -45,8 +45,8 @@
             </Addons>
         </ModalBody>
         <ModalFooter>
-            <button class="btn btn_general btn-success" @onclick="Delete">@SharedLocalizer["MSG_DELETE"]</button>
-            <button class="btn btn_general btn-" @onclick="Save">@SharedLocalizer["MSG_SAVE"]</button>
+            <button class="btn btn_general btn-warning" @onclick="Delete">@SharedLocalizer["MSG_DELETE"]</button>
+            <button class="btn btn_general btn-success" @onclick="Save">@SharedLocalizer["MSG_SAVE"]</button>
         </ModalFooter>
     </ModalContent>
 </Modal>
@@ -56,7 +56,8 @@
     IEnumerable<DocuitWeb.Models.BuildingType> objList = new List<DocuitWeb.Models.BuildingType>();
     DocuitWeb.Models.BuildingType objEdit = new DocuitWeb.Models.BuildingType();
     DocuitWeb.Models.BuildingType obj { get; set; }
-    DocuitWeb.Models.BuildingType buldingTypeRow { get; set; }
+    DocuitWeb.Models.BuildingType selectedRow { get; set; }
+    DocuitWeb.Models.BuildingType objParameters = new DocuitWeb.Models.BuildingType();
 
     //Modal
     private Modal modalWindow;
@@ -64,8 +65,10 @@
 
     protected override async Task OnInitializedAsync()
     {
+
+        objParameters.CompanyId = accessService.MyLogin.CompanyId;
         myBlocker.Show();
-        objList = await BuildingTypeService.FetchGetAllAsync();
+        objList = await BuildingTypeService.FetchGetAllAsync(objParameters);
         if (objList == null) { toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]); }
         myBlocker.Hide();
     }
@@ -73,7 +76,7 @@
     private void Edit(DataGridRowMouseEventArgs<DocuitWeb.Models.BuildingType> eventArgs)
     {
         IsNew = false;
-        buldingTypeRow = eventArgs.Item;
+        selectedRow = eventArgs.Item;
         objEdit = (DocuitWeb.Models.BuildingType)eventArgs.Item.Clone();
         modalWindow.Show();
     }
@@ -85,7 +88,7 @@
         if (return_code == 0)
         {
             toastService.ShowSuccess(@SharedLocalizer["OP_OK"], @SharedLocalizer["OP_OK_TITLE"]);
-            objList = await BuildingTypeService.FetchGetAllAsync();
+            objList = await BuildingTypeService.FetchGetAllAsync(objParameters);
         }
         else
         {
@@ -101,10 +104,13 @@
         DocuitWeb.Models.BuildingType returning_obj;
 
         if (IsNew)
-        { returning_obj = await BuildingTypeService.AddAsync(objEdit); }
+        {
+            returning_obj = await BuildingTypeService.AddAsync(objEdit);
+        }
         else
-        { returning_obj = await BuildingTypeService.UpdateAsync(objEdit); }
-
+        {
+            returning_obj = await BuildingTypeService.UpdateAsync(objEdit);
+        }
         if (returning_obj == null)
         {
             toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]);
@@ -118,7 +124,7 @@
             }
             else
             {
-                buldingTypeRow.Name = objEdit.Name;
+                returning_obj.CopyPropertiesTo(selectedRow);
             }
         }
         myBlocker.Hide();

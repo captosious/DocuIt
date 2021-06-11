@@ -55,7 +55,7 @@
     IEnumerable<DocuitWeb.Models.WorkingCenter> objList2 { get; set; }
     DocuitWeb.Models.WorkingCenter objEdit = new DocuitWeb.Models.WorkingCenter();
     DocuitWeb.Models.WorkingCenter obj { get; set; }
-    DocuitWeb.Models.WorkingCenter buldingTypeRow { get; set; }
+    DocuitWeb.Models.WorkingCenter selectedRow { get; set; }
     DocuitWeb.Models.WorkingCenter workingCenterParameters = new DocuitWeb.Models.WorkingCenter();
     //Modal
     private Modal modalWindow;
@@ -75,7 +75,7 @@
     private void Edit(DataGridRowMouseEventArgs<DocuitWeb.Models.WorkingCenter> eventArgs)
     {
         IsNew = false;
-        buldingTypeRow = eventArgs.Item;
+        selectedRow = eventArgs.Item;
         objEdit = (DocuitWeb.Models.WorkingCenter)eventArgs.Item.Clone();
         modalWindow.Show();
     }
@@ -122,7 +122,7 @@
             {
                 //Edit the referenced variable back to the grid/table
                 //buldingTypeRow.Name = objEdit.Name;
-                buldingTypeRow = objEdit.DeepCopy();
+                //selectedRow = objEdit.DeepCopy();
             }
         }
         myBlocker.Hide();

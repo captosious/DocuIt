@@ -21,13 +21,11 @@ namespace DocuitWeb.Data
             _myHttp = myHttp;
         }
 
-        public async Task<IEnumerable<BuildingType>> FetchGetAllAsync()
+        public async Task<IEnumerable<BuildingType>> FetchGetAllAsync(BuildingType obj)
         {
-            BuildingType obj = new BuildingType();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
             HttpClient httpClient = _myHttp.GetClient();
-            obj.CompanyId = _appSettings.CompanyId;
-
+            
             httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + _resource + "/GetAll");
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
 
