@@ -6,7 +6,7 @@
 
 <h3 class="PageHeader">@Localizer["title"]</h3>
 
-<DataGrid TItem="DocuitWeb.Models.WorkingCenter" Editable="false" Data="@objList" @bind-SelectedRow="@obj" RowClicked="@Edit"
+<DataGrid TItem="DocuitWeb.Models.WorkingCenter" Editable="false" Data="@objList" SelectedRow="@obj" RowClicked="@Edit"
           Filterable="true" Sortable="true"
           ShowPager="true" PageSize="5" Narrow="true" Hoverable="true">
     <DataGridCommandColumn TItem="DocuitWeb.Models.WorkingCenter"/>
@@ -18,7 +18,7 @@
     <button class="btn btn_general btn-success" @onclick="Add">@SharedLocalizer["MSG_ADD"]</button>
 </div>
 
-<Modal @ref="modalWindow" Closing="@OnClosing">
+<Modal @ref="modalWindowEdit" Closing="@OnClosing">
     <ModalContent Size="ModalSize.Default" Centered="true">
         <ModalHeader>
             <i class="fas fa-edit fa-2x"></i>
@@ -53,12 +53,14 @@
 {
     IEnumerable<DocuitWeb.Models.WorkingCenter> objList = new List<DocuitWeb.Models.WorkingCenter>();
     IEnumerable<DocuitWeb.Models.WorkingCenter> objList2 { get; set; }
+
     DocuitWeb.Models.WorkingCenter objEdit = new DocuitWeb.Models.WorkingCenter();
     DocuitWeb.Models.WorkingCenter obj { get; set; }
     DocuitWeb.Models.WorkingCenter selectedRow { get; set; }
     DocuitWeb.Models.WorkingCenter workingCenterParameters = new DocuitWeb.Models.WorkingCenter();
+
     //Modal
-    private Modal modalWindow;
+    private Modal modalWindowEdit;
     private bool IsNew = false;
 
     protected override async Task OnInitializedAsync()
@@ -66,9 +68,9 @@
 
         workingCenterParameters.CompanyId = accessService.MyLogin.CompanyId;
 
-        //myBlocker.Show();
+        // myBlocker.Show();
         objList2 = await WorkingCenterService.FetchGetAllAsync(workingCenterParameters);
-        if (objList2 == null) { toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]); }
+        //if (objList2 == null) { toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]); }
         //myBlocker.Hide();
     }
 
@@ -77,7 +79,7 @@
         IsNew = false;
         selectedRow = eventArgs.Item;
         objEdit = (DocuitWeb.Models.WorkingCenter)eventArgs.Item.Clone();
-        modalWindow.Show();
+        modalWindowEdit.Show();
     }
 
     private async void Delete()
@@ -140,12 +142,12 @@
     // Modal
     private void CloseModal()
     {
-        modalWindow.Hide();
+        modalWindowEdit.Hide();
     }
 
     private void OpenModal()
     {
-        modalWindow.Show();
+        modalWindowEdit.Show();
     }
 
     private void OnClosing(CancelEventArgs e)

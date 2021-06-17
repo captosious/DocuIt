@@ -34,11 +34,12 @@ namespace DocuitWeb.Data
             {
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                
+                httpClient.Dispose();
                 return await Task.FromResult(JsonConvert.DeserializeObject<List<WorkingCenter>>(responseBody));
             }
             catch
             {
+                httpClient.Dispose();
                 return null;
             }
         }

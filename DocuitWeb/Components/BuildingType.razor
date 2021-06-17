@@ -12,7 +12,6 @@
     <DataGridCommandColumn TItem="DocuitWeb.Models.BuildingType"  />
     <DataGridColumn Width="100px" Readonly="true" TItem="DocuitWeb.Models.BuildingType" Field="@nameof(DocuitWeb.Models.BuildingType.Id)" Caption="@Localizer["id"]" TextAlignment="TextAlignment.Left" />
     <DataGridColumn TItem="DocuitWeb.Models.BuildingType" Field="@nameof(DocuitWeb.Models.BuildingType.Name)" Caption="@Localizer["description"]" TextAlignment="TextAlignment.Justified" />
-
 </DataGrid>
 
 <div class="d-flex justify-content-center">
@@ -54,6 +53,7 @@
 @code
 {
     IEnumerable<DocuitWeb.Models.BuildingType> objList = new List<DocuitWeb.Models.BuildingType>();
+
     DocuitWeb.Models.BuildingType objEdit = new DocuitWeb.Models.BuildingType();
     DocuitWeb.Models.BuildingType obj { get; set; }
     DocuitWeb.Models.BuildingType selectedRow { get; set; }
@@ -67,10 +67,10 @@
     {
 
         objParameters.CompanyId = accessService.MyLogin.CompanyId;
-        myBlocker.Show();
+        //myBlocker.Show();
         objList = await BuildingTypeService.FetchGetAllAsync(objParameters);
         if (objList == null) { toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]); }
-        myBlocker.Hide();
+        //myBlocker.Hide();
     }
 
     private void Edit(DataGridRowMouseEventArgs<DocuitWeb.Models.BuildingType> eventArgs)
