@@ -31,7 +31,7 @@
                     <AddonLabel Class="addonlabel_style">@Localizer["id"]</AddonLabel>
                 </Addon>
                 <Addon AddonType="AddonType.Body">
-                    <TextEdit @bind-Text="@obj.Id" />
+                    <TextEdit @bind-Text="@objEdit.Id" />
                 </Addon>
             </Addons>
             <Addons>
@@ -39,7 +39,7 @@
                     <AddonLabel Class="addonlabel_style">@Localizer["description"]</AddonLabel>
                 </Addon>
                 <Addon AddonType="AddonType.Body">
-                    <TextEdit @bind-Text="@obj.Name" />
+                    <TextEdit @bind-Text="@objEdit.Name" />
                 </Addon>
             </Addons>
         </ModalBody>
@@ -52,8 +52,7 @@
 @code
 {
     IEnumerable<DocuitWeb.Models.WorkingCenter> objList = new List<DocuitWeb.Models.WorkingCenter>();
-    IEnumerable<DocuitWeb.Models.WorkingCenter> objList2 { get; set; }
-
+    
     DocuitWeb.Models.WorkingCenter objEdit = new DocuitWeb.Models.WorkingCenter();
     DocuitWeb.Models.WorkingCenter obj { get; set; }
     DocuitWeb.Models.WorkingCenter selectedRow { get; set; }
@@ -69,8 +68,8 @@
         workingCenterParameters.CompanyId = accessService.MyLogin.CompanyId;
 
         // myBlocker.Show();
-        objList2 = await WorkingCenterService.FetchGetAllAsync(workingCenterParameters);
-        //if (objList2 == null) { toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]); }
+        objList = await WorkingCenterService.FetchGetAllAsync(workingCenterParameters);
+        if (objList == null) { toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]); }
         //myBlocker.Hide();
     }
 

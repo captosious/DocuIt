@@ -5,10 +5,10 @@
 @inject BuildingTypeService BuildingTypeService
 
 <h3 class="PageHeader">@Localizer["title"]</h3>
-<DataGrid TItem="DocuitWeb.Models.BuildingType" Editable="false" Data="@objList" SelectedRow="@obj"  
+<DataGrid TItem="DocuitWeb.Models.BuildingType" Editable="false" Data="@objList" SelectedRow="@obj" RowClicked="@Edit"  
           Filterable="true" Sortable="true" 
           ShowPager="true" PageSize="5" Narrow="true" Hoverable="true" 
-          SelectedRowStyling="@OnSelectedRowStyling" RowClicked="@Edit">
+          SelectedRowStyling="@OnSelectedRowStyling" >
     <DataGridCommandColumn TItem="DocuitWeb.Models.BuildingType"  />
     <DataGridColumn Width="100px" Readonly="true" TItem="DocuitWeb.Models.BuildingType" Field="@nameof(DocuitWeb.Models.BuildingType.Id)" Caption="@Localizer["id"]" TextAlignment="TextAlignment.Left" />
     <DataGridColumn TItem="DocuitWeb.Models.BuildingType" Field="@nameof(DocuitWeb.Models.BuildingType.Name)" Caption="@Localizer["description"]" TextAlignment="TextAlignment.Justified" />
