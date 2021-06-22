@@ -18,7 +18,11 @@
     <data name="edit" xml:space="preserve">
         <value>Edició Tipus Edifici</value>
     </data>
-    
+
+    <data name="new" xml:space="preserve">
+        <value>Nou Tipus d'Edifici</value>
+    </data>
+
     <data name="title" xml:space="preserve">
         <value>Tipus Edificis</value>
     </data>

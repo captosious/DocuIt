@@ -18,7 +18,11 @@
     <data name="edit" xml:space="preserve">
         <value>Edición Tipo Edificio</value>
     </data>
-    
+
+    <data name="new" xml:space="preserve">
+        <value>Nuevo Tipo Edificio</value>
+    </data>
+
     <data name="title" xml:space="preserve">
         <value>Tipos Edificios</value>
     </data>
@@ -30,4 +34,5 @@
     <data name="description" xml:space="preserve">
         <value>Descripción</value>
     </data>
+
 </root>

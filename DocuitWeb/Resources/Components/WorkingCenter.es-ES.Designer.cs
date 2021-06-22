@@ -53,6 +53,12 @@ namespace DocuitWeb.Resources.Components {
             }
         }
         
+        internal static string _new {
+            get {
+                return ResourceManager.GetString("new", resourceCulture);
+            }
+        }
+        
         internal static string title {
             get {
                 return ResourceManager.GetString("title", resourceCulture);

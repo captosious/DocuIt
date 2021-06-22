@@ -18,7 +18,11 @@
     <data name="edit" xml:space="preserve">
         <value>Edición Centros Trabajo</value>
     </data>
-    
+
+    <data name="new" xml:space="preserve">
+        <value>Nuevo Centro de Trabajo</value>
+    </data>
+
     <data name="title" xml:space="preserve">
         <value>Centros de Trabajo</value>
     </data>

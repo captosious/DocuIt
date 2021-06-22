@@ -18,7 +18,11 @@
     <data name="edit" xml:space="preserve">
         <value>Edició Centres Treball</value>
     </data>
-    
+
+    <data name="new" xml:space="preserve">
+        <value>Nou Centre de Treball</value>
+    </data>
+
     <data name="title" xml:space="preserve">
         <value>Centres de Treball</value>
     </data>
