@@ -1,0 +1,62 @@
+﻿@page "/ProjectSecurity"
+@using System.ComponentModel
+
+@inject IStringLocalizer<ProjectSecurity> Localizer
+@inject ProjectService ProjectService
+@inject BuildingTypeProjectService BuildingTypeProjectServiceService
+@inject StatusService StatusService
+
+
+<hr />
+<div class="bg-light">Llista Usuaris</div>
+<Dropzone Items="companyCompanyUserList" TItem="ProjectUserSecurity">
+    <div draggable="true" class="mt-2" style="border: 2px solid blue">@context.Name @context.FamilyName</div>
+</Dropzone>
+<hr />
+
+<div draggable="true" class="bg-light">Usuaris involucrats</div>
+<Dropzone Items="selectedUsersList" TItem="ProjectUserSecurity">
+    <div draggable="true" style="border: 2px solid black">@context.Name @context.FamilyName</div>
+</Dropzone>
+<hr />
+
+@*<div class="row">
+        <div class="col" style="border:dotted">
+            <Dropzone Items="companyCompanyUserList" TItem="ProjectUserSecurity">
+                <div style="margin:2px;border:1px;background-color:green">@context.Name @context.FamilyName</div>
+            </Dropzone>
+        </div>
+        <div class="col" style="border:double; background-color:lightgreen">
+            <Dropzone Items="selectedUsersList" TItem="ProjectUserSecurity">
+                <div>@context.Name @context.FamilyName</div>
+            </Dropzone>
+        </div>
+    </div>*@
+
+<button class="btn btn_general btn-success" @onclick="SaveProjectSecurity">@SharedLocalizer["MSG_SAVE"]</button>
+
+@code
+{
+
+    [Parameter]
+    public Project myProject { get; set; }
+
+    List<ProjectUserSecurity> companyCompanyUserList = new List<ProjectUserSecurity>();
+    List<ProjectUserSecurity> selectedUsersList = new List<ProjectUserSecurity>();
+    ProjectUserSecurity companyUser = new ProjectUserSecurity();
+    ProjectUserSecurity selectedUser = new ProjectUserSecurity();
+
+    protected override async Task OnInitializedAsync()
+    {
+        IEnumerable<ProjectUserSecurity> returnList = new List<ProjectUserSecurity>();
+
+        companyCompanyUserList = await ProjectService.FetchProjectUsers(myProject);
+        selectedUsersList = await ProjectService.FetchProjectUserSecurity(myProject);
+
+    }
+
+    void SaveProjectSecurity(EventArgs e)
+    {
+        //ProjectService
+    }
+}

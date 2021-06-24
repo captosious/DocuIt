@@ -13,7 +13,6 @@
     <DataGridColumn Width="100px" Readonly="true" TItem="DocuitWeb.Models.BuildingType" Field="@nameof(DocuitWeb.Models.BuildingType.Id)" Caption="@Localizer["id"]" TextAlignment="TextAlignment.Left" />
     <DataGridColumn TItem="DocuitWeb.Models.BuildingType" Field="@nameof(DocuitWeb.Models.BuildingType.Name)" Caption="@Localizer["description"]" TextAlignment="TextAlignment.Justified" />
 </DataGrid>
-my
 
 <div class="d-flex justify-content-center">
     <button class="btn btn_general btn-success" @onclick="Add">@SharedLocalizer["MSG_ADD"]</button>
@@ -69,11 +68,11 @@ my
     protected override async Task OnInitializedAsync()
     {
 
+        myBlocker.Show();
         objParameters.CompanyId = accessService.MyLogin.CompanyId;
-        //myBlocker.Show();
         objList = (await BuildingTypeService.FetchGetAllAsync(objParameters)).ToList();
         if (objList == null) { toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]); }
-        //myBlocker.Hide();
+        myBlocker.Hide();
     }
 
     private void Edit(DataGridRowMouseEventArgs<DocuitWeb.Models.BuildingType> eventArgs)
@@ -84,7 +83,7 @@ my
         modalTitle = Localizer["edit"];
         modalWindow.Show();
     }
-
+    
     private async void Delete()
     {
         //bool test;

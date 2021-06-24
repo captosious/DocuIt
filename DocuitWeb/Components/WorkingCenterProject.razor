@@ -22,7 +22,7 @@
     <ModalContent Size="ModalSize.Default" Centered="true">
         <ModalHeader>
             <i class="fas fa-edit fa-2x"></i>
-            <ModalTitle>@Localizer["edit"]</ModalTitle>
+            <ModalTitle>@modalTitle</ModalTitle>
             <CloseButton Clicked="@CloseModal" />
         </ModalHeader>
         <ModalBody>
@@ -31,7 +31,7 @@
                     <AddonLabel Class="addonlabel_style">@Localizer["id"]</AddonLabel>
                 </Addon>
                 <Addon AddonType="AddonType.Body">
-                    <TextEdit @bind-Text="@objEdit.Id" />
+                    <TextEdit @bind-Text="@objEdit.Id" MaxLength="5"/>
                 </Addon>
             </Addons>
             <Addons>
@@ -39,11 +39,13 @@
                     <AddonLabel Class="addonlabel_style">@Localizer["description"]</AddonLabel>
                 </Addon>
                 <Addon AddonType="AddonType.Body">
-                    <TextEdit @bind-Text="@objEdit.Name" />
+                    <TextEdit @bind-Text="@objEdit.Name" MaxLength="25" />
                 </Addon>
             </Addons>
         </ModalBody>
         <ModalFooter>
+            @if (!IsNew)
+            {<button class="btn btn_general btn-warning" @onclick="Delete">@SharedLocalizer["MSG_DELETE"]</button>}
             <button class="btn btn_general btn-success" @onclick="Save">@SharedLocalizer["MSG_SAVE"]</button>
         </ModalFooter>
     </ModalContent>
@@ -51,8 +53,8 @@
 
 @code
 {
-    IEnumerable<DocuitWeb.Models.WorkingCenter> objList = new List<DocuitWeb.Models.WorkingCenter>();
-    
+    List<DocuitWeb.Models.WorkingCenter> objList = new List<DocuitWeb.Models.WorkingCenter>();
+
     DocuitWeb.Models.WorkingCenter objEdit = new DocuitWeb.Models.WorkingCenter();
     DocuitWeb.Models.WorkingCenter obj { get; set; }
     DocuitWeb.Models.WorkingCenter selectedRow { get; set; }
@@ -61,16 +63,17 @@
     //Modal
     private Modal modalWindowEdit;
     private bool IsNew = false;
+    private string modalTitle;
 
     protected override async Task OnInitializedAsync()
     {
 
         workingCenterParameters.CompanyId = accessService.MyLogin.CompanyId;
 
-        // myBlocker.Show();
-        objList = await WorkingCenterService.FetchGetAllAsync(workingCenterParameters);
+        myBlocker.Show();
+        objList = (await WorkingCenterService.FetchGetAllAsync(workingCenterParameters)).ToList();
         if (objList == null) { toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]); }
-        //myBlocker.Hide();
+        myBlocker.Hide();
     }
 
     private void Edit(DataGridRowMouseEventArgs<DocuitWeb.Models.WorkingCenter> eventArgs)
@@ -78,6 +81,7 @@
         IsNew = false;
         selectedRow = eventArgs.Item;
         objEdit = (DocuitWeb.Models.WorkingCenter)eventArgs.Item.Clone();
+        modalTitle = Localizer["edit"];
         modalWindowEdit.Show();
     }
 
@@ -88,7 +92,8 @@
         if (return_code == 0)
         {
             toastService.ShowSuccess(@SharedLocalizer["OP_OK"], @SharedLocalizer["OP_OK_TITLE"]);
-            objList = await WorkingCenterService.FetchGetAllAsync(workingCenterParameters);
+            objEdit = objList.Find(o => o.CompanyId == objEdit.CompanyId && o.Id == objEdit.Id);
+            objList.Remove(objEdit);
         }
         else
         {
@@ -117,13 +122,11 @@
             toastService.ShowSuccess(@SharedLocalizer["OP_OK"], @SharedLocalizer["OP_OK_TITLE"]);
             if (IsNew)
             {
-                objList.Append(returning_obj);
+                objList.Add(returning_obj);
             }
             else
             {
-                //Edit the referenced variable back to the grid/table
-                //buldingTypeRow.Name = objEdit.Name;
-                //selectedRow = objEdit.DeepCopy();
+                returning_obj.CopyPropertiesTo(selectedRow);
             }
         }
         myBlocker.Hide();
@@ -134,7 +137,8 @@
     {
         IsNew = true;
         objEdit = new Models.WorkingCenter();
-        objEdit.CompanyId = 1;
+        objEdit.CompanyId = accessService.MyLogin.CompanyId;
+        modalTitle = Localizer["new"];
         OpenModal();
     }
 

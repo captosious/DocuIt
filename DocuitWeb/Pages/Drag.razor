@@ -1,19 +1,20 @@
-﻿@page "/drag"
+﻿@page "/projectsSecurity"
 @using DocuitWeb.Models
 
 @inject UserService userService
 @inject ProjectService project
 
 <hr/>
-<div class="bg-light">First Dropzone:</div>
-<Dropzone Items="companyCompanyUserList" TItem="ProjectUserSecurity">
-    <div style="margin:2px;border:1px;background-color:green">@context.Name @context.FamilyName</div>
-</Dropzone>
+<div class="bg-light">Llista Usuaris</div>
+    <Dropzone Items="companyCompanyUserList" TItem="ProjectUserSecurity">
+        <div draggable="true" class="mt-2" style="border: 2px solid blue">@context.Name @context.FamilyName</div>
+    </Dropzone>
 <hr />
-<div class="bg-light">Second Dropzone: (only accepts items containing the word 'fun')</div>
-<Dropzone Items="selectedUsersList" TItem="ProjectUserSecurity">
-    <div>@context.Name @context.FamilyName</div>
-</Dropzone>
+
+<div draggable="true" class="bg-light">Usuaris involucrats</div>
+    <Dropzone Items="selectedUsersList" TItem="ProjectUserSecurity">
+        <div draggable="true" style="border: 2px solid black">@context.Name @context.FamilyName</div>
+    </Dropzone>
 <hr />
 
 @*<div class="row">
@@ -41,8 +42,8 @@
     {
         IEnumerable<ProjectUserSecurity> returnList = new List<ProjectUserSecurity>();
 
-        companyCompanyUserList = await project.FetchProjectUser(1, 1);
-        selectedUsersList = await project.FetchProjectUserSecurity(1, 1);
+        //companyCompanyUserList = await project.FetchProjectUsers(1, 1);
+        //selectedUsersList = await project.FetchProjectUserSecurity(1, 1);
 
     }
 
