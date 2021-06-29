@@ -35,32 +35,17 @@
                     </select>
                 </div>
             </div>
-
-            @*<h3 class="PageHeader">@Localizer["MSG001"]</h3>
-            <br>
-            <DataGrid TItem="DocuitWeb.Models.BuildingTypeProject" Editable="false"
-                      Data="@buildingTypeProjects" @bind-SelectedRow="@obj"
-                      Filterable="true" Sortable="true"
-                      ShowPager="true" PageSize="5" Narrow="true" Hoverable="true">
-                <DataGridCommandColumn TItem="DocuitWeb.Models.BuildingTypeProject" />
-                <DataGridColumn Width="100px" Readonly="true" TItem="DocuitWeb.Models.BuildingTypeProject" Field="@nameof(DocuitWeb.Models.BuildingTypeProject.Id)" Caption="@Localizer["id"]" TextAlignment="TextAlignment.Left" />
-                <DataGridColumn TItem="DocuitWeb.Models.BuildingTypeProject" Field="@nameof(DocuitWeb.Models.BuildingTypeProject)" Caption="@Localizer["description"]" TextAlignment="TextAlignment.Justified" />
-            </DataGrid>
-
-            <div class="row">
-                <div class="col-4" style="text-align:right"></div>
-                <div class="col-8"><button class="btn btn_general btn-success" @onclick="OnClickSaveButton">@SharedLocalizer["MSG_SAVE"]</button></div>
-            </div>*@
-
-            <ProjectSecurity myProject=myProject>
-
-            </ProjectSecurity>
+            <br />
+            <CascadingValue Value="myProject">
+                <ProjectSecurity myProject=myProject />
+                <WorkingCenterProject myProject=myProject />
+            </CascadingValue>             
         </Authorized>
     </AuthorizeView>
     @code {
 
         IEnumerable<DocuitWeb.Models.Status> statuses = new List<DocuitWeb.Models.Status>();
-        IEnumerable<DocuitWeb.Models.BuildingTypeProject> buildingTypeProjects = new List<DocuitWeb.Models.BuildingTypeProject>();
+        //IEnumerable<DocuitWeb.Models.BuildingTypeProject> buildingTypeProjects = new List<DocuitWeb.Models.BuildingTypeProject>();
 
         DocuitWeb.Models.BuildingTypeProject obj = new BuildingTypeProject();
 
@@ -73,7 +58,7 @@
         {
             myBlocker.Show();
             statuses = await StatusService.FetchGetAllAsync();
-            buildingTypeProjects = await BuildingTypeProjectServiceService.FetchGetAllAsync();
+            //buildingTypeProjects = await BuildingTypeProjectServiceService.FetchGetAllAsync();
             myBlocker.Hide();
         }
 

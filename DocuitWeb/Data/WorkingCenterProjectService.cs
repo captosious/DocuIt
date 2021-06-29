@@ -9,19 +9,19 @@ using System.Collections.Generic;
 
 namespace DocuitWeb.Data
 {
-    public class WorkingCenterService
+    public class WorkingCenterProjectService
     {
         private AppSettings _appSettings;
         private MyHttp _myHttp;
-        private string _resource = "/workingcenter";
+        private string _resource = "/workingcenterproject";
 
-        public WorkingCenterService(AppSettings appSettings, MyHttp myHttp)
+        public WorkingCenterProjectService(AppSettings appSettings, MyHttp myHttp)
         {
             _appSettings = appSettings;
             _myHttp = myHttp;
         }
 
-        public async Task<IEnumerable<WorkingCenter>> FetchGetAllAsync(WorkingCenter obj)
+        public async Task<IEnumerable<WorkingCenterProject>> FetchGetAllAsync(WorkingCenterProject obj)
         {
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
             HttpClient httpClient = _myHttp.GetClient();
@@ -35,7 +35,7 @@ namespace DocuitWeb.Data
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 httpClient.Dispose();
-                return await Task.FromResult(JsonConvert.DeserializeObject<List<WorkingCenter>>(responseBody));
+                return await Task.FromResult(JsonConvert.DeserializeObject<List<WorkingCenterProject>>(responseBody));
             }
             catch
             {
@@ -44,9 +44,8 @@ namespace DocuitWeb.Data
             }
         }
 
-        public async Task<WorkingCenter> UpdateAsync(WorkingCenter obj)
+        public async Task<WorkingCenterProject> UpdateAsync(WorkingCenterProject obj)
         {
-            obj.CompanyId = _appSettings.CompanyId;
             HttpClient httpClient = new HttpClient();
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
 
@@ -67,7 +66,7 @@ namespace DocuitWeb.Data
             }
         }
 
-        public async Task<WorkingCenter> AddAsync(WorkingCenter obj)
+        public async Task<WorkingCenterProject> AddAsync(WorkingCenterProject obj)
         {
             //obj.CompanyId = _appSettings.CompanyId;
             HttpClient httpClient = new HttpClient();
@@ -90,7 +89,7 @@ namespace DocuitWeb.Data
             }
         }
 
-        public async Task<WorkingCenter> PutAsync(WorkingCenter obj)
+        public async Task<WorkingCenterProject> PutAsync(WorkingCenterProject obj)
         {
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
             HttpClient httpClient = _myHttp.GetClient();
@@ -110,7 +109,7 @@ namespace DocuitWeb.Data
             }
         }
 
-        public async Task<int> DeleteAsync(WorkingCenter obj)
+        public async Task<int> DeleteAsync(WorkingCenterProject obj)
         {
             //obj.CompanyId = _appSettings.CompanyId;
             HttpClient httpClient = new HttpClient();

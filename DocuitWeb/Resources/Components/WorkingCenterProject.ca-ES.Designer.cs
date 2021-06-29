@@ -16,21 +16,21 @@ namespace DocuitWeb.Resources.Components {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class WorkingCenter_ca_ES {
+    internal class WorkingCenterProject_ca_ES {
         
         private static System.Resources.ResourceManager resourceMan;
         
         private static System.Globalization.CultureInfo resourceCulture;
         
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal WorkingCenter_ca_ES() {
+        internal WorkingCenterProject_ca_ES() {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.Equals(null, resourceMan)) {
-                    System.Resources.ResourceManager temp = new System.Resources.ResourceManager("DocuitWeb.Resources.Components.WorkingCenter.ca-ES", typeof(WorkingCenter_ca_ES).Assembly);
+                    System.Resources.ResourceManager temp = new System.Resources.ResourceManager("DocuitWeb.Resources.Components.WorkingCenterProject.ca-ES", typeof(WorkingCenterProject_ca_ES).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

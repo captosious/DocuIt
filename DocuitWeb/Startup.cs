@@ -55,7 +55,7 @@ namespace DocuitWeb
             services.AddScoped<ProjectService>();
             services.AddScoped<DossierService>();
             services.AddScoped<DossierElementService>();
-            services.AddScoped<WorkingCenterService>();
+            services.AddScoped<WorkingCenterProjectService>();
             services.AddScoped<BuildingTypeService>();
             services.AddScoped<BuildingTypeProjectService>();
             services.AddScoped<CustomAuthenticationStateProvider>();

@@ -51,6 +51,7 @@
     void RowClick(DataGridRowMouseEventArgs<Project> e)
     {
         OnUserClickTable.InvokeAsync(e.Item);
+        StateHasChanged();
     }
 
     void HeaderRow()

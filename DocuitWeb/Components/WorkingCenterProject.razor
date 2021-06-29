@@ -1,17 +1,17 @@
-﻿@page "/workingcenter"
+﻿@page "/workingcenterproject"
 @using System.ComponentModel
 
-@inject IStringLocalizer<WorkingCenter> Localizer
-@inject WorkingCenterService WorkingCenterService
+@inject IStringLocalizer<WorkingCenterProject> Localizer
+@inject WorkingCenterProjectService WorkingCenterProjectService
 
 <h3 class="PageHeader">@Localizer["title"]</h3>
 
-<DataGrid TItem="DocuitWeb.Models.WorkingCenter" Editable="false" Data="@objList" SelectedRow="@obj" RowClicked="@Edit"
+<DataGrid TItem="DocuitWeb.Models.WorkingCenterProject" Editable="false" Data="@objList" SelectedRow="@obj" RowClicked="@Edit"
           Filterable="true" Sortable="true"
           ShowPager="true" PageSize="5" Narrow="true" Hoverable="true">
-    <DataGridCommandColumn TItem="DocuitWeb.Models.WorkingCenter"/>
+    <DataGridCommandColumn TItem="DocuitWeb.Models.WorkingCenterProject"/>
     <DataGridColumn Width="100px" Readonly="true" TItem="DocuitWeb.Models.WorkingCenter" Field="@nameof(DocuitWeb.Models.WorkingCenter.Id)" Caption="@Localizer["id"]" TextAlignment="TextAlignment.Left" />
-    <DataGridColumn TItem="DocuitWeb.Models.WorkingCenter" Field="@nameof(DocuitWeb.Models.WorkingCenter.Name)" Caption="@Localizer["description"]" TextAlignment="TextAlignment.Justified" />
+    <DataGridColumn TItem="DocuitWeb.Models.WorkingCenterProject" Field="@nameof(DocuitWeb.Models.WorkingCenterProject.Name)" Caption="@Localizer["description"]" TextAlignment="TextAlignment.Justified" />
 </DataGrid>
 
 <div class="d-flex justify-content-center">
@@ -31,7 +31,7 @@
                     <AddonLabel Class="addonlabel_style">@Localizer["id"]</AddonLabel>
                 </Addon>
                 <Addon AddonType="AddonType.Body">
-                    <TextEdit @bind-Text="@objEdit.Id" MaxLength="5"/>
+                    <TextEdit @bind-Text="@objEdit.Id" Disabled="@(!IsNew)"  MaxLength="5"/>
                 </Addon>
             </Addons>
             <Addons>
@@ -53,12 +53,15 @@
 
 @code
 {
-    List<DocuitWeb.Models.WorkingCenter> objList = new List<DocuitWeb.Models.WorkingCenter>();
+    [Parameter]
+    public Project myProject { get; set; }
 
-    DocuitWeb.Models.WorkingCenter objEdit = new DocuitWeb.Models.WorkingCenter();
-    DocuitWeb.Models.WorkingCenter obj { get; set; }
-    DocuitWeb.Models.WorkingCenter selectedRow { get; set; }
-    DocuitWeb.Models.WorkingCenter workingCenterParameters = new DocuitWeb.Models.WorkingCenter();
+    List<DocuitWeb.Models.WorkingCenterProject> objList = new List<DocuitWeb.Models.WorkingCenterProject>();
+
+    DocuitWeb.Models.WorkingCenterProject objEdit = new DocuitWeb.Models.WorkingCenterProject();
+    DocuitWeb.Models.WorkingCenterProject obj { get; set; }
+    DocuitWeb.Models.WorkingCenterProject selectedRow { get; set; }
+    DocuitWeb.Models.WorkingCenterProject workingCenterParameters = new DocuitWeb.Models.WorkingCenterProject();
 
     //Modal
     private Modal modalWindowEdit;
@@ -68,19 +71,20 @@
     protected override async Task OnInitializedAsync()
     {
 
-        workingCenterParameters.CompanyId = accessService.MyLogin.CompanyId;
+        workingCenterParameters.CompanyId = myProject.CompanyId;
+        workingCenterParameters.ProjectId = myProject.ProjectId;
 
         myBlocker.Show();
-        objList = (await WorkingCenterService.FetchGetAllAsync(workingCenterParameters)).ToList();
+        objList = (await WorkingCenterProjectService.FetchGetAllAsync(workingCenterParameters)).ToList();
         if (objList == null) { toastService.ShowError(@SharedLocalizer["OP_FAIL"], @SharedLocalizer["OP_FAIL_TITLE"]); }
         myBlocker.Hide();
     }
 
-    private void Edit(DataGridRowMouseEventArgs<DocuitWeb.Models.WorkingCenter> eventArgs)
+    private void Edit(DataGridRowMouseEventArgs<DocuitWeb.Models.WorkingCenterProject> eventArgs)
     {
         IsNew = false;
         selectedRow = eventArgs.Item;
-        objEdit = (DocuitWeb.Models.WorkingCenter)eventArgs.Item.Clone();
+        objEdit = (DocuitWeb.Models.WorkingCenterProject)eventArgs.Item;
         modalTitle = Localizer["edit"];
         modalWindowEdit.Show();
     }
@@ -88,7 +92,7 @@
     private async void Delete()
     {
         myBlocker.Show();
-        int return_code = await WorkingCenterService.DeleteAsync(objEdit);
+        int return_code = await WorkingCenterProjectService.DeleteAsync(objEdit);
         if (return_code == 0)
         {
             toastService.ShowSuccess(@SharedLocalizer["OP_OK"], @SharedLocalizer["OP_OK_TITLE"]);
@@ -106,12 +110,12 @@
     private async void Save()
     {
         myBlocker.Show();
-        DocuitWeb.Models.WorkingCenter returning_obj;
+        DocuitWeb.Models.WorkingCenterProject returning_obj;
 
         if (IsNew)
-        { returning_obj = await WorkingCenterService.AddAsync(objEdit); }
+        { returning_obj = await WorkingCenterProjectService.AddAsync(objEdit); }
         else
-        { returning_obj = await WorkingCenterService.UpdateAsync(objEdit); }
+        { returning_obj = await WorkingCenterProjectService.UpdateAsync(objEdit); }
 
         if (returning_obj == null)
         {
@@ -136,8 +140,9 @@
     private void Add()
     {
         IsNew = true;
-        objEdit = new Models.WorkingCenter();
-        objEdit.CompanyId = accessService.MyLogin.CompanyId;
+        objEdit = new Models.WorkingCenterProject();
+        objEdit.CompanyId = myProject.CompanyId;
+        objEdit.ProjectId = myProject.ProjectId;
         modalTitle = Localizer["new"];
         OpenModal();
     }

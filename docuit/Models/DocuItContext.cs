@@ -879,6 +879,12 @@ namespace DocuItService.Models
                     .HasMaxLength(5)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasMaxLength(45)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
                 entity.Property(e => e.ProjectId).HasColumnName("project_id");

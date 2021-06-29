@@ -10,7 +10,7 @@ namespace DocuItService.Controllers
     [Route("[controller]")]
     [Produces("application/json")]
     [ApiController]
-    [Microsoft.AspNetCore.Authorization.Authorize]
+    //[Microsoft.AspNetCore.Authorization.Authorize]
 
     public class WorkingCenterProjectController : ControllerBase
     {
@@ -24,7 +24,7 @@ namespace DocuItService.Controllers
         }
 
         // GET: api/values
-        [HttpGet]
+        [HttpGet("{GetAll}")]
         public IEnumerable<WorkingCenterProject> GetAll([FromBody] WorkingCenterProject objParams)
         {
             IEnumerable<WorkingCenterProject> objReturn = MyDBContext.WorkingCenterProject.Where(x=> x.CompanyId==objParams.CompanyId && x.ProjectId==objParams.ProjectId);
@@ -42,7 +42,7 @@ namespace DocuItService.Controllers
             WorkingCenterProject objReturn;
 
             if (objParams == null)
-            {
+            { 
                 return BadRequest();
             }
             objReturn = await MyDBContext.WorkingCenterProject.FindAsync(objParams.CompanyId,objParams.ProjectId,objParams.Id);
@@ -75,7 +75,7 @@ namespace DocuItService.Controllers
 
         // PUT api/values/5 (FULL UPDATE)
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] WorkingCenter objParams)
+        public async Task<IActionResult> Put([FromBody] WorkingCenterProject objParams)
         {
             MyDBContext.Update(objParams);
             if (ModelState.IsValid)
@@ -147,27 +147,26 @@ namespace DocuItService.Controllers
         //    return Ok(MyToken);
         //}
 
-        // DELETE api/values/5
-        [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody] Company CompanyParams)
+        [HttpGet("Delete")]
+        public async Task<IActionResult> Delete([FromBody] WorkingCenterProject objParams)
         {
-            Company company;
+            WorkingCenterProject objReturn;
 
-            if (CompanyParams == null)
+            if (objParams == null)
             {
-                return BadRequest("Parameters Object not valid.");
+                return BadRequest();
             }
-            company = await MyDBContext.Company.FindAsync(CompanyParams.CompanyId);
-            try
+            objReturn = await MyDBContext.WorkingCenterProject.FindAsync(objParams.CompanyId, objParams.Id);
+            if (objReturn == null)
             {
-                MyDBContext.Company.Remove(company);
+                return NotFound();
+            }
+            else
+            {
+                MyDBContext.WorkingCenterProject.Remove(objReturn);
                 await MyDBContext.SaveChangesAsync();
+                return Ok();
             }
-            catch (Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException)
-            {
-                return BadRequest("CompanyID not valid.");
-            }
-            return Ok();
         }
     }
 }

@@ -16,21 +16,21 @@ namespace DocuitWeb.Resources.Components {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class WorkingCenter_es_ES {
+    internal class ProjectSecurity_es_ES {
         
         private static System.Resources.ResourceManager resourceMan;
         
         private static System.Globalization.CultureInfo resourceCulture;
         
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal WorkingCenter_es_ES() {
+        internal ProjectSecurity_es_ES() {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.Equals(null, resourceMan)) {
-                    System.Resources.ResourceManager temp = new System.Resources.ResourceManager("DocuitWeb.Resources.Components.WorkingCenter.es-ES", typeof(WorkingCenter_es_ES).Assembly);
+                    System.Resources.ResourceManager temp = new System.Resources.ResourceManager("DocuitWeb.Resources.Components.ProjectSecurity.es-ES", typeof(ProjectSecurity_es_ES).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -47,33 +47,21 @@ namespace DocuitWeb.Resources.Components {
             }
         }
         
-        internal static string edit {
-            get {
-                return ResourceManager.GetString("edit", resourceCulture);
-            }
-        }
-        
-        internal static string _new {
-            get {
-                return ResourceManager.GetString("new", resourceCulture);
-            }
-        }
-        
         internal static string title {
             get {
                 return ResourceManager.GetString("title", resourceCulture);
             }
         }
         
-        internal static string id {
+        internal static string availableusers {
             get {
-                return ResourceManager.GetString("id", resourceCulture);
+                return ResourceManager.GetString("availableusers", resourceCulture);
             }
         }
         
-        internal static string description {
+        internal static string assignedusers {
             get {
-                return ResourceManager.GetString("description", resourceCulture);
+                return ResourceManager.GetString("assignedusers", resourceCulture);
             }
         }
     }

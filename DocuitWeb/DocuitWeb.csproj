@@ -95,7 +95,7 @@
       <DependentUpon>Company.ca-ES.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\Components\WorkingCenter.es-ES.Designer.cs">
-      <DependentUpon>WorkingCenter.es-ES.resx</DependentUpon>
+      <DependentUpon>WorkingCenterProject.es-ES.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\Components\WorkingCenter.ca-ES.Designer.cs">
       <DependentUpon>WorkingCenter.ca-ES.resx</DependentUpon>
@@ -107,7 +107,7 @@
       <DependentUpon>BuildingType.es-ES.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\Components\WorkingCenter.ca-ES.Designer.cs">
-      <DependentUpon>WorkingCenter.ca-ES.resx</DependentUpon>
+      <DependentUpon>WorkingCenterProject.ca-ES.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\Components\Inventory.ca-ES.Designer.cs">
       <DependentUpon>Inventory.ca-ES.resx</DependentUpon>
@@ -120,6 +120,18 @@
     </Compile>
     <Compile Update="Resources\Pages\Profile.es-ES.Designer.cs">
       <DependentUpon>Profile.es-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\ProjectSecurity.es-ES.Designer.cs">
+      <DependentUpon>ProjectSecurity.es-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\WorkingCenterProject.ca-ES.Designer.cs">
+      <DependentUpon>WorkingCenterProject.ca-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\WorkingCenterProject.es-ES.Designer.cs">
+      <DependentUpon>WorkingCenterProject.es-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\ProjectSecurity.ca-ES.Designer.cs">
+      <DependentUpon>ProjectSecurity.ca-ES.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -242,6 +254,14 @@
     <EmbeddedResource Update="Resources\Components\BuildingType.es-ES.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>BuildingType.es-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\ProjectSecurity.es-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProjectSecurity.es-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\ProjectSecurity.ca-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProjectSecurity.ca-ES.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
