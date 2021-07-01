@@ -79,20 +79,7 @@ namespace DocuItService.Controllers
             }
             return projectUserSecurities;
         }
-        //// GET: api/values
-        //[HttpGet]
-        //public IEnumerable<ProjectSecurity> Get()
-        //{
-        //    IEnumerable<ProjectSecurity> project = MyDBContext.ProjectSecurity ;
-
-        //    if (project == null)
-        //    {
-        //        return null;
-        //    }
-        //    return project;
-        //}
-
-        // GET api/values/5
+        
         [HttpGet]
         public ProjectSecurity Get([FromBody] ProjectSecurity ProjectSecurityParameters)
         {
@@ -183,13 +170,13 @@ namespace DocuItService.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] ProjectSecurity ProjectSecurityToDelete)
         {
-            //ProjectSecurity ProjectSecurity;
+            ProjectSecurity ProjectSecurity;
 
             if (ProjectSecurityToDelete == null)
             {
                 return BadRequest("Parameters Object not valid.");
             }
-            //ProjectSecurity = MyDBContext.ProjectSecurity.FirstOrDefault(d => d.CompanyId == ProjectSecurityToDelete.CompanyId && d.ProjectId == dossierElementToDelete.ProjectId && d.DossierId == dossierElementToDelete.DossierId && d.ElementId == dossierElementToDelete.ElementId);
+            ProjectSecurity = MyDBContext.ProjectSecurity.FirstOrDefault(d => d.CompanyId == ProjectSecurityToDelete.CompanyId && d.ProjectId == dossierElementToDelete.ProjectId && d.DossierId == dossierElementToDelete.DossierId && d.ElementId == dossierElementToDelete.ElementId);
             try
             {
                 MyDBContext.ProjectSecurity.Remove(ProjectSecurityToDelete);
