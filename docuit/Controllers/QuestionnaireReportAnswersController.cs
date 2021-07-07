@@ -35,7 +35,7 @@ namespace DocuItService.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put ([FromBody] ICollection<QuestionnaireReportAnswers> questionnaire)
+        public async Task<IActionResult> Put([FromBody] ICollection<QuestionnaireReportAnswers> questionnaire)
         {
             IDbContextTransaction transaction;
             QuestionnaireReportAnswers search = new QuestionnaireReportAnswers();

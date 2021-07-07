@@ -123,20 +123,34 @@ namespace DocuItService.Controllers
             return Ok(ProjectSecurityParameters.UserId );
         }
 
-        // PUT api/values/5 (FULL UPDATE)
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] ProjectSecurity ProjectSecurityParameters)
+        public async Task<IActionResult> Put([FromBody] ICollection<ProjectUserSecurity> projectUserSecurities)
         {
-            MyDBContext.Update(ProjectSecurityParameters);
-            if (ModelState.IsValid)
+            Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction transaction;
+            ProjectUserSecurity search = new ProjectUserSecurity();
+            ICollection<ProjectUserSecurity> users_to_delete;
+
+            if (projectUserSecurities.Count > 0)
             {
-                await MyDBContext.SaveChangesAsync();
+                transaction = MyDBContext.Database.BeginTransaction();
+                search = projectUserSecurities.First();
+                try
+                {
+                    users_to_delete = (ICollection<ProjectUserSecurity>)MyDBContext.ProjectUserSecurity.Where(Q => Q.CompanyId == search.CompanyId && Q.ProjectId == search.ProjectId).ToList();
+                    MyDBContext.ProjectUserSecurity.RemoveRange(users_to_delete);
+                    await MyDBContext.SaveChangesAsync();
+                    MyDBContext.ProjectUserSecurity.AddRange(projectUserSecurities);
+                    await MyDBContext.SaveChangesAsync();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    return null;
+                }
+                transaction.Commit();
+                return Ok();
             }
-            else
-            {
-                return BadRequest();
-            }
-            return Ok();
+            return null;
         }
 
         // PATCH api/values (PARTIAL UPDATE)
