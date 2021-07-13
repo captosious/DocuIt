@@ -189,6 +189,7 @@ namespace DocuItService.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.parent_id).HasColumnName("parent_id");
 
                 entity.HasOne(d => d.ProjectSecurity)
                     .WithMany(p => p.Dossier)

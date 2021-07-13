@@ -1,4 +1,4 @@
-﻿,using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
@@ -190,7 +190,7 @@ namespace DocuItService.Controllers
             {
                 return BadRequest("Parameters Object not valid.");
             }
-            ProjectSecurity = MyDBContext.ProjectSecurity.FirstOrDefault(d => d.CompanyId == ProjectSecurityToDelete.CompanyId && d.ProjectId == dossierElementToDelete.ProjectId && d.DossierId == dossierElementToDelete.DossierId && d.ElementId == dossierElementToDelete.ElementId);
+            ProjectSecurity = MyDBContext.ProjectSecurity.FirstOrDefault(d => d.CompanyId == ProjectSecurityToDelete.CompanyId && d.ProjectId == ProjectSecurityToDelete.ProjectId );
             try
             {
                 MyDBContext.ProjectSecurity.Remove(ProjectSecurityToDelete);
