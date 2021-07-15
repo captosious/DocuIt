@@ -120,6 +120,40 @@ namespace DocuitWeb.Data
             }
         }
 
+        public async Task<int> SaveProjectUserSecurity(IEnumerable<ProjectUserSecurity> projectUserSecurities)
+        {
+            List<ProjectSecurity> projectSecurities = new List<ProjectSecurity>();
+            ProjectSecurity projectSecurity;
+            HttpClient httpClient = _myHttp.GetClient();
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+
+            //Prepare ProjectSecurity Object from ProjectUserSecurity
+            foreach (ProjectUserSecurity user in projectUserSecurities)
+            {
+                projectSecurity = new ProjectSecurity();
+                projectSecurity.CompanyId = user.CompanyId;
+                projectSecurity.ProjectId = user.ProjectId;
+                projectSecurity.UserId = user.UserId;
+                
+            }
+
+
+            httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + "/projectsecurity");
+            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(project), Encoding.UTF8, "application/json");
+
+            var response = await httpClient.PostAsync(httpClient.BaseAddress, httpRequestMessage.Content);
+            try
+            {
+                response.EnsureSuccessStatusCode();
+                var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                projects = JsonConvert.DeserializeObject<IEnumerable<ProjectUserSecurity>>(responseBody);
+                return 0; 
+            }
+            catch
+            {
+                return -1;
+            }
+        }
 
     }
 }
