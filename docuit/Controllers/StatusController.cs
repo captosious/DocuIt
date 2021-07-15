@@ -30,7 +30,7 @@ namespace DocuItService.Controllers
         [HttpGet]
         public IEnumerable<Status> Get()
         {
-            IEnumerable<Status> status_list = MyDBContext.Status;
+            IEnumerable<Status> status_list = MyDBContext.Statuses;
 
             if (status_list == null)
             {

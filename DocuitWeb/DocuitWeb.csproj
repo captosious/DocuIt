@@ -12,7 +12,7 @@
     <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.3.10" />
     <PackageReference Include="Blazorise.DataGrid" Version="0.9.3.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="5.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="5.0.8" />
     <PackageReference Include="blazor-dragdrop" Version="2.3.0" />
   </ItemGroup>
   <ItemGroup>

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
-// If you have enabled NRTs for your project, then un-comment the following line:
-// #nullable disable
+#nullable disable
 
 namespace DocuItService.Models
 {
@@ -11,12 +9,12 @@ namespace DocuItService.Models
     {
         public Company()
         {
-            BuildingType = new HashSet<BuildingType>();
-            ElementType = new HashSet<ElementType>();
-            Project = new HashSet<Project>();
-            QuestionnaireType = new HashSet<QuestionnaireType>();
-            User = new HashSet<User>();
-            WorkingCenter = new HashSet<WorkingCenter>();
+            BuildingTypes = new HashSet<BuildingType>();
+            ElementTypes = new HashSet<ElementType>();
+            Projects = new HashSet<Project>();
+            QuestionnaireTypes = new HashSet<QuestionnaireType>();
+            Users = new HashSet<User>();
+            WorkingCenters = new HashSet<WorkingCenter>();
         }
 
         public int CompanyId { get; set; }
@@ -27,11 +25,11 @@ namespace DocuItService.Models
         public string Town { get; set; }
         public string ZipCode { get; set; }
 
-        public virtual ICollection<BuildingType> BuildingType { get; set; }
-        public virtual ICollection<ElementType> ElementType { get; set; }
-        public virtual ICollection<Project> Project { get; set; }
-        public virtual ICollection<QuestionnaireType> QuestionnaireType { get; set; }
-        public virtual ICollection<User> User { get; set; }
-        public virtual ICollection<WorkingCenter> WorkingCenter { get; set; }
+        public virtual ICollection<BuildingType> BuildingTypes { get; set; }
+        public virtual ICollection<ElementType> ElementTypes { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<QuestionnaireType> QuestionnaireTypes { get; set; }
+        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<WorkingCenter> WorkingCenters { get; set; }
     }
 }

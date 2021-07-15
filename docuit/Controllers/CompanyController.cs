@@ -27,7 +27,7 @@ namespace DocuItService.Controllers
         [HttpGet("{GetAll}")]
         public IEnumerable<Company> Get()
         {
-            IEnumerable<Company> companies = MyDBContext.Company;
+            IEnumerable<Company> companies = MyDBContext.Companies;
 
             if (companies == null)
             {
@@ -45,7 +45,7 @@ namespace DocuItService.Controllers
             {
                 return BadRequest();
             }
-            company = await MyDBContext.Company.FindAsync(CompanyParams.CompanyId);
+            company = await MyDBContext.Companies.FindAsync(CompanyParams.CompanyId);
             if (company == null)
             {
                 return NotFound();
@@ -61,7 +61,7 @@ namespace DocuItService.Controllers
             {
                 return NotFound();
             }
-            MyDBContext.Company.Add(company);
+            MyDBContext.Companies.Add(company);
             if (ModelState.IsValid)
             {
                 await MyDBContext.SaveChangesAsync();
@@ -105,7 +105,7 @@ namespace DocuItService.Controllers
             {
                 return BadRequest();
             }
-            company = await MyDBContext.Company.FindAsync(CompanyId);
+            company = await MyDBContext.Companies.FindAsync(CompanyId);
             companyToPatch.ApplyTo(company);
             if (ModelState.IsValid)
             {
@@ -159,10 +159,10 @@ namespace DocuItService.Controllers
             {
                 return BadRequest("Parameters Object not valid.");
             }
-            company = await MyDBContext.Company.FindAsync(CompanyParams.CompanyId);
+            company = await MyDBContext.Companies.FindAsync(CompanyParams.CompanyId);
             try
             {
-                MyDBContext.Company.Remove(company);
+                MyDBContext.Companies.Remove(company);
                 await MyDBContext.SaveChangesAsync();
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException)

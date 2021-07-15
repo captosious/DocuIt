@@ -29,7 +29,7 @@ namespace DocuItService.Controllers
         {
             IEnumerable<Questionnaire> questionnaire;
 
-            questionnaire = (IEnumerable<Questionnaire>)MyDBContext.Questionnaire.ToList(); ;
+            questionnaire = (IEnumerable<Questionnaire>)MyDBContext.Questionnaires.ToList(); ;
             return questionnaire;
         }
     }

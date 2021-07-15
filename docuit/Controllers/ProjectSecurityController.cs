@@ -30,7 +30,7 @@ namespace DocuItService.Controllers
         [HttpGet("GetProjectUserSecurity")]
         public IEnumerable<ProjectUserSecurity> GetProjectUserSecurity([FromBody] ProjectUserSecurity parProjectUserSecurity)
         {
-            IEnumerable<ProjectUserSecurity> projectUserSecurity = MyDBContext.ProjectUserSecurity.Where(x=> x.CompanyId == parProjectUserSecurity.CompanyId && x.ProjectId == parProjectUserSecurity.ProjectId);
+            IEnumerable<ProjectUserSecurity> projectUserSecurity = MyDBContext.ProjectUserSecurities.Where(x=> x.CompanyId == parProjectUserSecurity.CompanyId && x.ProjectId == parProjectUserSecurity.ProjectId);
 
             if (projectUserSecurity == null)
             {
@@ -42,8 +42,8 @@ namespace DocuItService.Controllers
         [HttpGet("GetProjectUsers")]
         public IEnumerable<ProjectUserSecurity> GetProjectUsers([FromBody] ProjectUserSecurity parProjectUserSecurity)
         {
-            IEnumerable<User> users = MyDBContext.User.Where(x => x.CompanyId == parProjectUserSecurity.CompanyId);
-            IEnumerable<ProjectUserSecurity> projectUserSecurityGrantedList = MyDBContext.ProjectUserSecurity.Where(x => x.CompanyId == parProjectUserSecurity.CompanyId && x.ProjectId == parProjectUserSecurity.ProjectId).ToList<ProjectUserSecurity>();
+            IEnumerable<User> users = MyDBContext.Users.Where(x => x.CompanyId == parProjectUserSecurity.CompanyId);
+            IEnumerable<ProjectUserSecurity> projectUserSecurityGrantedList = MyDBContext.ProjectUserSecurities.Where(x => x.CompanyId == parProjectUserSecurity.CompanyId && x.ProjectId == parProjectUserSecurity.ProjectId).ToList<ProjectUserSecurity>();
 
             List<ProjectUserSecurity> projectUserSecurities = new List<ProjectUserSecurity>();
             ProjectUserSecurity projectUserSecurity;
@@ -83,7 +83,7 @@ namespace DocuItService.Controllers
         [HttpGet]
         public ProjectSecurity Get([FromBody] ProjectSecurity ProjectSecurityParameters)
         {
-            ProjectSecurity ProjectSecurity = (ProjectSecurity)MyDBContext.ProjectSecurity.FirstOrDefault(d => d.CompanyId == ProjectSecurityParameters.CompanyId && d.ProjectId == ProjectSecurityParameters.ProjectId && d.ProjectId == ProjectSecurityParameters.ProjectId  && d.UserId == ProjectSecurityParameters.UserId );
+            ProjectSecurity ProjectSecurity = (ProjectSecurity)MyDBContext.ProjectSecurities.FirstOrDefault(d => d.CompanyId == ProjectSecurityParameters.CompanyId && d.ProjectId == ProjectSecurityParameters.ProjectId && d.ProjectId == ProjectSecurityParameters.ProjectId  && d.UserId == ProjectSecurityParameters.UserId );
 
             if (ProjectSecurity == null)
             {
@@ -95,7 +95,7 @@ namespace DocuItService.Controllers
         [HttpGet("GetAll")]
         public IEnumerable<ProjectSecurity> GetAll([FromBody] ProjectSecurity ProjectSecurityParameters)
         {
-            IEnumerable <ProjectSecurity> projectSecurityList = MyDBContext.ProjectSecurity.Where(d => d.CompanyId == ProjectSecurityParameters.CompanyId && d.ProjectId == ProjectSecurityParameters.ProjectId && d.ProjectId == ProjectSecurityParameters.ProjectId);
+            IEnumerable <ProjectSecurity> projectSecurityList = MyDBContext.ProjectSecurities.Where(d => d.CompanyId == ProjectSecurityParameters.CompanyId && d.ProjectId == ProjectSecurityParameters.ProjectId && d.ProjectId == ProjectSecurityParameters.ProjectId);
 
             if (projectSecurityList == null)
             {
@@ -111,7 +111,7 @@ namespace DocuItService.Controllers
             {
                 return NotFound();
             }
-            MyDBContext.ProjectSecurity.Add(ProjectSecurityParameters);
+            MyDBContext.ProjectSecurities.Add(ProjectSecurityParameters);
             if (ModelState.IsValid)
             {
                 await MyDBContext.SaveChangesAsync();
@@ -136,10 +136,10 @@ namespace DocuItService.Controllers
                 search = projectUserSecurities.First();
                 try
                 {
-                    users_to_delete = (ICollection<ProjectUserSecurity>)MyDBContext.ProjectUserSecurity.Where(Q => Q.CompanyId == search.CompanyId && Q.ProjectId == search.ProjectId).ToList();
-                    MyDBContext.ProjectUserSecurity.RemoveRange(users_to_delete);
+                    users_to_delete = (ICollection<ProjectUserSecurity>)MyDBContext.ProjectUserSecurities.Where(Q => Q.CompanyId == search.CompanyId && Q.ProjectId == search.ProjectId).ToList();
+                    MyDBContext.ProjectUserSecurities.RemoveRange(users_to_delete);
                     await MyDBContext.SaveChangesAsync();
-                    MyDBContext.ProjectUserSecurity.AddRange(projectUserSecurities);
+                    MyDBContext.ProjectUserSecurities.AddRange(projectUserSecurities);
                     await MyDBContext.SaveChangesAsync();
                 }
                 catch
@@ -167,7 +167,7 @@ namespace DocuItService.Controllers
             {
                 return BadRequest();
             }
-            ProjectSecurity = await MyDBContext.ProjectSecurity.FindAsync(CompanyId);
+            ProjectSecurity = await MyDBContext.ProjectSecurities.FindAsync(CompanyId);
             ProjectSecurityParametersToPatch.ApplyTo(ProjectSecurity);
             if (ModelState.IsValid)
             {
@@ -190,10 +190,10 @@ namespace DocuItService.Controllers
             {
                 return BadRequest("Parameters Object not valid.");
             }
-            ProjectSecurity = MyDBContext.ProjectSecurity.FirstOrDefault(d => d.CompanyId == ProjectSecurityToDelete.CompanyId && d.ProjectId == ProjectSecurityToDelete.ProjectId );
+            ProjectSecurity = MyDBContext.ProjectSecurities.FirstOrDefault(d => d.CompanyId == ProjectSecurityToDelete.CompanyId && d.ProjectId == ProjectSecurityToDelete.ProjectId );
             try
             {
-                MyDBContext.ProjectSecurity.Remove(ProjectSecurityToDelete);
+                MyDBContext.ProjectSecurities.Remove(ProjectSecurityToDelete);
                 await MyDBContext.SaveChangesAsync();
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException)

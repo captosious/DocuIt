@@ -30,7 +30,7 @@ namespace DocuItService.Controllers
         [HttpGet("{GetAll}")]
         public IEnumerable<DossierElement> Get([FromBody] Dossier dossier)
         {
-            IEnumerable<DossierElement> dossiers = MyDBContext.DossierElement.Where (x=> x.CompanyId == dossier.CompanyId && x.ProjectId == dossier.ProjectId && x.DossierId == dossier.DossierId);
+            IEnumerable<DossierElement> dossiers = MyDBContext.DossierElements.Where (x=> x.CompanyId == dossier.CompanyId && x.ProjectId == dossier.ProjectId && x.DossierId == dossier.DossierId);
 
             if (dossiers == null)
             {
@@ -43,7 +43,7 @@ namespace DocuItService.Controllers
         [HttpGet]
         public DossierElement Get([FromBody] DossierElement dossierElementParameters)
         {
-            DossierElement dossierElement = (DossierElement)MyDBContext.DossierElement.FirstOrDefault(d => d.CompanyId == dossierElementParameters.CompanyId && d.ProjectId == dossierElementParameters.ProjectId && d.DossierId == dossierElementParameters.DossierId && d.ElementId == dossierElementParameters.ElementId);
+            DossierElement dossierElement = (DossierElement)MyDBContext.DossierElements.FirstOrDefault(d => d.CompanyId == dossierElementParameters.CompanyId && d.ProjectId == dossierElementParameters.ProjectId && d.DossierId == dossierElementParameters.DossierId && d.ElementId == dossierElementParameters.ElementId);
 
             if (dossierElement == null)
             {
@@ -59,7 +59,7 @@ namespace DocuItService.Controllers
             {
                 return NotFound();
             }
-            MyDBContext.DossierElement.Add(dossierElementParameters);
+            MyDBContext.DossierElements.Add(dossierElementParameters);
             if (ModelState.IsValid)
             {
                 await MyDBContext.SaveChangesAsync();
@@ -101,7 +101,7 @@ namespace DocuItService.Controllers
             {
                 return BadRequest();
             }
-            dossierElement = await MyDBContext.DossierElement.FindAsync(CompanyId);
+            dossierElement = await MyDBContext.DossierElements.FindAsync(CompanyId);
             dossierElementToPatch.ApplyTo(dossierElement);
             if (ModelState.IsValid)
             {
@@ -124,10 +124,10 @@ namespace DocuItService.Controllers
             {
                 return BadRequest("Parameters Object not valid.");
             }
-            dossierElement = MyDBContext.DossierElement.FirstOrDefault(d => d.CompanyId == dossierElementToDelete.CompanyId && d.ProjectId == dossierElementToDelete.ProjectId && d.DossierId == dossierElementToDelete.DossierId && d.ElementId== dossierElementToDelete.ElementId);
+            dossierElement = MyDBContext.DossierElements.FirstOrDefault(d => d.CompanyId == dossierElementToDelete.CompanyId && d.ProjectId == dossierElementToDelete.ProjectId && d.DossierId == dossierElementToDelete.DossierId && d.ElementId== dossierElementToDelete.ElementId);
             try
             {
-                MyDBContext.DossierElement.Remove(dossierElement);
+                MyDBContext.DossierElements.Remove(dossierElement);
                 await MyDBContext.SaveChangesAsync();
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException)

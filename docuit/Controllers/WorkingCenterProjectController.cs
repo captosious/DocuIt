@@ -27,7 +27,7 @@ namespace DocuItService.Controllers
         [HttpGet("{GetAll}")]
         public IEnumerable<WorkingCenterProject> GetAll([FromBody] WorkingCenterProject objParams)
         {
-            IEnumerable<WorkingCenterProject> objReturn = MyDBContext.WorkingCenterProject.Where(x=> x.CompanyId==objParams.CompanyId && x.ProjectId==objParams.ProjectId);
+            IEnumerable<WorkingCenterProject> objReturn = MyDBContext.WorkingCenterProjects.Where(x=> x.CompanyId==objParams.CompanyId && x.ProjectId==objParams.ProjectId);
 
             if (objReturn == null)
             {
@@ -45,7 +45,7 @@ namespace DocuItService.Controllers
             { 
                 return BadRequest();
             }
-            objReturn = await MyDBContext.WorkingCenterProject.FindAsync(objParams.CompanyId,objParams.ProjectId,objParams.Id);
+            objReturn = await MyDBContext.WorkingCenterProjects.FindAsync(objParams.CompanyId,objParams.ProjectId,objParams.Id);
             if (objReturn == null)
             {
                 return NotFound();
@@ -61,7 +61,7 @@ namespace DocuItService.Controllers
             {
                 return NotFound();
             }
-            MyDBContext.WorkingCenterProject.Add(objParams);
+            MyDBContext.WorkingCenterProjects.Add(objParams);
             if (ModelState.IsValid)
             {
                 await MyDBContext.SaveChangesAsync();
@@ -156,14 +156,14 @@ namespace DocuItService.Controllers
             {
                 return BadRequest();
             }
-            objReturn = await MyDBContext.WorkingCenterProject.FindAsync(objParams.CompanyId, objParams.Id);
+            objReturn = await MyDBContext.WorkingCenterProjects.FindAsync(objParams.CompanyId, objParams.Id);
             if (objReturn == null)
             {
                 return NotFound();
             }
             else
             {
-                MyDBContext.WorkingCenterProject.Remove(objReturn);
+                MyDBContext.WorkingCenterProjects.Remove(objReturn);
                 await MyDBContext.SaveChangesAsync();
                 return Ok();
             }

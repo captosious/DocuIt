@@ -30,7 +30,7 @@ namespace DocuItService.Controllers
         [HttpGet("{GetAll}")]
         public IEnumerable<Project> GetAll([FromBody] Project projectParameters)
         {
-            IEnumerable<Project> projects = MyDBContext.Project.Where(x => x.CompanyId == projectParameters.CompanyId);
+            IEnumerable<Project> projects = MyDBContext.Projects.Where(x => x.CompanyId == projectParameters.CompanyId);
 
             if (projects == null)
             {
@@ -43,7 +43,7 @@ namespace DocuItService.Controllers
         [HttpGet]
         public Project Get([FromBody] Project projectParameters)
         {
-            Project project = (Project)MyDBContext.Project.FirstOrDefault(p => p.CompanyId == projectParameters.CompanyId && p.ProjectId  == projectParameters.ProjectId);
+            Project project = (Project)MyDBContext.Projects.FirstOrDefault(p => p.CompanyId == projectParameters.CompanyId && p.ProjectId  == projectParameters.ProjectId);
 
             if (project == null)
             {
@@ -59,7 +59,7 @@ namespace DocuItService.Controllers
             {
                 return NotFound();
             }
-            MyDBContext.Project.Add(projectParameters);
+            MyDBContext.Projects.Add(projectParameters);
             if (ModelState.IsValid)
             {
                 await MyDBContext.SaveChangesAsync();
@@ -101,7 +101,7 @@ namespace DocuItService.Controllers
             {
                 return BadRequest();
             }
-            project = await MyDBContext.Project.FindAsync(CompanyId);
+            project = await MyDBContext.Projects.FindAsync(CompanyId);
             projectToPatch.ApplyTo(project);
             if (ModelState.IsValid)
             {
@@ -124,10 +124,10 @@ namespace DocuItService.Controllers
             {
                 return BadRequest("Parameters Object not valid.");
             }
-            project = MyDBContext.Project.FirstOrDefault(p => p.CompanyId == projectToPatch.CompanyId && p.ProjectId == projectToPatch.ProjectId);
+            project = MyDBContext.Projects.FirstOrDefault(p => p.CompanyId == projectToPatch.CompanyId && p.ProjectId == projectToPatch.ProjectId);
             try
             {
-                MyDBContext.Project.Remove(project);
+                MyDBContext.Projects.Remove(project);
                 await MyDBContext.SaveChangesAsync();
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException)

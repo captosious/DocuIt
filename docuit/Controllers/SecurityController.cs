@@ -27,7 +27,7 @@ namespace DocuItService.Controllers
         // GET: api/values
         public IEnumerable<Security> Get()
         {
-            IEnumerable<Security> securities = MyDBContext.Security;
+            IEnumerable<Security> securities = MyDBContext.Securities;
 
             if (securities == null)
             {

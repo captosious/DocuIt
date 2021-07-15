@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
-// If you have enabled NRTs for your project, then un-comment the following line:
-// #nullable disable
+#nullable disable
 
 namespace DocuItService.Models
 {
@@ -11,7 +9,7 @@ namespace DocuItService.Models
     {
         public DossierElement()
         {
-            DossierElementQuestionnaire = new HashSet<DossierElementQuestionnaire>();
+            DossierElementQuestionnaires = new HashSet<DossierElementQuestionnaire>();
         }
 
         public int CompanyId { get; set; }
@@ -24,9 +22,9 @@ namespace DocuItService.Models
         public double? LocationLongitude { get; set; }
         public string Comment { get; set; }
         public string FileId { get; set; }
-        public DateTimeOffset CreationTime { get; set; }
+        public DateTime CreationTime { get; set; }
 
         public virtual Dossier Dossier { get; set; }
-        public virtual ICollection<DossierElementQuestionnaire> DossierElementQuestionnaire { get; set; }
+        public virtual ICollection<DossierElementQuestionnaire> DossierElementQuestionnaires { get; set; }
     }
 }

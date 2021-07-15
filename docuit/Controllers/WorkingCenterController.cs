@@ -28,7 +28,7 @@ namespace DocuItService.Controllers
         [HttpGet]
         public IEnumerable<WorkingCenter> GetAll([FromBody] WorkingCenter objParams)
         {
-            IEnumerable<WorkingCenter> objReturn = MyDBContext.WorkingCenter.Where(x=> x.CompanyId==objParams.CompanyId);
+            IEnumerable<WorkingCenter> objReturn = MyDBContext.WorkingCenters.Where(x=> x.CompanyId==objParams.CompanyId);
 
             if (objReturn == null)
             {
@@ -46,7 +46,7 @@ namespace DocuItService.Controllers
             {
                 return BadRequest();
             }
-            objReturn = await MyDBContext.WorkingCenter.FindAsync(objParams);
+            objReturn = await MyDBContext.WorkingCenters.FindAsync(objParams);
             if (objReturn == null)
             {
                 return NotFound();
@@ -63,14 +63,14 @@ namespace DocuItService.Controllers
             {
                 return BadRequest();
             }
-            objReturn = await MyDBContext.WorkingCenter.FindAsync(objParams.CompanyId, objParams.Id);
+            objReturn = await MyDBContext.WorkingCenters.FindAsync(objParams.CompanyId, objParams.Id);
             if (objReturn == null)
             {
                 return NotFound();
             }
             else
             {
-                MyDBContext.WorkingCenter.Remove(objReturn);
+                MyDBContext.WorkingCenters.Remove(objReturn);
                 await MyDBContext.SaveChangesAsync();
                 return Ok();
             }
@@ -83,7 +83,7 @@ namespace DocuItService.Controllers
             {
                 return NotFound();
             }
-            MyDBContext.WorkingCenter.Add(objParams);
+            MyDBContext.WorkingCenters.Add(objParams);
             if (ModelState.IsValid)
             {
                 await MyDBContext.SaveChangesAsync();
@@ -99,7 +99,7 @@ namespace DocuItService.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] WorkingCenter objParams)
         {
-            MyDBContext.WorkingCenter.Update(objParams);
+            MyDBContext.WorkingCenters.Update(objParams);
             if (ModelState.IsValid)
             {
                 await MyDBContext.SaveChangesAsync();

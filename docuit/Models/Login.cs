@@ -40,7 +40,7 @@ namespace DocuItService.Models
 
         public bool CheckUser()
         {
-            user  = (User)MyDBContext.User.FirstOrDefault(u=>u.CompanyId==CompanyId && u.Username==UserName && u.Password == Password);
+            user  = (User)MyDBContext.Users.FirstOrDefault(u=>u.CompanyId==CompanyId && u.Username==UserName && u.Password == Password);
 
             if (user==null)
             {

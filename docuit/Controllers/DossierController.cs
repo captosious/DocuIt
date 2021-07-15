@@ -30,7 +30,7 @@ namespace DocuItService.Controllers
         [HttpGet("{GetAll}")]
         public IEnumerable<Dossier> GetAll([FromBody] Dossier objParameters)
         {
-            IEnumerable<Dossier> dossiers = MyDBContext.Dossier.Where(x => x.CompanyId == objParameters.CompanyId && x.ProjectId == objParameters.ProjectId);
+            IEnumerable<Dossier> dossiers = MyDBContext.Dossiers.Where(x => x.CompanyId == objParameters.CompanyId && x.ProjectId == objParameters.ProjectId);
 
             if (dossiers == null)
             {
@@ -43,7 +43,7 @@ namespace DocuItService.Controllers
         [HttpGet]
         public Dossier Get([FromBody] Dossier dossierParameters)
         {
-            Dossier dossier = (Dossier)MyDBContext.Dossier.FirstOrDefault(d => d.CompanyId == dossierParameters.CompanyId && d.ProjectId == dossierParameters.ProjectId && d.DossierId == dossierParameters.DossierId);
+            Dossier dossier = (Dossier)MyDBContext.Dossiers.FirstOrDefault(d => d.CompanyId == dossierParameters.CompanyId && d.ProjectId == dossierParameters.ProjectId && d.DossierId == dossierParameters.DossierId);
 
             if (dossier == null)
             {
@@ -61,14 +61,14 @@ namespace DocuItService.Controllers
             {
                 return BadRequest();
             }
-            objReturn = await MyDBContext.Dossier.FindAsync(objParams.CompanyId, objParams.DossierId);
+            objReturn = await MyDBContext.Dossiers.FindAsync(objParams.CompanyId, objParams.DossierId);
             if (objReturn == null)
             {
                 return NotFound();
             }
             else
             {
-                MyDBContext.Dossier.Remove(objReturn);
+                MyDBContext.Dossiers.Remove(objReturn);
                 await MyDBContext.SaveChangesAsync();
                 return Ok();
             }
@@ -81,7 +81,7 @@ namespace DocuItService.Controllers
             {
                 return NotFound();
             }
-            MyDBContext.Dossier.Add(dossierParameters);
+            MyDBContext.Dossiers.Add(dossierParameters);
             if (ModelState.IsValid)
             {
                 await MyDBContext.SaveChangesAsync();
@@ -123,7 +123,7 @@ namespace DocuItService.Controllers
             {
                 return BadRequest();
             }
-            dossier = await MyDBContext.Dossier.FindAsync(CompanyId);
+            dossier = await MyDBContext.Dossiers.FindAsync(CompanyId);
             dossierToPatch.ApplyTo(dossier);
             if (ModelState.IsValid)
             {

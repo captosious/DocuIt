@@ -27,7 +27,7 @@ namespace DocuItService.Controllers
         [HttpGet]
         public IEnumerable<BuildingTypeProject> GetAll([FromBody] BuildingTypeProject objParams)
         {
-            IEnumerable<BuildingTypeProject> objReturn = MyDBContext.BuildingTypeProject.Where(x=>x.CompanyId==objParams.CompanyId && x.ProjectId==objParams.ProjectId);
+            IEnumerable<BuildingTypeProject> objReturn = MyDBContext.BuildingTypeProjects.Where(x=>x.CompanyId==objParams.CompanyId && x.ProjectId==objParams.ProjectId);
 
             if (objReturn == null)
             {
@@ -45,7 +45,7 @@ namespace DocuItService.Controllers
             {
                 return BadRequest();
             }
-            objReturn = await MyDBContext.BuildingTypeProject.FindAsync(objParams);
+            objReturn = await MyDBContext.BuildingTypeProjects.FindAsync(objParams);
             if (objReturn == null)
             {
                 return NotFound();
@@ -61,7 +61,7 @@ namespace DocuItService.Controllers
             {
                 return NotFound();
             }
-            MyDBContext.BuildingTypeProject.Add(objParams);
+            MyDBContext.BuildingTypeProjects.Add(objParams);
             if (ModelState.IsValid)
             {
                 await MyDBContext.SaveChangesAsync();

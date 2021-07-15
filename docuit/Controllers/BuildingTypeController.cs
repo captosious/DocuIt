@@ -27,7 +27,7 @@ namespace DocuItService.Controllers
         [HttpGet("GetAll")]
         public IEnumerable<BuildingType> GetAll([FromBody] BuildingType objParams)
         {
-            IEnumerable<BuildingType> objReturn = MyDBContext.BuildingType.Where(x=>x.CompanyId==objParams.CompanyId);
+            IEnumerable<BuildingType> objReturn = MyDBContext.BuildingTypes.Where(x=>x.CompanyId==objParams.CompanyId);
 
             if (objReturn == null)
             {
@@ -45,7 +45,7 @@ namespace DocuItService.Controllers
             {
                 return BadRequest();
             }
-            objReturn = await MyDBContext.BuildingType.FindAsync(objParams.CompanyId, objParams.Id);
+            objReturn = await MyDBContext.BuildingTypes.FindAsync(objParams.CompanyId, objParams.Id);
             if (objReturn == null)
             {
                 return NotFound();
@@ -62,14 +62,14 @@ namespace DocuItService.Controllers
             {
                 return BadRequest();
             }
-            objReturn = await MyDBContext.BuildingType.FindAsync(objParams.CompanyId, objParams.Id);
+            objReturn = await MyDBContext.BuildingTypes.FindAsync(objParams.CompanyId, objParams.Id);
             if (objReturn == null)
             {
                 return NotFound();
             }
             else
             {
-                MyDBContext.BuildingType.Remove(objReturn);
+                MyDBContext.BuildingTypes.Remove(objReturn);
                 await MyDBContext.SaveChangesAsync();
                 return Ok();
             }
@@ -83,7 +83,7 @@ namespace DocuItService.Controllers
             {
                 return NotFound();
             }
-            MyDBContext.BuildingType.Add(objParams);
+            MyDBContext.BuildingTypes.Add(objParams);
             if (ModelState.IsValid)
             {
                 await MyDBContext.SaveChangesAsync();
@@ -99,7 +99,7 @@ namespace DocuItService.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] BuildingType objParams)
         {
-            MyDBContext.BuildingType.Update(objParams);
+            MyDBContext.BuildingTypes.Update(objParams);
             if (ModelState.IsValid)
             {
                 await MyDBContext.SaveChangesAsync();

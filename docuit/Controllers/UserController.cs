@@ -31,7 +31,7 @@ namespace DocuItService.Controllers
         [HttpGet("GetAll")]
         public IEnumerable<User> GetAll([FromBody] User UserParameters)
         {
-            IEnumerable<User> users = MyDBContext.User.Where<User>(x=> x.CompanyId == UserParameters.CompanyId);
+            IEnumerable<User> users = MyDBContext.Users.Where<User>(x=> x.CompanyId == UserParameters.CompanyId);
 
             if (users == null)
             {
@@ -43,7 +43,7 @@ namespace DocuItService.Controllers
         [HttpGet("GetById")]
         public User Get([FromBody] User UserParameters)
         {
-            User user =  (User)MyDBContext.User.FirstOrDefault(u=>u.CompanyId ==UserParameters.CompanyId && u.UserId ==UserParameters.UserId);
+            User user =  (User)MyDBContext.Users.FirstOrDefault(u=>u.CompanyId ==UserParameters.CompanyId && u.UserId ==UserParameters.UserId);
 
             if (user == null)
             {
@@ -55,7 +55,7 @@ namespace DocuItService.Controllers
         [HttpGet("GetByUserName")]
         public User GetByUserName([FromBody] User UserParameters)
         {
-            User user = (User)MyDBContext.User.FirstOrDefault(u => u.CompanyId == UserParameters.CompanyId && u.Username == UserParameters.Username);
+            User user = (User)MyDBContext.Users.FirstOrDefault(u => u.CompanyId == UserParameters.CompanyId && u.Username == UserParameters.Username);
 
             if (user == null)
             {
@@ -67,7 +67,7 @@ namespace DocuItService.Controllers
         [HttpGet("GetAvatarByUserId")]
         public string GetAvatar([FromBody] User UserParameters)
         {
-            User user = (User)MyDBContext.User.FirstOrDefault(u => u.CompanyId == UserParameters.CompanyId && u.UserId == UserParameters.UserId);
+            User user = (User)MyDBContext.Users.FirstOrDefault(u => u.CompanyId == UserParameters.CompanyId && u.UserId == UserParameters.UserId);
 
             if (user == null)
             {
@@ -83,7 +83,7 @@ namespace DocuItService.Controllers
             {
                 return NotFound();
             }
-            MyDBContext.User.Add(UserParameters);
+            MyDBContext.Users.Add(UserParameters);
             if (ModelState.IsValid)
             {
                 await MyDBContext.SaveChangesAsync();
@@ -125,7 +125,7 @@ namespace DocuItService.Controllers
             //CompanyId = int.Parse(Request.Form["CompanyId"]);
             //UserId = int.Parse(Request.Form["UserId"]);
             
-            user = MyDBContext.User.Find(CompanyId, UserId);
+            user = MyDBContext.Users.Find(CompanyId, UserId);
 
             if (user == null)
             {
@@ -156,7 +156,7 @@ namespace DocuItService.Controllers
             image.CopyTo(memoryStream);
             CompanyId = int.Parse(Request.Form["CompanyId"]);
             UserId = int.Parse(Request.Form["UserId"]);
-            user = MyDBContext.User.Find(CompanyId, UserId);
+            user = MyDBContext.Users.Find(CompanyId, UserId);
 
             if (user == null)
             {
@@ -190,7 +190,7 @@ namespace DocuItService.Controllers
             {
                 return BadRequest();
             }
-            user = await MyDBContext.User.FindAsync(CompanyId);
+            user = await MyDBContext.Users.FindAsync(CompanyId);
             userToPatch.ApplyTo(user);
             if (ModelState.IsValid)
             {
@@ -213,10 +213,10 @@ namespace DocuItService.Controllers
             {
                 return BadRequest("Parameters Object not valid.");
             }
-            user = MyDBContext.User.FirstOrDefault(u=>u.CompanyId == userParams.CompanyId && u.Username ==userParams.Username);
+            user = MyDBContext.Users.FirstOrDefault(u=>u.CompanyId == userParams.CompanyId && u.Username ==userParams.Username);
             try
             {
-                MyDBContext.User.Remove(user);
+                MyDBContext.Users.Remove(user);
                 await MyDBContext.SaveChangesAsync();
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException)

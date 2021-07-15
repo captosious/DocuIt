@@ -8,11 +8,15 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.7" />
-    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="5.0.7" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="5.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.8" />
     <PackageReference Include="MySql.Data" Version="8.0.25" />
     <PackageReference Include="MySql.EntityFrameworkCore" Version="5.0.3.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.8">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -56,5 +60,6 @@
     <None Remove="Properties\PublishProfiles\FolderProfile 7.pubxml" />
     <None Remove="Properties\PublishProfiles\FolderProfile 15.pubxml" />
     <None Remove="Properties\PublishProfiles\FolderProfile 19.pubxml" />
+    <None Remove="Microsoft.EntityFrameworkCore.Design" />
   </ItemGroup>
 </Project>
