@@ -134,19 +134,19 @@ namespace DocuitWeb.Data
                 projectSecurity.CompanyId = user.CompanyId;
                 projectSecurity.ProjectId = user.ProjectId;
                 projectSecurity.UserId = user.UserId;
-                
+                projectSecurity.Rights = user.Rights;
+                projectSecurities.Add(projectSecurity);
             }
 
-
             httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + "/projectsecurity");
-            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(project), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(projectSecurities), Encoding.UTF8, "application/json");
 
             var response = await httpClient.PostAsync(httpClient.BaseAddress, httpRequestMessage.Content);
             try
             {
                 response.EnsureSuccessStatusCode();
-                var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                projects = JsonConvert.DeserializeObject<IEnumerable<ProjectUserSecurity>>(responseBody);
+                //var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                //projects = JsonConvert.DeserializeObject<IEnumerable<ProjectUserSecurity>>(responseBody);
                 return 0; 
             }
             catch

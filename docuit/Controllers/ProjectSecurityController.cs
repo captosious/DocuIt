@@ -134,19 +134,26 @@ namespace DocuItService.Controllers
             {
                 transaction = MyDBContext.Database.BeginTransaction();
                 search = projectUserSecurities.First();
-                try
-                {
-                    users_to_delete = (ICollection<ProjectUserSecurity>)MyDBContext.ProjectUserSecurities.Where(Q => Q.CompanyId == search.CompanyId && Q.ProjectId == search.ProjectId).ToList();
-                    MyDBContext.ProjectUserSecurities.RemoveRange(users_to_delete);
-                    await MyDBContext.SaveChangesAsync();
-                    MyDBContext.ProjectUserSecurities.AddRange(projectUserSecurities);
-                    await MyDBContext.SaveChangesAsync();
-                }
-                catch
-                {
-                    transaction.Rollback();
-                    return null;
-                }
+
+                users_to_delete = (ICollection<ProjectUserSecurity>)MyDBContext.ProjectUserSecurities.Where(Q => Q.CompanyId == search.CompanyId && Q.ProjectId == search.ProjectId).ToList();
+                MyDBContext.ProjectUserSecurities.RemoveRange(users_to_delete);
+                await MyDBContext.SaveChangesAsync();
+                MyDBContext.ProjectUserSecurities.AddRange(projectUserSecurities);
+                await MyDBContext.SaveChangesAsync();
+
+                //try
+                //{
+                //    users_to_delete = (ICollection<ProjectUserSecurity>)MyDBContext.ProjectUserSecurities.Where(Q => Q.CompanyId == search.CompanyId && Q.ProjectId == search.ProjectId).ToList();
+                //    MyDBContext.ProjectUserSecurities.RemoveRange(users_to_delete);
+                //    await MyDBContext.SaveChangesAsync();
+                //    MyDBContext.ProjectUserSecurities.AddRange(projectUserSecurities);
+                //    await MyDBContext.SaveChangesAsync();
+                //}
+                //catch
+                //{
+                //    transaction.Rollback();
+                //    return null;
+                //}
                 transaction.Commit();
                 return Ok();
             }
