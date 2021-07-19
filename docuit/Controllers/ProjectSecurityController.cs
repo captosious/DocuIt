@@ -124,21 +124,21 @@ namespace DocuItService.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] ICollection<ProjectUserSecurity> projectUserSecurities)
+        public async Task<IActionResult> Put([FromBody] ICollection<ProjectSecurity> projectUserSecurities)
         {
             Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction transaction;
-            ProjectUserSecurity search = new ProjectUserSecurity();
-            ICollection<ProjectUserSecurity> users_to_delete;
+            ProjectSecurity search = new ProjectSecurity();
+            ICollection<ProjectSecurity> users_to_delete;
 
             if (projectUserSecurities.Count > 0)
             {
                 transaction = MyDBContext.Database.BeginTransaction();
                 search = projectUserSecurities.First();
 
-                users_to_delete = (ICollection<ProjectUserSecurity>)MyDBContext.ProjectUserSecurities.Where(Q => Q.CompanyId == search.CompanyId && Q.ProjectId == search.ProjectId).ToList();
-                MyDBContext.ProjectUserSecurities.RemoveRange(users_to_delete);
+                users_to_delete = (ICollection<ProjectSecurity>)MyDBContext.ProjectSecurities.Where(Q => Q.CompanyId == search.CompanyId && Q.ProjectId == search.ProjectId).ToList();
+                MyDBContext.ProjectSecurities.RemoveRange(users_to_delete);
                 await MyDBContext.SaveChangesAsync();
-                MyDBContext.ProjectUserSecurities.AddRange(projectUserSecurities);
+                MyDBContext.ProjectSecurities.AddRange(projectUserSecurities);
                 await MyDBContext.SaveChangesAsync();
 
                 //try
