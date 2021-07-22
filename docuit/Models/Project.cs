@@ -12,7 +12,6 @@ namespace DocuItService.Models
         public string ReferenceId { get; set; }
         public int StatusId { get; set; }
         public string Name { get; set; }
-        public DateTime CreationTime { get; set; }
         public int OwnerUserId { get; set; }
 
         public virtual Company Company { get; set; }

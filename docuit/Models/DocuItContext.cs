@@ -15,7 +15,6 @@ namespace DocuItService.Models
         public DocuItContext(DbContextOptions<DocuItContext> options)
             : base(options)
         {
-
         }
 
         public virtual DbSet<BuildingType> BuildingTypes { get; set; }
@@ -45,7 +44,6 @@ namespace DocuItService.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-
             }
         }
 
@@ -146,17 +144,13 @@ namespace DocuItService.Models
 
                 entity.ToTable("dossier");
 
-                entity.HasIndex(e => new { e.CompanyId, e.ProjectId, e.UserId }, "fk_dossier_project_security_idx");
-
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
                 entity.Property(e => e.ProjectId).HasColumnName("project_id");
 
                 entity.Property(e => e.DossierId).HasColumnName("dossier_id");
 
-                entity.Property(e => e.CreationTime)
-                    .HasColumnName("creation_time")
-                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                entity.Property(e => e.ChildId).HasColumnName("child_id");
 
                 entity.Property(e => e.LocationLatitude).HasColumnName("location_latitude");
 
@@ -172,14 +166,6 @@ namespace DocuItService.Models
                     .IsRequired()
                     .HasMaxLength(45)
                     .HasColumnName("reference_id");
-
-                entity.Property(e => e.UserId).HasColumnName("user_id");
-
-                entity.HasOne(d => d.ProjectSecurity)
-                    .WithMany(p => p.Dossiers)
-                    .HasForeignKey(d => new { d.CompanyId, d.ProjectId, d.UserId })
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_dossier_project_security");
             });
 
             modelBuilder.Entity<DossierElement>(entity =>
@@ -204,10 +190,6 @@ namespace DocuItService.Models
                 entity.Property(e => e.Comment)
                     .HasMaxLength(255)
                     .HasColumnName("comment");
-
-                entity.Property(e => e.CreationTime)
-                    .HasColumnName("creation_time")
-                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.Property(e => e.ElementTypeId).HasColumnName("element_type_id");
 
@@ -365,10 +347,6 @@ namespace DocuItService.Models
 
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
-                entity.Property(e => e.CreationTime)
-                    .HasColumnName("creation_time")
-                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
                 entity.Property(e => e.Name)
                     .HasMaxLength(45)
                     .HasColumnName("name");
@@ -414,10 +392,6 @@ namespace DocuItService.Models
                 entity.Property(e => e.ProjectId).HasColumnName("project_id");
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
-
-                entity.Property(e => e.CreationTime)
-                    .HasColumnName("creation_time")
-                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.Property(e => e.Rights).HasColumnName("rights");
 
@@ -702,10 +676,6 @@ namespace DocuItService.Models
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
-
-                entity.Property(e => e.CreationTime)
-                    .HasColumnName("creation_time")
-                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.Property(e => e.Email)
                     .IsRequired()

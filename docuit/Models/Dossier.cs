@@ -20,11 +20,9 @@ namespace DocuItService.Models
         public string ReferenceId { get; set; }
         public double? LocationLatitude { get; set; }
         public double? LocationLongitude { get; set; }
-        public int UserId { get; set; }
-        public DateTime CreationTime { get; set; }
-        public int ParentId { get; set; }
+        public int? ParentId { get; set; }
+        public int? ChildId { get; set; }
 
-        public virtual ProjectSecurity ProjectSecurity { get; set; }
         public virtual ICollection<DossierElement> DossierElements { get; set; }
         public virtual ICollection<QuestionnaireReport> QuestionnaireReports { get; set; }
     }

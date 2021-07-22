@@ -132,8 +132,9 @@ namespace DocuItService.Controllers
 
             if (projectSecurities.Count > 0)
             {
-                
-                //try {
+
+                try
+                {
                     transaction = MyDBContext.Database.BeginTransaction();
                     search = projectSecurities.First();
                     users_to_delete = (ICollection<ProjectSecurity>)MyDBContext.ProjectSecurities.Where(Q => Q.CompanyId == search.CompanyId && Q.ProjectId == search.ProjectId).ToList();
@@ -143,10 +144,11 @@ namespace DocuItService.Controllers
                     await MyDBContext.SaveChangesAsync();
 
                     transaction.Commit();
-                //}
-                //catch {
-                //    return null;
-                //}
+                }
+                catch
+                {
+                    return null;
+                }
                 return Ok();
             }
             return null;
