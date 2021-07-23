@@ -141,7 +141,7 @@ namespace DocuitWeb.Data
             httpClient.BaseAddress = new Uri(_appSettings.DocuItServiceServer + "/projectsecurity");
             httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(projectSecurities), Encoding.UTF8, "application/json");
 
-            var response = await httpClient.PostAsync(httpClient.BaseAddress, httpRequestMessage.Content);
+            var response = await httpClient.PutAsync(httpClient.BaseAddress, httpRequestMessage.Content);
             try
             {
                 response.EnsureSuccessStatusCode();
