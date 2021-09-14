@@ -129,6 +129,8 @@ body {
 
 .background_general {
     background-color: navajowhite;
+    margin: 0px;
+    padding:0px;
 }
 
 .wrapper {
